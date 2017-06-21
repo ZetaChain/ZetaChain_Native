@@ -25,7 +25,7 @@ model {
 		}
 	}
 	components {
-		lib(NativeLibrarySpec) {
+		BlockchainCpp(NativeLibrarySpec) {
 			sources {
 				cpp {
 					source {
@@ -73,7 +73,7 @@ model {
 				}
 			}
 			binaries.all {
-				lib library: "lib", linkage: "static"
+				lib library: "BlockchainCpp", linkage: "static"
 			}
 		}
 	}
