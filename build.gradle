@@ -1,0 +1,58 @@
+task wrapper(type: Wrapper) {
+	gradleVersion = '4.0'
+	distributionUrl = 'https://services.gradle.org/distributions/gradle-4.0-all.zip'
+}
+apply plugin: 'cpp'
+
+model {
+	binaries {
+		withType(SharedLibraryBinarySpec) {
+			if (toolChain in VisualCpp) {
+				cppCompiler.define "DLL_EXPORT"
+			}
+		}
+		all {
+			if (toolChain in VisualCpp) {
+				cppCompiler.args "-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
+					"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\atlmfc\\include",
+					"-I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt",
+					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um",
+					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared",
+					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt"
+			}
+		}
+	}
+	components {
+		lib(NativeLibrarySpec) {
+			sources {
+				cpp {
+					source {
+						srcDirs "src/main/cpp/source"
+						include "**/*.cpp", "**/*.c"
+					}
+					exportedHeaders {
+						srcDirs "src/main/cpp/include"
+						include "**/*.hpp", "**/*.h"
+					}
+				}
+			}
+		}
+		TestApp(NativeExecutableSpec) {
+			sources {
+				cpp {
+					source {
+						srcDirs "TestApp/src/main/cpp/source"
+						include "**/*.cpp", "**/*.c"
+					}
+					exportedHeaders {
+						srcDirs "TestApp/src/main/cpp/include", "src/main/cpp/include"
+						include "**/*.hpp", "**/*.h"
+					}
+				}
+			}
+			binaries.all {
+				lib library: "lib", linkage: "static"
+			}
+		}
+	}
+}
