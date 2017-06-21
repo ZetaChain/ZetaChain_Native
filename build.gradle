@@ -2,7 +2,9 @@ task wrapper(type: Wrapper) {
 	gradleVersion = '4.0'
 	distributionUrl = 'https://services.gradle.org/distributions/gradle-4.0-all.zip'
 }
+
 apply plugin: 'cpp'
+apply plugin: 'c'
 
 model {
 	binaries {
@@ -28,11 +30,21 @@ model {
 				cpp {
 					source {
 						srcDirs "src/main/cpp/source"
-						include "**/*.cpp", "**/*.c"
+						include "**/*.cpp"
 					}
 					exportedHeaders {
 						srcDirs "src/main/cpp/include"
-						include "**/*.hpp", "**/*.h"
+						include "**/*.hpp"
+					}
+				}
+				c {
+					source {
+						srcDirs "src/main/cpp/source"
+						include "**/*.c"
+					}
+					exportedHeaders {
+						srcDirs "src/main/cpp/include"
+						include "**/*.h"
 					}
 				}
 			}
@@ -42,11 +54,21 @@ model {
 				cpp {
 					source {
 						srcDirs "TestApp/src/main/cpp/source"
-						include "**/*.cpp", "**/*.c"
+						include "**/*.cpp"
 					}
 					exportedHeaders {
 						srcDirs "TestApp/src/main/cpp/include", "src/main/cpp/include"
-						include "**/*.hpp", "**/*.h"
+						include "**/*.hpp"
+					}
+				}
+				c {
+					source{ 
+						srcDirs "TestApp/src/main/cpp/source"
+						include "**/*.c" 
+					}
+					exportedHeaders {
+						srcDirs "TestApp/src/main/cpp/include", "src/main/cpp/include"
+						include "**/*.h"
 					}
 				}
 			}
