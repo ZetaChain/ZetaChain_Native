@@ -41,13 +41,18 @@ model {
 	platforms {
 		x64 {
 			architecture "x86_64"
-			
 		}
 	}
 	binaries {
 		withType(SharedLibraryBinarySpec) {
 			if (toolChain in VisualCpp) {
 				cppCompiler.define "DLL_EXPORT", "_CRT_SECURE_NO_WARNINGS"
+			}
+			if(toolChain in Gcc){
+				// TODO 
+			}
+			if(toolChain in Clang){
+				//TODO 
 			}
 		}
 		all {
@@ -61,7 +66,12 @@ model {
 					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt"
 				linker.args "/DEBUG", "/INCREMENTAL:NO"
 				assembler.args "/W3", "/DEBUG", "/m64", "/c"
-
+			}
+			if(toolChain in Gcc) {
+				// TODO 
+			}
+			if(toolChain in Clang){
+				// TODO
 			}
 		}
 	}
