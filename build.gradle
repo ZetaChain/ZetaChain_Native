@@ -34,17 +34,19 @@ model {
 	binaries {
 		withType(SharedLibraryBinarySpec) {
 			if (toolChain in VisualCpp) {
-				cppCompiler.define "DLL_EXPORT"
+				cppCompiler.define "DLL_EXPORT", "_CRT_SECURE_NO_WARNINGS"
 			}
 		}
 		all {
 			if (toolChain in VisualCpp) {
-				cppCompiler.args "-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
+				cppCompiler.args "/EHsc", "/W4", "/Zi", "/DEBUG", "/Od", "/Fd:BlockchainCpp.pdb",
+				"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
 					"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\atlmfc\\include",
 					"-I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt",
 					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um",
 					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared",
 					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt"
+				linker.args "/DEBUG", "/INCREMENTAL:NO"
 			}
 		}
 	}

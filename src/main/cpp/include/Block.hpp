@@ -24,13 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <iostream>
-#include <string>
-#include <ctime>
-#include <exception>
-#include <vector>
-#include "thirdparty/picosha2.hpp"
-#include "constants.hpp"
+#include <iostream> // std::cout
+#include <string> // std::string
+#include <ctime> // time_t localtime() struct tm* asctime()
+#include <exception> // std::exception
+#include <vector> // std::vector
+#include "thirdparty/picosha2.hpp" // picosha2::hash256_hex_string()
+#include "constants.hpp" // MAX_BLOCK_SIZE
 
 template <class DataType> 
 
@@ -38,15 +38,15 @@ class Block {
 
 public:
 
-	Block() {
-
+	Block(DataType* data) {
+		this->data = data;
 	}
 
 	virtual ~Block(){
 		delete data;
 	}
 
-	bool lock(unsigned long timeout) {
+	bool lock(unsigned long timeout = 1000L) {
 		if(this->timeLocked != 0)
 			return true;
 
@@ -67,8 +67,11 @@ public:
 
 		time_t now;
 		time(&now);
+		struct tm* timeinfo;
+		timeinfo = localtime(&now);
 		this->timeLocked = now - (timeout / 1000);
-		std::cout << "Block " << this->height << " has been locked \n";
+		time_t _time = this->timeLocked;
+		std::cout << "Block " << this->height << " has been locked" << " at " << asctime(timeinfo) << std::endl;
 		return this->timeLocked != 0;
 	}
 
@@ -148,14 +151,22 @@ public:
 	}
 
 	void setTimeCreated(time_t time) {
-		if(this->timeLocked != 0) 
-			throw std::exception("Block was already created at " + this->timeCreated->strftime());
+		if(this->timeCreated != 0) {
+			struct tm* timeinfo;
+			timeinfo = localtime(&this->timeCreated);
+			time_t _time = this->timeCreated;
+			throw std::exception("Block was already created at " + localtime(timeinfo));
+		}
 		this->time = time;
 	}
 	
 	void setTimeLocked(time_t time) {
-		if(this->timeLocked != 0) 
-			throw std::exception("Block was already locked at " + this->timeLocked->strftime());
+		if(this->timeLocked != 0) {
+			struct tm* timeinfo;
+			timeinfo = localtime(&this->timeLocked);
+			time_t _time = this->timeLocked;
+			throw std::exception("Block was already locked at " + localtime(timeinfo));
+		}
 		this->timeLocked = time;
 	}
 
