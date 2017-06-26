@@ -13,6 +13,13 @@ gradle-app.setting
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
 
+# Ignore VSCode Stuff
 .project
 .settings/*
 .vscode*
+
+# Ignore Visual Studio Solutions and Projects
+BlockchainCpp/*
+*.vcxproj
+*.filters
+vs/*
