@@ -21,11 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+#include "platform.hpp"
 #include <iostream> // std::cout
 #include <thread> // std::this_thread
 #include <chrono> // std::chrono::milliseconds
 #include "block.hpp"
+
 
 int main(int argc, char** argv) {
 	int d1 = 1 << 1;

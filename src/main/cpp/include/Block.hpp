@@ -23,7 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+#include "platform.hpp"
 #include <iostream> // std::cout
 #include <string> // std::string
 #include <ctime> // time_t localtime() struct tm* asctime()
@@ -31,6 +31,8 @@ SOFTWARE.
 #include <vector> // std::vector
 #include "thirdparty/picosha2.hpp" // picosha2::hash256_hex_string()
 #include "constants.hpp" // MAX_BLOCK_SIZE
+
+extern "C" void lockASM(unsigned long timeout);
 
 template <class DataType> 
 
@@ -49,22 +51,9 @@ public:
 	bool lock(unsigned long timeout = 1000L) {
 		if(this->timeLocked != 0)
 			return true;
-
-		__asm{
-			push eax
-			push ecx
-			mov eax, 0h
-			lea ecx, timeout
-			jmp spin
-			spin:
-				nop
-				inc eax
-				cmp eax, dword ptr [ecx]
-				jl spin
-			pop ecx
-			pop eax
-		}
-
+		
+		lockASM(timeout);
+		
 		time_t now;
 		time(&now);
 		struct tm* timeinfo;

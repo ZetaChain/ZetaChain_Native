@@ -29,8 +29,21 @@ task wrapper(type: Wrapper) {
 
 apply plugin: 'cpp'
 apply plugin: 'c'
+apply plugin: 'assembler'
+
+project.ext {
+	if(!project.hasProperty("OS")){
+		throw new GradleException("ERROR! OS Argument Was Not Passed")
+	}
+}
 
 model {
+	platforms {
+		x64 {
+			architecture "x86_64"
+			
+		}
+	}
 	binaries {
 		withType(SharedLibraryBinarySpec) {
 			if (toolChain in VisualCpp) {
@@ -47,12 +60,21 @@ model {
 					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared",
 					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt"
 				linker.args "/DEBUG", "/INCREMENTAL:NO"
+				assembler.args "/W3", "/DEBUG", "/m64", "/c"
+
 			}
 		}
 	}
 	components {
 		BlockchainCpp(NativeLibrarySpec) {
+			targetPlatform "x64"
 			sources {
+				asm {
+					source {
+						srcDirs "/src/main/asm/$OS"
+						include "**/*.s"
+					}
+				}
 				cpp {
 					source {
 						srcDirs "src/main/cpp/source"
@@ -76,17 +98,24 @@ model {
 			}
 		}
 		TestApp(NativeExecutableSpec) {
+			targetPlatform "x64"
 			sources {
-				cpp {
-					source {
-						srcDirs "TestApp/src/main/cpp/source"
-						include "**/*.cpp"
+					asm {
+						source {
+							srcDirs "TestApp/src/main/asm/$OS"
+							include "**/*.s"
+						}
 					}
-					exportedHeaders {
-						srcDirs "TestApp/src/main/cpp/include", "src/main/cpp/include"
-						include "**/*.hpp"
+					cpp {
+						source {
+							srcDirs "TestApp/src/main/cpp/source"
+							include "**/*.cpp"
+						}
+						exportedHeaders {
+							srcDirs "TestApp/src/main/cpp/include", "src/main/cpp/include"
+							include "**/*.hpp"
+						}
 					}
-				}
 				c {
 					source{ 
 						srcDirs "TestApp/src/main/cpp/source"
