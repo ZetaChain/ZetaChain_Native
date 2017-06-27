@@ -1,5 +1,5 @@
 @echo off
 
-call gradlew cleanVisualStudio
-call gradlew BlockchainCppVisualStudio
-call gradlew TestAppVisualStudio
+call gradlew cleanVisualStudio -POS=windows
+call gradlew BlockchainCppVisualStudio -POS=windows
+call gradlew TestAppVisualStudio -POS=windows
