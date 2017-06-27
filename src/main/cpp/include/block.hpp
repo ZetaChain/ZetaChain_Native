@@ -23,12 +23,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <iostream> // std::cout
 #include <string> // std::string
 #include <ctime> // time_t localtime() struct tm* asctime()
 #include <chrono> 
-#include <exception> // std::exception
+#include <stdexcept>
 #include <vector> // std::vector
 #include "thirdparty/picosha2.hpp" // picosha2::hash256_hex_string()
 #include "constants.hpp" // MAX_BLOCK_SIZE
@@ -73,16 +74,16 @@ public:
 		this->timeLocked = now - (timeout / 1000);
 		time_t _time = this->timeLocked;
 		this->hash = computeHash();
-		std::cout << "Block " << this->height << " has been locked" << " at " << asctime(timeinfo) << std::endl;
+		std::cout << "Block " << this->height << " has already been locked" << std::endl;
 		return this->timeLocked != 0;
 	}
 
 	bool verify() const {
 		if(this->timeLocked == 0)
 			if(!lock(1000))
-			throw std::exception("Could not lock block after 1000 cycles");
+			throw std::runtime_error("Could not lock block after 1000 cycles");
 		std::string newHash = computeHash();
-		return newhash == this->hash;
+		return newHash == this->hash;
 	}
 
 	DataType* getData() const {
@@ -135,24 +136,24 @@ public:
 
 	void setData(DataType* data){
 		if(this->data != nullptr)
-			throw std::exception("Data has already been set!");
+			throw std::runtime_error("Data has already been set!");
 		if(data == nullptr || *(data) = NULL)
-			throw std::exception("Can not set block data to null");
+			throw std::runtime_error("Can not set block data to null");
 		*(this->data) = *(data);
 		this-> data = data;
 	}
 
 	void setHash() {
 		if(this->hash != NULL)
-			throw std::exception("Hash has already been set");
+			throw std::runtime_error("Hash has already been set");
 		this->hash = computeHash();
 	}
 
 	void setHeight(long height){
 		if(this->height != -1)
-			throw std::exception("Block Height has already been set");
+			throw std::runtime_error("Block Height has already been set");
 		if(height == 0)
-			throw std::exception("Height must be greater than 0");
+			throw std::runtime_error("Height must be greater than 0");
 		this->height = height;
 	}
 
@@ -161,7 +162,7 @@ public:
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeCreated);
 			time_t _time = this->timeCreated;
-			throw std::exception("Block was already created at " + localtime(timeinfo));
+			throw std::runtime_error("Block was already created");
 		}
 		this->time = time;
 	}
@@ -171,14 +172,14 @@ public:
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeLocked);
 			time_t _time = this->timeLocked;
-			throw std::exception("Block was already locked at " + localtime(timeinfo));
+			throw std::runtime_error("Block was already locked");
 		}
 		this->timeLocked = time;
 	}
 
 	void setIsMainChain(bool isMainChain){
 		if(this->mainChain != -1)
-			throw std::exception("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain + 
+			throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain + 
 			"\n To unlink or link this block from the main chain " + 
 			"you must first create an immutable uncle (orphaned block) to merge into its place"));
 		this->mainChain = static_cast<char>(isMainChain);
@@ -186,19 +187,19 @@ public:
 
 	void setIndex(long index) {
 		if(this->index >= 0)
-			throw std::exception("Index has already been set");
+			throw std::runtime_error("Index has already been set");
 		this->index = index;
 	}
 
 	void setValue(long value) {
 		if(this->value != -1)
-			throw std::exception("Value has already been set");
+			throw std::runtime_error("Value has already been set");
 		this->value = value;
 	}
 
 	void setPreviousHash(std::string hash){
 		if(previousHash != "")
-			throw std::exception("Previous Hash has already been set!");
+			throw std::runtime_error("Previous Hash has already been set!");
 		previousHash = hash;
 	}
 
@@ -220,7 +221,7 @@ private:
 
 std::string computeHash() {
 	if(timeLocked == 0)
-		throw std::exception("Can not compute the hash of an unlocked block");
+		throw std::runtime_error("Can not compute the hash of an unlocked block");
 	std::string outHash = "";
 	int b = 0;
 	while(b < sizeof(DataType)) {
