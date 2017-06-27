@@ -69,7 +69,8 @@ model {
 				assembler.args "/W3", "/DEBUG", "/m64", "/c"
 			}
 			if(toolChain in Gcc) {
-				// TODO 
+				cppCompiler.args "-Wall", "--std=c++11", "-g", "-pedantic"
+				assembler.args "-Wall", "-g"
 			}
 			if(toolChain in Clang){
 				// TODO

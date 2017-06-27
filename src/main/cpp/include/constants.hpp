@@ -25,4 +25,4 @@ SOFTWARE.
 #define MAX_BLOCK_SIZE (2 << 20 - 1) // 1 MEBIBYTE
 #define BLOCK_HEADER_SIZE = 4
 
-const char BLOCK_HEADER[4] = {'B', 'L', 'K', '/0'};
+const unsigned char BLOCK_HEADER[4] = {'B', 'L', 'K', 0};
