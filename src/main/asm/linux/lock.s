@@ -22,7 +22,7 @@
 
 
 .data
-	timeout dq 0
+	timeout dq $0
 .text 
 
 lockASM:
