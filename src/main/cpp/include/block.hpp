@@ -28,8 +28,8 @@ SOFTWARE.
 #include <iostream> // std::cout
 #include <string> // std::string
 #include <ctime> // time_t localtime() struct tm* asctime()
-#include <chrono> 
-#include <stdexcept>
+#include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
+#include <stdexcept> // std::runtime_error()
 #include <vector> // std::vector
 #include "thirdparty/picosha2.hpp" // picosha2::hash256_hex_string()
 #include "constants.hpp" // MAX_BLOCK_SIZE
