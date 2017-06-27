@@ -30,6 +30,7 @@ task wrapper(type: Wrapper) {
 apply plugin: 'cpp'
 apply plugin: 'c'
 apply plugin: 'assembler'
+apply plugin: 'visual-studio'
 
 project.ext {
 	if(!project.hasProperty("OS")){
