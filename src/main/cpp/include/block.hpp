@@ -74,7 +74,7 @@ public:
 		this->timeLocked = now - (timeout / 1000);
 		time_t _time = this->timeLocked;
 		this->hash = computeHash();
-		std::cout << "Block " << this->height << " has already been locked" << std::endl;
+		std::cout << "Block " << this->height << " has sucessfully been locked" << std::endl;
 		return this->timeLocked != 0;
 	}
 
