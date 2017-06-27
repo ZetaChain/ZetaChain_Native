@@ -23,16 +23,18 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#include "platform.hpp"
+#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <iostream> // std::cout
 #include <string> // std::string
 #include <ctime> // time_t localtime() struct tm* asctime()
+#include <chrono> 
 #include <exception> // std::exception
 #include <vector> // std::vector
 #include "thirdparty/picosha2.hpp" // picosha2::hash256_hex_string()
 #include "constants.hpp" // MAX_BLOCK_SIZE
 
 extern "C" void lockASM(unsigned long timeout);
+extern "C" long mineASM(void* dataAddr, long dataSize);
 
 template <class DataType> 
 
@@ -48,18 +50,29 @@ public:
 		delete data;
 	}
 
+	long mine() {
+		std::cout << "Mining Block " << this->height << std::endl;
+		auto start = std::chrono::high_resolution_clock::now();
+		this->setValue(mineASM(reinterpret_cast<void*>(this->data), sizeof(this->data)));
+		auto end = std::chrono::high_resolution_clock::now();
+		auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+		std::cout << "Block " << this->height << " Was Sucessfully Mined in: " << diff << " ns" << std::endl;
+		return this->value;
+	}
+
 	bool lock(unsigned long timeout = 1000L) {
 		if(this->timeLocked != 0)
 			return true;
 		
 		lockASM(timeout);
-		
+
 		time_t now;
 		time(&now);
 		struct tm* timeinfo;
 		timeinfo = localtime(&now);
 		this->timeLocked = now - (timeout / 1000);
 		time_t _time = this->timeLocked;
+		this->hash = computeHash();
 		std::cout << "Block " << this->height << " has been locked" << " at " << asctime(timeinfo) << std::endl;
 		return this->timeLocked != 0;
 	}
@@ -108,6 +121,10 @@ public:
 
 	long getIndex() const {
 		return this->index;
+	}
+
+	long getValue() const {
+		return this->value;
 	}
 
 	std::string getPreviousHash() const {
@@ -173,6 +190,12 @@ public:
 		this->index = index;
 	}
 
+	void setValue(long value) {
+		if(this->value != -1)
+			throw std::exception("Value has already been set");
+		this->value = value;
+	}
+
 	void setPreviousHash(std::string hash){
 		if(previousHash != "")
 			throw std::exception("Previous Hash has already been set!");
@@ -189,6 +212,7 @@ protected:
 	const unsigned long bits = size * 8;
 	char mainChain = -1;
 	long index = -1;
+	long value = -1;
 	std::string previousHash = "";
 
 private:
