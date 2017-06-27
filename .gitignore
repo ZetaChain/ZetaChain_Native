@@ -22,4 +22,5 @@ gradle-app.setting
 BlockchainCpp/*
 *.vcxproj
 *.filters
+*.sln
 vs/*
