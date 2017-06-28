@@ -27,6 +27,7 @@ SOFTWARE.
 #include <random> // rand(), srand()
 #include <chrono> // high_resolution_clock, std::chrono::time_point_cast, std::chrono::nanoseconds
 #include "block.hpp" // Block Stuff
+#include "blockchain.hpp" // Blockchain Stuff
 
 
 
@@ -38,8 +39,9 @@ int main(int argc, char** argv) {
 
 	Block<int>* blocks[1000];
 	int data[1000];
+	Blockchain<Block<int>> blockchain = Blockchain<Block<int>>();
 
-	auto t =  std::chrono::high_resolution_clock::now();
+	auto t = std::chrono::high_resolution_clock::now();
 	auto generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
 
 	for(int i = 0; i < 1000 - 1; i++){
@@ -48,12 +50,11 @@ int main(int argc, char** argv) {
 		srand(generator);
 		data[i] = 1 + rand() % 1048575;
 		Block<int>* b = new Block<int>(&data[i]);
-		b->setHeight(i + 1);
-		b->mine();
-		b->lock();
 		blocks[i] = b;
+		blockchain.add(blocks[i]);
 		std::cout << "Hash: " << blocks[i]->getHash() << " Height: " << blocks[i]->getHeight() << " Data: " << *(blocks[i]->getData()) << std::endl;
-
+		std::cout << "Block " << blocks[i]->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
+		std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
 	}
 	return 0;
 }

@@ -48,7 +48,7 @@ public:
 	}
 
 	virtual ~Block(){
-		delete data;
+		// delete data;
 	}
 
 	long mine() {
