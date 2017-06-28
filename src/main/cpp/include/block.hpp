@@ -37,227 +37,230 @@ SOFTWARE.
 extern "C" void lockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
 
-template <class DataType> 
+namespace BlockchainCpp {
 
-class Block {
+	template <class DataType> 
 
-public:
+	class Block {
 
-	Block(DataType* data) {
-		this->data = data;
-	}
+	public:
 
-	virtual ~Block(){
-		// delete data;
-	}
-
-	long mine() {
-		std::cout << "Mining Block " << this->height << std::endl;
-		auto start = std::chrono::high_resolution_clock::now();
-		this->setValue(mineASM(reinterpret_cast<void*>(this->data), sizeof(this->data)));
-		auto end = std::chrono::high_resolution_clock::now();
-		auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-		std::cout << "Block " << this->height << " Was Sucessfully Mined in: " << diff << " ns" << std::endl;
-		return this->value;
-	}
-
-	bool lock(unsigned long timeout = 1000L) {
-		if(this->timeLocked != 0)
-			return true;
-		
-		lockASM(timeout);
-
-		time_t now;
-		time(&now);
-		struct tm* timeinfo;
-		timeinfo = localtime(&now);
-		this->timeLocked = now - (timeout / 1000);
-		time_t _time = this->timeLocked;
-		this->hash = computeHash();
-		std::cout << "Block " << this->height << " has sucessfully been locked" << std::endl;
-		return this->timeLocked != 0;
-	}
-
-	bool verify() const {
-		if(this->timeLocked == 0)
-			if(!lock(1000))
-			throw std::runtime_error("Could not lock block after 1000 cycles");
-		std::string newHash = computeHash();
-		return newHash == this->hash;
-	}
-
-	DataType* getData() const {
-		return this->data;
-	}
-
-	std::string getHash() const {
-		return this->hash;
-	}
-
-	long getHeight() const {
-		return this->height;
-	}
-
-	time_t getTimeCreated() const {
-		return this->timeCreated;
-	}
-
-	time_t getTimeLocked() const {
-		return this->timeLocked;
-	}
-
-	unsigned long getSize() const {
-		return this->getSize;
-	}
-
-	unsigned long getBits() const {
-		return this.bits;
-	}
-
-	char isMainChain() const {
-		if (this->isMainChain == -1)
-			return 0;
-		return this.mainChain;
-	}
-
-	long getIndex() const {
-		return this->index;
-	}
-
-	long getValue() const {
-		return this->value;
-	}
-
-	std::string getPreviousHash() const {
-		if (this->previousHash == "")
-			return "";
-		return this-> previousHash;
-	}
-
-	void setData(DataType* data){
-		if(this->data != nullptr)
-			throw std::runtime_error("Data has already been set!");
-		if(data == nullptr || *(data) = NULL)
-			throw std::runtime_error("Can not set block data to null");
-		*(this->data) = *(data);
-		this-> data = data;
-	}
-
-	void setHash() {
-		if(this->hash != NULL)
-			throw std::runtime_error("Hash has already been set");
-		this->hash = computeHash();
-	}
-
-	void setHeight(long height){
-		if(this->height != -1)
-			throw std::runtime_error("Block Height has already been set");
-		if(height == 0)
-			throw std::runtime_error("Height must be greater than 0");
-		this->height = height;
-	}
-
-	void setTimeCreated(time_t time) {
-		if(this->timeCreated != 0) {
-			struct tm* timeinfo;
-			timeinfo = localtime(&this->timeCreated);
-			time_t _time = this->timeCreated;
-			throw std::runtime_error("Block was already created");
+		Block(DataType* data) {
+			this->data = data;
 		}
-		this->time = time;
-	}
-	
-	void setTimeLocked(time_t time) {
-		if(this->timeLocked != 0) {
+
+		virtual ~Block(){
+			// delete data;
+		}
+
+		long mine() {
+			std::cout << "Mining Block " << this->height << std::endl;
+			auto start = std::chrono::high_resolution_clock::now();
+			this->setValue(mineASM(reinterpret_cast<void*>(this->data), sizeof(this->data)));
+			auto end = std::chrono::high_resolution_clock::now();
+			auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+			std::cout << "Block " << this->height << " Was Sucessfully Mined in: " << diff << " ns" << std::endl;
+			return this->value;
+		}
+
+		bool lock(unsigned long timeout = 1000L) {
+			if(this->timeLocked != 0)
+				return true;
+			
+			lockASM(timeout);
+
+			time_t now;
+			time(&now);
 			struct tm* timeinfo;
-			timeinfo = localtime(&this->timeLocked);
+			timeinfo = localtime(&now);
+			this->timeLocked = now - (timeout / 1000);
 			time_t _time = this->timeLocked;
-			throw std::runtime_error("Block was already locked");
+			this->hash = computeHash();
+			std::cout << "Block " << this->height << " has sucessfully been locked" << std::endl;
+			return this->timeLocked != 0;
 		}
-		this->timeLocked = time;
+
+		bool verify() const {
+			if(this->timeLocked == 0)
+				if(!lock(1000))
+				throw std::runtime_error("Could not lock block after 1000 cycles");
+			std::string newHash = computeHash();
+			return newHash == this->hash;
+		}
+
+		DataType* getData() const {
+			return this->data;
+		}
+
+		std::string getHash() const {
+			return this->hash;
+		}
+
+		long getHeight() const {
+			return this->height;
+		}
+
+		time_t getTimeCreated() const {
+			return this->timeCreated;
+		}
+
+		time_t getTimeLocked() const {
+			return this->timeLocked;
+		}
+
+		unsigned long getSize() const {
+			return this->getSize;
+		}
+
+		unsigned long getBits() const {
+			return this.bits;
+		}
+
+		char isMainChain() const {
+			if (this->isMainChain == -1)
+				return 0;
+			return this.mainChain;
+		}
+
+		long getIndex() const {
+			return this->index;
+		}
+
+		long getValue() const {
+			return this->value;
+		}
+
+		std::string getPreviousHash() const {
+			if (this->previousHash == "")
+				return "";
+			return this-> previousHash;
+		}
+
+		void setData(DataType* data){
+			if(this->data != nullptr)
+				throw std::runtime_error("Data has already been set!");
+			if(data == nullptr || *(data) = NULL)
+				throw std::runtime_error("Can not set block data to null");
+			*(this->data) = *(data);
+			this-> data = data;
+		}
+
+		void setHash() {
+			if(this->hash != NULL)
+				throw std::runtime_error("Hash has already been set");
+			this->hash = computeHash();
+		}
+
+		void setHeight(long height){
+			if(this->height != -1)
+				throw std::runtime_error("Block Height has already been set");
+			if(height == 0)
+				throw std::runtime_error("Height must be greater than 0");
+			this->height = height;
+		}
+
+		void setTimeCreated(time_t time) {
+			if(this->timeCreated != 0) {
+				struct tm* timeinfo;
+				timeinfo = localtime(&this->timeCreated);
+				time_t _time = this->timeCreated;
+				throw std::runtime_error("Block was already created");
+			}
+			this->time = time;
+		}
+		
+		void setTimeLocked(time_t time) {
+			if(this->timeLocked != 0) {
+				struct tm* timeinfo;
+				timeinfo = localtime(&this->timeLocked);
+				time_t _time = this->timeLocked;
+				throw std::runtime_error("Block was already locked");
+			}
+			this->timeLocked = time;
+		}
+
+		void setIsMainChain(bool isMainChain){
+			if(this->mainChain != -1)
+				throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain + 
+				"\n To unlink or link this block from the main chain " + 
+				"you must first create an immutable uncle (orphaned block) to merge into its place"));
+			this->mainChain = static_cast<char>(isMainChain);
+		}
+
+		void setIndex(long index) {
+			if(this->index >= 0)
+				throw std::runtime_error("Index has already been set");
+			this->index = index;
+		}
+
+		void setValue(long value) {
+			if(this->value != -1)
+				throw std::runtime_error("Value has already been set");
+			this->value = value;
+		}
+
+		void setPreviousHash(std::string hash){
+			if(previousHash != "")
+				throw std::runtime_error("Previous Hash has already been set!");
+			previousHash = hash;
+		}
+
+	protected:
+		DataType* data = nullptr;
+		std::string hash = "";
+		long height = -1;
+		time_t timeCreated = 0;
+		time_t timeLocked = 0;
+		const unsigned long size = sizeof(DataType);
+		const unsigned long bits = size * 8;
+		char mainChain = -1;
+		long index = -1;
+		long value = -1;
+		std::string previousHash = "";
+
+	private:
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(DataType));
+
+	std::string computeHash() {
+		if(timeLocked == 0)
+			throw std::runtime_error("Can not compute the hash of an unlocked block");
+		std::string outHash = "";
+		int b = 0;
+		while(b < sizeof(DataType)) {
+			bytes.push_back(static_cast<unsigned char>(*(data + b++)));
+		}
+		picosha2::hash256_hex_string(bytes, outHash);
+		return outHash;
+	}
+	};
+	template <class DataType> 
+	bool operator==(const Block<DataType>& lhs, const Block<DataType>& rhs) {
+		return lhs.height == rhs.height;
 	}
 
-	void setIsMainChain(bool isMainChain){
-		if(this->mainChain != -1)
-			throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain + 
-			"\n To unlink or link this block from the main chain " + 
-			"you must first create an immutable uncle (orphaned block) to merge into its place"));
-		this->mainChain = static_cast<char>(isMainChain);
+	template <class DataType> 
+	bool operator!=(const Block<DataType>& lhs, const Block<DataType>& rhs) {
+		return lhs.height != rhs.height;
 	}
 
-	void setIndex(long index) {
-		if(this->index >= 0)
-			throw std::runtime_error("Index has already been set");
-		this->index = index;
+	template <class DataType> 
+	bool operator<(const Block<DataType>& lhs, const Block<DataType>& rhs) {
+		return lhs.height < rhs.height;
 	}
 
-	void setValue(long value) {
-		if(this->value != -1)
-			throw std::runtime_error("Value has already been set");
-		this->value = value;
+	template <class DataType> 
+	bool operator<=(const Block<DataType>& lhs, const Block<DataType>& rhs) {
+		return lhs.height <= rhs.height;
 	}
 
-	void setPreviousHash(std::string hash){
-		if(previousHash != "")
-			throw std::runtime_error("Previous Hash has already been set!");
-		previousHash = hash;
+	template <class DataType> 
+	bool operator>(const Block<DataType>& lhs, const Block<DataType>& rhs) {
+		return lhs.height > rhs.height;
 	}
 
-protected:
-	DataType* data = nullptr;
-	std::string hash = "";
-	long height = -1;
-	time_t timeCreated = 0;
-	time_t timeLocked = 0;
-	const unsigned long size = sizeof(DataType);
-	const unsigned long bits = size * 8;
-	char mainChain = -1;
-	long index = -1;
-	long value = -1;
-	std::string previousHash = "";
-
-private:
-	std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(DataType));
-
-std::string computeHash() {
-	if(timeLocked == 0)
-		throw std::runtime_error("Can not compute the hash of an unlocked block");
-	std::string outHash = "";
-	int b = 0;
-	while(b < sizeof(DataType)) {
-		bytes.push_back(static_cast<unsigned char>(*(data + b++)));
-	}
-	picosha2::hash256_hex_string(bytes, outHash);
-	return outHash;
-}
-};
-template <class DataType> 
-bool operator==(const Block<DataType>& lhs, const Block<DataType>& rhs) {
-	return lhs.height == rhs.height;
-}
-
-template <class DataType> 
-bool operator!=(const Block<DataType>& lhs, const Block<DataType>& rhs) {
-	return lhs.height != rhs.height;
-}
-
-template <class DataType> 
-bool operator<(const Block<DataType>& lhs, const Block<DataType>& rhs) {
-	return lhs.height < rhs.height;
-}
-
-template <class DataType> 
-bool operator<=(const Block<DataType>& lhs, const Block<DataType>& rhs) {
-	return lhs.height <= rhs.height;
-}
-
-template <class DataType> 
-bool operator>(const Block<DataType>& lhs, const Block<DataType>& rhs) {
-	return lhs.height > rhs.height;
-}
-
-template <class DataType> 
-bool operator>=(const Block<DataType>& lhs, const Block<DataType>& rhs) {
-	return lhs.height >= rhs.height;
+	template <class DataType> 
+	bool operator>=(const Block<DataType>& lhs, const Block<DataType>& rhs) {
+		return lhs.height >= rhs.height;
+	} 
 }
 

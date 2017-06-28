@@ -33,75 +33,79 @@ SOFTWARE.
 #include <stdexcept> // std::runtime_error()
 #include "constants.hpp" // MAX_BLOCK_SIZE
 
-template <class BlockType>
+namespace BlockchainCpp {
 
-class Blockchain {
-
-public:
-	Blockchain(){
-
-	}
-
-	Blockchain(std::map<std::string, BlockType*>, std::vector<Blockchain<BlockType>> orphanChains) : public Blockchain() {
-		
-		this->blocks = hashedBlocks;
-		this->orphanChains = orphanChains;
-	}
 
 	template <class BlockType>
 
-	bool add(BlockType* block) {
-		if(block->getData() == nullptr)
-			std::runtime_error("Can not add a null block to a blockchain");
-		
-		block->setHeight(this->count + 1);
-		block->mine();
-		block->lock();
+	class Blockchain {
 
-		std::string hash = block->getHash();
-		 if(!containsBlockByHash(hash)) {
-			blocks.insert( {hash, block} );
-			this->count++;
+	public:
+		Blockchain(){
+
+		}
+
+		Blockchain(std::map<std::string, BlockType*>, std::vector<Blockchain<BlockType>> orphanChains) : public Blockchain() {
+			
+			this->blocks = hashedBlocks;
+			this->orphanChains = orphanChains;
+		}
+
+		template <class BlockType>
+
+		bool add(BlockType* block) {
+			if(block->getData() == nullptr)
+				std::runtime_error("Can not add a null block to a blockchain");
+			
+			block->setHeight(this->count + 1);
+			block->mine();
+			block->lock();
+
+			std::string hash = block->getHash();
+			if(!containsBlockByHash(hash)) {
+				blocks.insert( {hash, block} );
+				this->count++;
+				return true;
+			}
+			std::runtime_error("Block With Hash: " + hash + " Is already present in the blockchain");
+			return false;
+		}
+
+
+		bool containsBlockByHash(std::string hash){
+			if(blocks.find(hash) == blocks.end())
+				return false;
 			return true;
 		}
-		std::runtime_error("Block With Hash: " + hash + " Is already present in the blockchain");
-		return false;
-	}
 
+		std::map<std::string, BlockType*> getBlocks() const {
+			return this->blocks;
+		}
 
-	bool containsBlockByHash(std::string hash){
-		if(blocks.find(hash) == blocks.end())
-			return false;
-		return true;
-	}
+		std::vector<Blockchain<BlockType>> getOrphanedChains() const {
+			return this->orphanChains;
+		}
 
-	std::map<std::string, BlockType*> getBlocks() const {
-		return this->blocks;
-	}
+		unsigned long getCount() const {
+			return this->count;
+		}
 
-	std::vector<Blockchain<BlockType>> getOrphanedChains() const {
-		return this->orphanChains;
-	}
+		virtual ~Blockchain() {
+			// for(int i = 0; i < this->blocks->size() - 1; i++) {
+			// 	delete this->blocks[i];
+			// }
+			// delete this->blocks;
 
-	unsigned long getCount() const {
-		return this->count;
-	}
+			// for(int i = 0; i < this->orphanChains->size(); i++) [
+			// 	delete this->orphanChains[i];
+			// ]
+			// delete this->orphanChains;
+		}
+	protected:
 
-	virtual ~Blockchain() {
-		// for(int i = 0; i < this->blocks->size() - 1; i++) {
-		// 	delete this->blocks[i];
-		// }
-		// delete this->blocks;
-
-		// for(int i = 0; i < this->orphanChains->size(); i++) [
-		// 	delete this->orphanChains[i];
-		// ]
-		// delete this->orphanChains;
-	}
-protected:
-
-private:
-	std::map<std::string, BlockType*> blocks = std::map<std::string, BlockType*>();
-	std::vector<Blockchain<BlockType>*> orphanChains = std::vector<Blockchain<BlockType>*>();
-	unsigned long count = 0;
-};
+	private:
+		std::map<std::string, BlockType*> blocks = std::map<std::string, BlockType*>();
+		std::vector<Blockchain<BlockType>*> orphanChains = std::vector<Blockchain<BlockType>*>();
+		unsigned long count = 0;
+	};
+}

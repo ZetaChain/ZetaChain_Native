@@ -29,7 +29,7 @@ SOFTWARE.
 #include "block.hpp" // Block Stuff
 #include "blockchain.hpp" // Blockchain Stuff
 
-
+using namespace BlockchainCpp;
 
 int main(int argc, char** argv) {
 
