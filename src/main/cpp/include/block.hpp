@@ -29,7 +29,7 @@ SOFTWARE.
 #include <string> // std::string
 #include <ctime> // time_t localtime() struct tm* asctime()
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
-#include <stdexcept> // std::runtime_error()
+#include <stdexcept> // throw throw std::runtime_error()
 #include <vector> // std::vector
 #include "thirdparty/picosha2.hpp" // picosha2::hash256_hex_string()
 #include "constants.hpp" // MAX_BLOCK_SIZE
@@ -199,10 +199,10 @@ namespace BlockchainCpp {
 			this->value = value;
 		}
 
-		void setPreviousHash(std::string hash){
+		void setPreviousHash(std::string _hash){
 			if(previousHash != "")
 				throw std::runtime_error("Previous Hash has already been set!");
-			previousHash = hash;
+			previousHash = _hash;
 		}
 
 	protected:
@@ -226,8 +226,15 @@ namespace BlockchainCpp {
 			throw std::runtime_error("Can not compute the hash of an unlocked block");
 		std::string outHash = "";
 		int b = 0;
+		auto t = std::chrono::high_resolution_clock::now();
+		long generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
+		long* pt = &generator;
 		while(b < sizeof(DataType)) {
 			bytes.push_back(static_cast<unsigned char>(*(data + b++)));
+		}
+		b = 0;
+		while (b < sizeof(long)) {
+			bytes.push_back(static_cast<unsigned char>(*(pt + b++)));
 		}
 		picosha2::hash256_hex_string(bytes, outHash);
 		return outHash;
