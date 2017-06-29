@@ -30,7 +30,7 @@ SOFTWARE.
 #include <algorithm> // std::find_if
 #include <vector> // std::vector
 #include <map> // std::map
-#include <stdexcept> // std::runtime_error()
+#include <stdexcept> // throw std::runtime_error()
 #include "constants.hpp" // MAX_BLOCK_SIZE
 
 namespace BlockchainCpp {
@@ -55,27 +55,66 @@ namespace BlockchainCpp {
 
 		bool add(BlockType* block) {
 			if(block->getData() == nullptr)
-				std::runtime_error("Can not add a null block to a blockchain");
+				throw std::runtime_error("Can not add a null block to a blockchain");
 			
 			block->setHeight(this->count + 1);
+			block->setIndex(this->count);
+
+			if(lastBlock == nullptr)
+				block->setPreviousHash("");
+			else
+				block->setPreviousHash(lastBlock->getHash());
+
 			block->mine();
 			block->lock();
 
 			std::string hash = block->getHash();
 			if(!containsBlockByHash(hash)) {
-				blocks.insert( {hash, block} );
+				this->blocks.insert( {hash, block} );
 				this->count++;
+				lastBlock = block;
 				return true;
 			}
-			std::runtime_error("Block With Hash: " + hash + " Is already present in the blockchain");
+			std::cout << "[WARNING] Block with Hash: " << hash << " was already present in the blockchain Skipping" << std::endl;
 			return false;
 		}
 
 
 		bool containsBlockByHash(std::string hash){
-			if(blocks.find(hash) == blocks.end())
+			if(this->blocks.find(hash) == this->blocks.end())
 				return false;
+			
 			return true;
+		}
+
+		BlockType* getBlockByHash(std::string hash){
+			if(!this->containsBlockByHash(hash))
+				return nullptr;
+
+			return this->blocks[hash];
+		}
+
+		bool containsBlockByHeight(unsigned long height) {
+			return height <= count + 1;
+		}
+
+		BlockType* getBlockByHeight(unsigned long height) {
+			if(!this->containsBlockByHeight(height))
+				return nullptr;
+			
+			std::string hash = this->lastBlock->getHash();
+			BlockType* blk = this->lastBlock;
+
+			while(hash != ""){
+				blk = getBlockByHash(hash);
+				if(blk == nullptr)
+					break;
+				if(blk->getHeight() == height)
+					return blk;
+				hash = blk->getPreviousHash();
+			}
+
+			return nullptr;
 		}
 
 		std::map<std::string, BlockType*> getBlocks() const {
@@ -84,6 +123,10 @@ namespace BlockchainCpp {
 
 		std::vector<Blockchain<BlockType>> getOrphanedChains() const {
 			return this->orphanChains;
+		}
+
+		BlockType* getLastBlock() const {
+			return this->lastBlock;
 		}
 
 		unsigned long getCount() const {
@@ -104,6 +147,7 @@ namespace BlockchainCpp {
 	protected:
 
 	private:
+		BlockType* lastBlock = nullptr;
 		std::map<std::string, BlockType*> blocks = std::map<std::string, BlockType*>();
 		std::vector<Blockchain<BlockType>*> orphanChains = std::vector<Blockchain<BlockType>*>();
 		unsigned long count = 0;
