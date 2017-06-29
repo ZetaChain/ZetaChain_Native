@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <iostream> // std::cout, std::cin
 #include <thread> // std::this_thread
@@ -37,24 +38,26 @@ int main(int argc, char** argv) {
 	// char ch;
 	// std::cin >> ch;
 
-	Block<int>* blocks[1000];
-	int data[1000];
 	Blockchain<Block<int>> blockchain = Blockchain<Block<int>>();
 
 	auto t = std::chrono::high_resolution_clock::now();
 	auto generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
-
-	for(int i = 0; i < 1000 - 1; i++){
+	int i = 0;
+	while( i < 5000 ) {
 		t = std::chrono::high_resolution_clock::now();
 		generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
 		srand(generator);
-		data[i] = 1 + rand() % 1048575;
-		Block<int>* b = new Block<int>(&data[i]);
-		blocks[i] = b;
-		blockchain.add(blocks[i]);
-		std::cout << "Hash: " << blocks[i]->getHash() << " Height: " << blocks[i]->getHeight() << " Data: " << *(blocks[i]->getData()) << std::endl;
-		std::cout << "Block " << blocks[i]->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
-		std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
+		int data = 1 + rand() % 2147483646; // int.max - 1
+		Block<int>* b = new Block<int>(&data);
+		
+		if(blockchain.add(b)){
+			std::cout << "Hash: " << b->getHash() << " Height: " << b->getHeight() << " Data: " << *(b->getData()) << std::endl;
+			std::cout << "Block " << b->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
+			std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
+		}
+		i++;
 	}
+	Block<int>* blk = blockchain.getBlockByHeight(999);
+	std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << *(blk->getData()) << std::endl;
 	return 0;
 }
