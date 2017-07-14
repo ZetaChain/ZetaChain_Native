@@ -224,18 +224,7 @@ namespace BlockchainCpp {
 		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(DataType));
 
 	std::string computeHash() {
-		if(timeLocked == 0)
-			throw std::runtime_error("Can not compute the hash of an unlocked block");
-		std::string outHash = "";
-		int b = 0;
-		auto t = std::chrono::high_resolution_clock::now();
-		long generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
-		while(b < sizeof(DataType)) {
-			bytes.push_back(static_cast<unsigned char>(*(data + b++)));
-		}
-		bytes += Conversions::toBytes(&generator);
-		picosha2::hash256_hex_string(bytes, outHash);
-		return outHash;
+		return "";
 	}
 	};
 	template <class DataType> 
