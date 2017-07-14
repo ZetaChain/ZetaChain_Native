@@ -40,12 +40,13 @@ namespace BlockchainCpp {
 	
 	class Transaction {
 		public:
-						
+			
 			std::vector<unsigned char> toBytes() {
-				
+				return std::vector<unsigned char>();
 			}
-			std::string toString() {
 
+			std::string toString() {
+				return "";
 			}
 			bool verify() {
 
