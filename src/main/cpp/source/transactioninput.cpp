@@ -33,8 +33,7 @@ SOFTWARE.
 
 namespace BlockchainCpp {
 	
-	std::vector<unsigned char> TransactionInput::toBytes()
-	{
+	std::vector<unsigned char> TransactionInput::toBytes() {
 		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(TransactionInput));
 		bytes += Conversions::toBytes(this->hash);
 		bytes += Conversions::toBytes(this->address);
@@ -44,8 +43,7 @@ namespace BlockchainCpp {
 		return bytes;
 	}
 
-	std::string TransactionInput::toString()
-	{
+	std::string TransactionInput::toString() {
 		nlohmann::json j;
 		j["type", "TransactionInput"];
 		j["hash", this->hash];
@@ -56,13 +54,11 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool TransactionInput::verify()
-	{
+	bool TransactionInput::verify() {
 		return computeHash() == this->hash;
 	}
 
-	std::string TransactionInput::computeHash()
-	{
+	std::string TransactionInput::computeHash() {
 		return "";
 	}
 }

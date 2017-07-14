@@ -33,35 +33,29 @@ namespace BlockchainCpp {
 	class TransactionData {
 	public:
 
-		std::string getHash() const
-		{
+		std::string getHash() const {
 			return hash;
 		}
 
-		void setHash(std::string hash)
-		{
-			this->hash = std::move(hash);
+		void setHash(std::string hash) {
+			this->hash = hash;
 		}
 
-		unsigned long getSize() const
-		{
+		unsigned long getSize() const {
 			return size;
 		}
 
-		void setSize(unsigned long size)
-		{
+		void setSize(unsigned long size) {
 			this->size = size;
 		}
 
 
-		friend bool operator==(const TransactionData& lhs, const TransactionData& rhs)
-		{
+		friend bool operator==(const TransactionData& lhs, const TransactionData& rhs) {
 			return lhs.hash == rhs.hash
 				&& lhs.size == rhs.size;
 		}
 
-		friend bool operator!=(const TransactionData& lhs, const TransactionData& rhs)
-		{
+		friend bool operator!=(const TransactionData& lhs, const TransactionData& rhs) {
 			return !(lhs == rhs);
 		}
 

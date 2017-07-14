@@ -23,92 +23,76 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include <string> // std::string
-#include <ctime> // time_t localtime() struct tm* asctime()
-#include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
-#include <stdexcept> // throw throw std::runtime_error()
+#include "platform.hpp"	// Platform Specific Stuff NOTE: Must Always be the first include in a file
+#include <string>		   // std::string
+#include <ctime>		   // time_t localtime() struct tm* asctime()
+#include <chrono>		   // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
+#include <stdexcept>	   // throw throw std::runtime_error()
 #include "conversions.hpp" // toBytes()
 #include "thirdparty/json.hpp"
 #include "operators.hpp"
 #include "conversions.hpp"
 #include "transactionoutput.hpp"
 
-namespace BlockchainCpp {
+namespace BlockchainCpp
+{
 
-	class TransactionOutput {
+	class TransactionOutput
+	{
 	public:
-
 		std::vector<unsigned char> toBytes();
 		std::string toString();
 		bool verify();
 
-		std::string getHash() const
-		{
+		std::string getHash() const {
 			return hash;
 		}
 
-		void setHash(std::string hash)
-		{
-			this->hash = std::move(hash);
+		void setHash(std::string hash) {
+			this->hash = hash;
 		}
 
-		std::string getAddress() const
-		{
+		std::string getAddress() const {
 			return address;
 		}
 
-		void setAddress(std::string address)
-		{
-			this->address = std::move(address);
+		void setAddress(std::string address) {
+			this->address = address;
 		}
 
-		double getValue() const
-		{
+		double getValue() const {
 			return value;
 		}
 
-		void setValue(double value)
-		{
+		void setValue(double value) {
 			this->value = value;
 		}
 
-		time_t getTimeCreated() const
-		{
+		time_t getTimeCreated() const {
 			return timeCreated;
 		}
 
-		void setTimeCreated(time_t time_created)
-		{
+		void setTimeCreated(time_t time_created) {
 			timeCreated = time_created;
 		}
 
-		time_t getTimeLocked() const
-		{
+		time_t getTimeLocked() const {
 			return timeLocked;
 		}
 
-		void setTimeLocked(time_t time_locked)
-		{
+		void setTimeLocked(time_t time_locked) {
 			timeLocked = time_locked;
 		}
 
-		friend bool operator==(const TransactionOutput& lhs, const TransactionOutput& rhs)
-		{
-			return lhs.hash == rhs.hash
-				&& lhs.address == rhs.address
-				&& lhs.value == rhs.value
-				&& lhs.timeCreated == rhs.timeCreated
-				&& lhs.timeLocked == rhs.timeLocked;
+		friend bool operator==(const TransactionOutput &lhs, const TransactionOutput &rhs) {
+			return lhs.hash == rhs.hash && lhs.address == rhs.address && lhs.value == rhs.value && lhs.timeCreated == rhs.timeCreated && lhs.timeLocked == rhs.timeLocked;
 		}
 
-		friend bool operator!=(const TransactionOutput& lhs, const TransactionOutput& rhs)
-		{
+		friend bool operator!=(const TransactionOutput &lhs, const TransactionOutput &rhs) {
 			return !(lhs == rhs);
 		}
 
 	protected:
-
 	private:
 		std::string computeHash();
 
@@ -117,6 +101,5 @@ namespace BlockchainCpp {
 		double value;
 		time_t timeCreated;
 		time_t timeLocked;
-
 	};
 }

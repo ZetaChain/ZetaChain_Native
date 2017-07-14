@@ -52,89 +52,72 @@ namespace BlockchainCpp {
 
 			}
 
-			std::string getHash() const
-			{
+			std::string getHash() const {
 				return hash;
 			}
 
-			void setHash(std::string hash)
-			{
-				this->hash = std::move(hash);
+			void setHash(std::string hash) {
+				this->hash = hash
 			}
 
-			std::map<std::string, TransactionInput*> getInputs() const
-			{
+			std::map<std::string, TransactionInput*> getInputs() const {
 				return inputs;
 			}
 
-			void setInputs(std::map<std::string, TransactionInput*> inputs)
-			{
-				this->inputs = std::move(inputs);
+			void setInputs(std::map<std::string, TransactionInput*> inputs) {
+				this->inputs = inputs
 			}
 
-			std::map<std::string, TransactionOutput*> getOutputs() const
-			{
+			std::map<std::string, TransactionOutput*> getOutputs() const {
 				return outputs;
 			}
 
-			void setOutputs(std::map<std::string, TransactionOutput*> outputs)
-			{
-				this->outputs = std::move(outputs);
+			void setOutputs(std::map<std::string, TransactionOutput*> outputs) {
+				this->outputs = outputs
 			}
 
-			double getValue() const
-			{
+			double getValue() const {
 				return value;
 			}
 
-			void setValue(double value)
-			{
+			void setValue(double value) {
 				this->value = value;
 			}
 
-			time_t getTimeCreated() const
-			{
+			time_t getTimeCreated() const {
 				return timeCreated;
 			}
 
-			void setTimeCreated(time_t time_created)
-			{
+			void setTimeCreated(time_t time_created) {
 				timeCreated = time_created;
 			}
 
-			time_t getTimeLocked() const
-			{
+			time_t getTimeLocked() const {
 				return timeLocked;
 			}
 
-			void setTimeLocked(time_t time_locked)
-			{
+			void setTimeLocked(time_t time_locked) {
 				timeLocked = time_locked;
 			}
 
-			time_t getTimeConfirmed() const
-			{
+			time_t getTimeConfirmed() const {
 				return timeConfirmed;
 			}
 
-			void setTimeConfirmed(time_t time_confirmed)
-			{
+			void setTimeConfirmed(time_t time_confirmed) {
 				timeConfirmed = time_confirmed;
 			}
 
-			T* getData() const
-			{
+			T* getData() const {
 				return data;
 			}
 
-			void setData(T* data)
-			{
+			void setData(T* data) {
 				this->data = data;
 			}
 
 
-			friend bool operator==(const Transaction& lhs, const Transaction& rhs)
-			{
+			friend bool operator==(const Transaction& lhs, const Transaction& rhs) {
 				return lhs.hash == rhs.hash
 					&& lhs.inputs == rhs.inputs
 					&& lhs.outputs == rhs.outputs
@@ -145,8 +128,7 @@ namespace BlockchainCpp {
 					&& lhs.data == rhs.data;
 			}
 
-			friend bool operator!=(const Transaction& lhs, const Transaction& rhs)
-			{
+			friend bool operator!=(const Transaction& lhs, const Transaction& rhs) {
 				return !(lhs == rhs);
 			}
 

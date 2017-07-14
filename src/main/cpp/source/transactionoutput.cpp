@@ -33,8 +33,7 @@ SOFTWARE.
 #include "transactionoutput.hpp"
 
 namespace BlockchainCpp {
-	std::vector<unsigned char> TransactionOutput::toBytes()
-	{
+	std::vector<unsigned char> TransactionOutput::toBytes() {
 		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(TransactionOutput));
 		bytes += Conversions::toBytes(this->hash);
 		bytes += Conversions::toBytes(this->address);
@@ -44,8 +43,7 @@ namespace BlockchainCpp {
 		return bytes;
 	}
 
-	std::string TransactionOutput::toString()
-	{
+	std::string TransactionOutput::toString() {
 		nlohmann::json j;
 		j["type", "TransactionOutput"];
 		j["hash", this->hash];
@@ -56,13 +54,11 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool TransactionOutput::verify()
-	{
+	bool TransactionOutput::verify() {
 		return this->hash == computeHash();
 	}
 
-	std::string TransactionOutput::computeHash()
-	{
+	std::string TransactionOutput::computeHash() {
 		std::vector<unsigned char> bytes = this->toBytes();
 		std::string outHash = "";
 		//picosha2::hash256_hex_string(bytes, outHash);

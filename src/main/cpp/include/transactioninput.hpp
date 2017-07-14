@@ -40,58 +40,47 @@ namespace BlockchainCpp {
 		std::string toString();
 		bool verify();
 
-		std::string getHash() const
-		{
+		std::string getHash() const {
 			return hash;
 		}
 
-		void setHash(std::string hash)
-		{
-			this->hash = std::move(hash);
+		void setHash(std::string hash) {
+			this->hash = hash;
 		}
 
-		std::string getAddress() const
-		{
+		std::string getAddress() const {
 			return address;
 		}
 
-		void setAddress(std::string address)
-		{
-			this->address = std::move(address);
+		void setAddress(std::string address) {
+			this->address = address;
 		}
 
-		double getValue() const
-		{
+		double getValue() const {
 			return value;
 		}
 
-		void setValue(double value)
-		{
+		void setValue(double value) {
 			this->value = value;
 		}
 
-		time_t getTimeCreated() const
-		{
+		time_t getTimeCreated() const {
 			return timeCreated;
 		}
 
-		void setTimeCreated(time_t time_created)
-		{
+		void setTimeCreated(time_t time_created) {
 			timeCreated = time_created;
 		}
 
-		time_t getTimeLocked() const
-		{
+		time_t getTimeLocked() const {
 			return timeLocked;
 		}
 
-		void setTimeLocked(time_t time_locked)
-		{
+		void setTimeLocked(time_t time_locked) {
 			timeLocked = time_locked;
 		}
 
-		friend bool operator==(const TransactionInput& lhs, const TransactionInput& rhs)
-		{
+		friend bool operator==(const TransactionInput& lhs, const TransactionInput& rhs) {
 			return lhs.hash == rhs.hash
 				&& lhs.address == rhs.address
 				&& lhs.value == rhs.value
@@ -99,8 +88,7 @@ namespace BlockchainCpp {
 				&& lhs.timeLocked == rhs.timeLocked;
 		}
 
-		friend bool operator!=(const TransactionInput& lhs, const TransactionInput& rhs)
-		{
+		friend bool operator!=(const TransactionInput& lhs, const TransactionInput& rhs) {
 			return !(lhs == rhs);
 		}
 
