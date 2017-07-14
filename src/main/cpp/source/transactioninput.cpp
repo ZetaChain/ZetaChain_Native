@@ -63,9 +63,6 @@ namespace BlockchainCpp {
 
 	std::string TransactionInput::computeHash()
 	{
-		std::vector<unsigned char> bytes = this->toBytes();
-		std::string outHash = "";
-		picosha2::hash256_hex_string(bytes, outHash);
-		return outHash;
+		return "";
 	}
 }

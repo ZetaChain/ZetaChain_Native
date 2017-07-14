@@ -33,7 +33,6 @@ SOFTWARE.
 #include "transactiondata.hpp"
 #include "transactioninput.hpp"
 #include "transactionoutput.hpp"
-#include "thirdparty/picosha2.hpp"
 
 namespace BlockchainCpp {
 	
@@ -51,7 +50,7 @@ namespace BlockchainCpp {
 			bool verify() {
 
 			}
-			
+
 			std::string getHash() const
 			{
 				return hash;
