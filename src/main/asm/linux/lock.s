@@ -27,7 +27,7 @@ SOFTWARE.
 	timeout dq $0
 .text 
 
-lockASM:
+lockBlockASM:
 	push %rax
 	push %rcx
 	movq $0h, %rax

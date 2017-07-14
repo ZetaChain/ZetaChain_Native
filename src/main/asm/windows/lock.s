@@ -26,7 +26,7 @@
 
 .code 
 
-lockASM proc
+lockBlockASM proc
 	push rax
 	push rcx
 	mov rax, 0h
@@ -40,6 +40,6 @@ lockASM proc
 	pop rcx
 	pop rax
 	ret
-lockASM endp
+lockBlockASM endp
 
 end

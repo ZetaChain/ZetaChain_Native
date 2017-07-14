@@ -1,4 +1,5 @@
 #pragma once
+
 /*
 MIT License
 
@@ -23,14 +24,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifdef _WIN32
-	#include <windows.h>
-#elif __APPLE__
-	#include "TargetConditionals.h"
-#elif __linux__
+#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
+#include <map> // std::map
+#include <string> // std::string
+#include <ctime> // time_t localtime() struct tm* asctime()
+#include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
+#include <stdexcept> // throw throw std::runtime_error()
+#include "transaction.hpp"
+#include "transactiondata.hpp"
 
-#elif __unix__ // all unices not caught above
+namespace BlockchainCpp {
 
-#else
-	#error "Unknown compiler"
-#endif
+	class BlockData {
+		public:
+
+		virtual std::string computeHash() = 0;
+		virtual std::vector<unsigned char> toBytes() = 0;
+		virtual std::string toString() = 0;
+		virtual bool verify() = 0;
+		virtual bool lock() = 0;
+
+		protected:
+
+		std::string hash = "";
+		std::map<std::string, Transaction<TransactionData*>*> transactions = std::map<std::string, Transaction<TransactionData*>*>();
+		unsigned long size = -1;
+		unsigned long transactionCount = -1;
+		unsigned long bits = -1;
+		time_t timeCreated = -1;
+		time_t timeRecieved = -1;
+		time_t timeLocked = -1;
+		
+		private:
+	};
+}

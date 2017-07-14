@@ -1,4 +1,5 @@
 #pragma once
+
 /*
 MIT License
 
@@ -23,14 +24,56 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifdef _WIN32
-	#include <windows.h>
-#elif __APPLE__
-	#include "TargetConditionals.h"
-#elif __linux__
+#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
+#include <string> // std::string
+#include <vector>
 
-#elif __unix__ // all unices not caught above
+namespace BlockchainCpp {
 
-#else
-	#error "Unknown compiler"
-#endif
+	class TransactionData {
+	public:
+
+		std::string getHash() const
+		{
+			return hash;
+		}
+
+		void setHash(std::string hash)
+		{
+			this->hash = std::move(hash);
+		}
+
+		unsigned long getSize() const
+		{
+			return size;
+		}
+
+		void setSize(unsigned long size)
+		{
+			this->size = size;
+		}
+
+
+		friend bool operator==(const TransactionData& lhs, const TransactionData& rhs)
+		{
+			return lhs.hash == rhs.hash
+				&& lhs.size == rhs.size;
+		}
+
+		friend bool operator!=(const TransactionData& lhs, const TransactionData& rhs)
+		{
+			return !(lhs == rhs);
+		}
+
+	protected:
+		virtual std::string computeHash() = 0;
+		virtual std::vector<unsigned char> toBytes() = 0;
+		virtual std::string toString() = 0;
+
+		std::string hash;
+		unsigned long size;
+
+	private:
+
+	};
+}

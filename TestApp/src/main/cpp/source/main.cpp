@@ -39,10 +39,15 @@ int main(int argc, char** argv) {
 	// std::cin >> ch;
 
 	Blockchain<Block<int>> blockchain = Blockchain<Block<int>>();
+	Blockchain<Block<std::string>> blockchain_s = Blockchain<Block<std::string>>();
 
 	auto t = std::chrono::high_resolution_clock::now();
 	auto generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
 	int i = 0;
+	int j = 0;
+
+	std::cout << "Creating int " << "Blockchain" << std::endl;
+
 	while( i < 5000 ) {
 		t = std::chrono::high_resolution_clock::now();
 		generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
@@ -57,7 +62,49 @@ int main(int argc, char** argv) {
 		}
 		i++;
 	}
-	Block<int>* blk = blockchain.getBlockByHeight(999);
-	std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << *(blk->getData()) << std::endl;
+
+	unsigned long height = 999UL;
+	std::cout << std::endl << std::endl;
+	std::cout << "Finding Block " << height << "..." << std::endl;
+	Block<int>* blk = blockchain.getBlockByHeight(height);
+	if(blk != nullptr) {
+		std::cout << "Found Block " << height << std::endl;
+		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << *(blk->getData()) << std::endl;
+	}
+	else {
+		std::cout << "Block " << height << " Not Found" << std::endl;
+	}
+
+	std::cout << std::endl << std::endl;
+
+	// std::cout << "Creating string" << "Blockchain" << std::endl;
+
+	// while( j < 5000 ) {
+	// 	std::string str = "";
+	// 	for(int count = 0; count < 50; i++){
+	// 		t = std::chrono::high_resolution_clock::now();
+	// 		generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
+	// 		srand(generator);
+	// 		char c = static_cast<char>(65 + rand() % 122); // A - z
+	// 		str += c;
+	// 	}
+		
+	// 	Block<std::string>* b = new Block<std::string>(&str);
+	// 	if(blockchain_s.add(b)) {
+	// 		std::cout << "Hash: " << b->getHash() << " Height: " << b->getHeight() << " Data: " << *(b->getData()) << std::endl;
+	// 		std::cout << "Block " << b->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
+	// 		std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
+	// 	}
+	// }
+
+	// unsigned long height_s = 1234UL;
+	// std::cout << std::endl << std::endl;
+	// std::cout << "Finding Block " << height << "..." << std::endl;
+	// Block<std::string>* blk_s = blockchain_s.getBlockByHeight(height);
+	// if(blk != nullptr) {
+	// 	std::cout << "Found Block " << height << std::endl;
+	// 	std::cout << "Hash: " << blk_s->getHash() << " Height: " << blk_s->getHeight() << " Data: " << *(blk_s->getData()) << std::endl;
+	// }
+
 	return 0;
 }
