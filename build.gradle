@@ -58,7 +58,7 @@ model {
 		}
 		all {
 			if (toolChain in VisualCpp) {
-				cppCompiler.args "/EHsc", "/W0", "/Zi", "/DEBUG", "/Od"," /FS", "/Fd:BlockchainCpp.pdb",
+				cppCompiler.args "/EHsc", "/W0", "/std:c++latest", "/Zi", "/DEBUG", "/Od"," /FS", "/Fd:BlockchainCpp.pdb",
 				"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
 					"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\atlmfc\\include",
 					"-I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt",
@@ -69,7 +69,7 @@ model {
 				assembler.args "/W3", "/DEBUG", "/m64", "/Zi", "/c", "/FS", "/Od", "/FS", "/Fd:BlockchainASM.pdb"
 			}
 			if(toolChain in Gcc) {
-				cppCompiler.args "-Wall", "--std=c++11", "-g", "-pedantic"
+				cppCompiler.args "-Wall", "--std=c++14", "-g", "-pedantic"
 				assembler.args "-Wall", "-g"
 			}
 			if(toolChain in Clang){

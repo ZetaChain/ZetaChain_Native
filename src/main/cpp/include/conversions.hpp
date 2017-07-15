@@ -29,7 +29,7 @@ SOFTWARE.
 #include <vector>
 #include <map>
 
-namespace Conversions {
+namespace BlockchainCpp::Conversions {
 
 	std::vector<unsigned char> toBytes(double* d);
 

@@ -29,7 +29,7 @@ SOFTWARE.
 #include <memory>
 #include "conversions.hpp"
 
-namespace Conversions {
+namespace BlockchainCpp::Conversions {
 	std::vector<unsigned char> toBytes(double* d){
 		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(double));
 		for(int itr = 0; itr < sizeof(double); itr++){
