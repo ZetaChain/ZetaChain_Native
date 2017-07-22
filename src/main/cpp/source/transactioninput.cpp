@@ -30,6 +30,7 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transactioninput.hpp"
+#include "hashing.hpp"
 
 namespace BlockchainCpp {
 	
@@ -59,6 +60,6 @@ namespace BlockchainCpp {
 	}
 
 	std::string TransactionInput::computeHash() {
-		return "";
+		return Hashing::hashVector(this->toBytes());
 	}
 }

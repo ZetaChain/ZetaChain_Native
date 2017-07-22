@@ -33,6 +33,7 @@ SOFTWARE.
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
 #include "intblockdata.hpp"
+#include "hashing.hpp"
 
 namespace BlockchainCpp {
 	IntBlockData::IntBlockData(int data){
@@ -44,7 +45,7 @@ namespace BlockchainCpp {
 	}
 
 	std::string IntBlockData::computeHash(){
-		return "";
+		return Hashing::hashVector(this->toBytes());
 	}
 
 	std::vector<unsigned char> IntBlockData::toBytes(){

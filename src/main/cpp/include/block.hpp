@@ -34,6 +34,7 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "constants.hpp" // MAX_BLOCK_SIZE
+#include "hashing.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
@@ -84,9 +85,26 @@ namespace BlockchainCpp {
 		bool verify() const {
 			if(this->timeLocked == 0)
 				if(!lock(1000))
-				throw std::runtime_error("Could not lock block after 1000 cycles");
+					throw std::runtime_error("Could not lock block after 1000 cycles");
 			std::string newHash = computeHash();
 			return newHash == this->hash;
+		}
+
+		std::vector<unsigned char> toBytes() {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(Block<DataType>));
+			// bytes += data->toBytes();
+			bytes += Conversions::toBytes(this->hash);
+			bytes += Conversions::toBytes(&this->height);
+			bytes += Conversions::toBytes(&this->timeCreated);
+			bytes += Conversions::toBytes(&this->timeLocked);
+			bytes += Conversions::toBytes(const_cast<unsigned long*>(&this->size));
+			bytes += Conversions::toBytes(const_cast<unsigned long*>(&this->bits));
+			bytes += Conversions::toBytes(&this->mainChain);
+			bytes += Conversions::toBytes(&this->index);
+			bytes += Conversions::toBytes(&this->value);
+			bytes += Conversions::toBytes(&this->nonce);
+			bytes += Conversions::toBytes(this->previousHash);
+			return bytes;
 		}
 
 		DataType* getData() const {
@@ -221,12 +239,12 @@ namespace BlockchainCpp {
 		std::string previousHash = "";
 
 	private:
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(DataType));
 
 	std::string computeHash() {
-		return "";
+		return Hashing::hashVector(this->toBytes());
 	}
 	};
+
 	template <class DataType> 
 	bool operator==(const Block<DataType>& lhs, const Block<DataType>& rhs) {
 		return lhs.height == rhs.height;

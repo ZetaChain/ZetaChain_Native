@@ -31,6 +31,7 @@ SOFTWARE.
 #include "thirdparty/json.hpp"
 #include "operators.hpp"
 #include "transactionoutput.hpp"
+#include "hashing.hpp"
 
 namespace BlockchainCpp {
 	std::vector<unsigned char> TransactionOutput::toBytes() {
@@ -59,9 +60,6 @@ namespace BlockchainCpp {
 	}
 
 	std::string TransactionOutput::computeHash() {
-		std::vector<unsigned char> bytes = this->toBytes();
-		std::string outHash = "";
-		//picosha2::hash256_hex_string(bytes, outHash);
-		return outHash;
+		return Hashing::hashVector(this->toBytes());
 	}
 }

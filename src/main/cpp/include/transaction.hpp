@@ -30,9 +30,13 @@ SOFTWARE.
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
 #include <stdexcept> // throw throw std::runtime_error()
 #include <map> // std::map
+#include <vector> // std::vector
 #include "transactiondata.hpp"
 #include "transactioninput.hpp"
 #include "transactionoutput.hpp"
+#include "conversions.hpp"
+#include "operators.hpp"
+#include "hashing.hpp"
 
 namespace BlockchainCpp {
 	
@@ -42,7 +46,22 @@ namespace BlockchainCpp {
 		public:
 			
 			std::vector<unsigned char> toBytes() {
-				return std::vector<unsigned char>();
+				std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(Transaction<T>));
+				bytes += Conversions::toBytes(this->hash);
+				std::map<std::string, TransactionInput*>::iterator itr;
+				for(itr = this->inputs.begin(); itr != this->inputs.end(); itr++){
+					bytes += itr->second->toBytes();
+				}
+				std::map<std::string, TransactionOutput*>::iterator itr2;
+				for(itr2 = this->outputs.begin(); itr2 != this->outputs.end(); itr2++){
+					bytes += itr2->second->toBytes();
+				}
+				bytes += Conversions::toBytes(&this->value);
+				bytes += Conversions::toBytes(&this->timeCreated);
+				bytes += Conversions::toBytes(&this->timeLocked);
+				bytes += Conversions::toBytes(&this->timeConfirmed);
+				bytes += data->toBytes();
+				return bytes;
 			}
 
 			std::string toString() {
@@ -136,17 +155,17 @@ namespace BlockchainCpp {
 
 		private:
 
-		std::string computeHash() {
+			std::string computeHash() {
+				return Hashing::hashString(this->toBytes())
+			}
 
-		}
-
-		std::string hash;
-		std::map<std::string, TransactionInput*> inputs;
-		std::map<std::string, TransactionOutput*> outputs;
-		double value;
-		time_t timeCreated;
-		time_t timeLocked;
-		time_t timeConfirmed;
-		T* data;
+			std::string hash;
+			std::map<std::string, TransactionInput*> inputs;
+			std::map<std::string, TransactionOutput*> outputs;
+			double value;
+			time_t timeCreated;
+			time_t timeLocked;
+			time_t timeConfirmed;
+			T* data;
 	};
 }
