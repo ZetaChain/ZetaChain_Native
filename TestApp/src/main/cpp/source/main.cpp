@@ -29,6 +29,7 @@ SOFTWARE.
 #include <chrono> // high_resolution_clock, std::chrono::time_point_cast, std::chrono::nanoseconds
 #include "block.hpp" // Block Stuff
 #include "blockchain.hpp" // Blockchain Stuff
+#include "intblockdata.hpp" // IntBlockData
 
 using namespace BlockchainCpp;
 
@@ -47,8 +48,8 @@ int main(int argc, char** argv) {
 	}
 
 	std::cout << "Using SHA256: " << static_cast<int>(!__nosha256) << std::endl;
-	Blockchain<Block<int>> blockchain = Blockchain<Block<int>>();
-	Blockchain<Block<std::string>> blockchain_s = Blockchain<Block<std::string>>();
+	Blockchain<Block<IntBlockData>> blockchain = Blockchain<Block<IntBlockData>>();
+	// Blockchain<Block<std::string>> blockchain_s = Blockchain<Block<std::string>>();
 
 	auto t = std::chrono::high_resolution_clock::now();
 	auto generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
@@ -61,11 +62,11 @@ int main(int argc, char** argv) {
 		t = std::chrono::high_resolution_clock::now();
 		generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
 		srand(generator);
-		int data = 1 + rand() % 2147483646; // int.max - 1
-		Block<int>* b = new Block<int>(&data);
+		int num = 1 + rand() % 2147483646; // int.max - 1
+		Block<IntBlockData>* b = new Block<IntBlockData>(new IntBlockData(num));
 		
 		if(blockchain.add(b)){
-			std::cout << "Hash: " << b->getHash() << " Height: " << b->getHeight() << " Data: " << *(b->getData()) << std::endl;
+			std::cout << "Hash: " << b->getHash() << " Height: " << b->getHeight() << " Data: " << b->getData()->getRawData() << std::endl;
 			std::cout << "Block " << b->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
 			std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
 		}
@@ -75,10 +76,10 @@ int main(int argc, char** argv) {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<int>* blk = blockchain.getBlockByHeight(height);
+	Block<IntBlockData>* blk = blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
-		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << *(blk->getData()) << std::endl;
+		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
 	}
 	else {
 		std::cout << "Block " << height << " Not Found" << std::endl;
