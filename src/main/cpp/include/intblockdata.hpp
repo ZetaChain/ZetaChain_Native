@@ -52,6 +52,7 @@ namespace BlockchainCpp {
 			time_t getTimeCreated();
 			time_t getTimeRecieved();
 			time_t getTimeLocked();
+			int getRawData();
 
 			void setHash();
 			void setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions);

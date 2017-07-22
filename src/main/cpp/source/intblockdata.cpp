@@ -128,7 +128,10 @@ namespace BlockchainCpp {
 		return this->timeLocked;
 	}
 
-	
+	int IntBlockData::getRawData(){
+		return this->rawData;
+	}
+
 	void IntBlockData::setHash() {
 		if(this->hash != "")
 			throw std::runtime_error("Hash has already been set");
