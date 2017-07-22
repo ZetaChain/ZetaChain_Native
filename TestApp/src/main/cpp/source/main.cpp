@@ -32,12 +32,21 @@ SOFTWARE.
 
 using namespace BlockchainCpp;
 
+extern bool __nosha256;
+
 int main(int argc, char** argv) {
 
 	//Uncomment when debugging in Visual Studio
 	// char ch;
 	// std::cin >> ch;
 
+	for(int i = 0; i < argc; i++){
+		std::cout << argv[i] << std::endl;
+		if(std::string(argv[i]) == "--nosha256")
+			__nosha256 = true;
+	}
+
+	std::cout << "Using SHA256: " << static_cast<int>(!__nosha256) << std::endl;
 	Blockchain<Block<int>> blockchain = Blockchain<Block<int>>();
 	Blockchain<Block<std::string>> blockchain_s = Blockchain<Block<std::string>>();
 
