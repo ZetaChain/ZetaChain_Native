@@ -27,3 +27,7 @@ SOFTWARE.
 #define BLOCK_HEADER_SIZE = 4
 
 const unsigned char BLOCK_HEADER[4] = {'B', 'L', 'K', 0};
+const char chars[] =
+	"0123456789"
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	"abcdefghijklmnopqrstuvwxyz";
