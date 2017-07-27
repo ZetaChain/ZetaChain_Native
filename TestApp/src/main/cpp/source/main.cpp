@@ -27,6 +27,8 @@ SOFTWARE.
 #include <thread> // std::this_thread
 #include <random> // rand(), srand()
 #include <chrono> // high_resolution_clock, std::chrono::time_point_cast, std::chrono::nanoseconds
+#include <vector> // std::vector
+#include <map> // std::map
 #include "block.hpp" // Block Stuff
 #include "blockchain.hpp" // Blockchain Stuff
 #include "intblockdata.hpp" // IntBlockData
@@ -43,7 +45,9 @@ SOFTWARE.
 #include "unsignedintblockdata.hpp" // UnsignedIntBlockData
 #include "unsignedlongblockdata.hpp" // UnsignedLongBlockData
 #include "unsignedlonglongblockdata.hpp" // UnsignedLongLongBlockData
-#include "constants.hpp" // chars
+#include "customblockdata.hpp" // CustomBlockData
+#include "customdata.hpp" // CustomData
+#include "constants.hpp" // chars, BLOCK_HEADER
 
 using namespace BlockchainCpp;
 
@@ -63,6 +67,7 @@ void createUnsignedShortBlockchain();
 void createUnsignedIntBlockchain();
 void createUnsignedLongBlockchain();
 void createUnsignedLongLongBlockchain();
+void createCustomDataBlockchain();
 
 int main(int argc, char** argv) {
 
@@ -92,7 +97,8 @@ int main(int argc, char** argv) {
 	createUnsignedIntBlockchain();
 	createUnsignedLongBlockchain();
 	createUnsignedLongLongBlockchain();
-	
+	createCustomDataBlockchain();
+
 	return 0;
 }
 
@@ -609,6 +615,55 @@ void createUnsignedLongLongBlockchain() {
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
 	Block<UnsignedLongLongBlockData>* blk = blockchain.getBlockByHeight(height);
+	if(blk != nullptr) {
+		std::cout << "Found Block " << height << std::endl;
+		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
+	}
+	else {
+		std::cout << "Block " << height << " Not Found" << std::endl;
+	}
+
+	std::cout << std::endl << std::endl;
+}
+
+void createCustomDataBlockchain() {
+	auto t = std::chrono::high_resolution_clock::now();
+	auto generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
+
+	std::cout << "Creating Custom Data Blockchain" << std::endl;
+
+	Blockchain<Block<CustomBlockData>> blockchain = Blockchain<Block<CustomBlockData>>();
+	int i = 0;
+	while( i < 1000 ) {
+		t = std::chrono::high_resolution_clock::now();
+		generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
+		srand(generator);
+		int num = 1 + rand() % 2147483646; // int.max - 1
+		std::string str = "Test String!";
+		std::vector<unsigned char> vec = std::vector<unsigned char>(sizeof(BLOCK_HEADER));
+		for(int k = 0; k < sizeof(BLOCK_HEADER) - 1; k++){
+			vec.push_back(BLOCK_HEADER[k]);
+		}
+		std::map<std::string, int> map = std::map<std::string, int>();
+		map.insert(std::make_pair(Hashing::hashInt(i), i));
+		map.insert(std::make_pair(Hashing::hashInt(i + 1), i + 1));
+		map.insert(std::make_pair(Hashing::hashInt(i + 2), i + 2));
+		map.insert(std::make_pair(Hashing::hashInt(i + 3), i + 3));
+
+		Block<CustomBlockData>* b = new Block<CustomBlockData>(new CustomBlockData(new CustomData(num, str, vec, map)));
+		
+		if(blockchain.add(b)){
+			std::cout << "Hash: " << b->getHash() << " Height: " << b->getHeight() << " Data: " << "0x" << reinterpret_cast<void*>(b->getData()->getRawData()) << std::endl;
+			std::cout << "Block " << b->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
+			std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
+		}
+		i++;
+	}
+
+	unsigned long height = 999UL;
+	std::cout << std::endl << std::endl;
+	std::cout << "Finding Block " << height << "..." << std::endl;
+	Block<CustomBlockData>* blk = blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
