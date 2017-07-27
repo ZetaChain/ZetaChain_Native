@@ -31,9 +31,9 @@ SOFTWARE.
 #include <stdexcept> // throw throw std::runtime_error()
 #include <map> // std::map
 #include <vector> // std::vector
-#include "transactiondata.hpp"
-#include "transactioninput.hpp"
-#include "transactionoutput.hpp"
+#include "transactions/transactiondata.hpp"
+#include "transactions/transactioninput.hpp"
+#include "transactions/transactionoutput.hpp"
 #include "conversions.hpp"
 #include "operators.hpp"
 #include "hashing.hpp"

@@ -31,7 +31,7 @@ SOFTWARE.
 #include "thirdparty/json.hpp"
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
-#include "transaction.hpp"
+#include "transactions/transaction.hpp"
 #include "blockdata/shortblockdata.hpp"
 #include "hashing.hpp"
 

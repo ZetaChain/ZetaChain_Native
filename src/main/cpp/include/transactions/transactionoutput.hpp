@@ -32,7 +32,7 @@ SOFTWARE.
 #include "thirdparty/json.hpp"
 #include "operators.hpp"
 #include "conversions.hpp"
-#include "transactionoutput.hpp"
+#include "transactions/transactionoutput.hpp"
 
 namespace BlockchainCpp
 {

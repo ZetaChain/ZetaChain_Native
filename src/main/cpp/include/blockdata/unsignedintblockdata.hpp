@@ -30,7 +30,7 @@ SOFTWARE.
 #include <ctime> // time_t localtime() struct tm* asctime()
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
 #include <stdexcept> // throw throw std::runtime_error()
-#include "transaction.hpp"
+#include "transactions/transaction.hpp"
 #include "blockdata.hpp"
 
 namespace BlockchainCpp {

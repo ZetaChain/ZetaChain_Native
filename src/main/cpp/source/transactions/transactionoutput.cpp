@@ -21,21 +21,21 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <string> // std::string
 #include <ctime> // time_t localtime() struct tm* asctime()
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
 #include <stdexcept> // throw throw std::runtime_error()
+#include "conversions.hpp" // toBytes()
 #include "thirdparty/json.hpp"
 #include "operators.hpp"
-#include "conversions.hpp" // toBytes()
-#include "transactioninput.hpp"
+#include "transactions/transactionoutput.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {
-	
-	std::vector<unsigned char> TransactionInput::toBytes() {
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(TransactionInput));
+	std::vector<unsigned char> TransactionOutput::toBytes() {
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(TransactionOutput));
 		bytes += Conversions::toBytes(this->hash);
 		bytes += Conversions::toBytes(this->address);
 		bytes += Conversions::toBytes(&this->value);
@@ -44,9 +44,9 @@ namespace BlockchainCpp {
 		return bytes;
 	}
 
-	std::string TransactionInput::toString() {
+	std::string TransactionOutput::toString() {
 		nlohmann::json j;
-		j["type", "TransactionInput"];
+		j["type", "TransactionOutput"];
 		j["hash", this->hash];
 		j["address", this->address];
 		j["value", this-> value];
@@ -55,11 +55,11 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool TransactionInput::verify() {
-		return computeHash() == this->hash;
+	bool TransactionOutput::verify() {
+		return this->hash == computeHash();
 	}
 
-	std::string TransactionInput::computeHash() {
+	std::string TransactionOutput::computeHash() {
 		return Hashing::hashVector(this->toBytes());
 	}
 }
