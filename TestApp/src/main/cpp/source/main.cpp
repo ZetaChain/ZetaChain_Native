@@ -29,7 +29,7 @@ SOFTWARE.
 #include <chrono> // high_resolution_clock, std::chrono::time_point_cast, std::chrono::nanoseconds
 #include <vector> // std::vector
 #include <map> // std::map
-#include "block.hpp" // Block Stuff
+#include "blocks/block.hpp" // Block Stuff
 #include "blockchain.hpp" // Blockchain Stuff
 #include "blockdata/intblockdata.hpp" // IntBlockData
 #include "blockdata/stringblockdata.hpp" // StringBlockData
