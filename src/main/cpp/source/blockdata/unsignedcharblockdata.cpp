@@ -32,24 +32,24 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
-#include "floatblockdata.hpp"
+#include "blockdata/unsignedcharblockdata.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {
-	FloatBlockData::FloatBlockData(float data){
+	UnsignedCharBlockData::UnsignedCharBlockData(unsigned char data){
 		this->rawData = data;
 	}
 
-	FloatBlockData::~FloatBlockData(){
+	UnsignedCharBlockData::~UnsignedCharBlockData(){
 
 	}
 
-	std::string FloatBlockData::computeHash(){
+	std::string UnsignedCharBlockData::computeHash(){
 		return Hashing::hashVector(this->toBytes());
 	}
 
-	std::vector<unsigned char> FloatBlockData::toBytes(){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(FloatBlockData));
+	std::vector<unsigned char> UnsignedCharBlockData::toBytes(){
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(UnsignedCharBlockData));
 
  		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 		
@@ -62,11 +62,11 @@ namespace BlockchainCpp {
 		bytes += Conversions::toBytes(&this->timeCreated);
 		bytes += Conversions::toBytes(&this->timeRecieved);
 		bytes += Conversions::toBytes(&this->timeLocked);
-		bytes += Conversions::toBytes(&this->rawData);
+		bytes.push_back(this->rawData);
 		return bytes;
 	}
 
-	std::string FloatBlockData::toString(){
+	std::string UnsignedCharBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
 		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
@@ -86,83 +86,83 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool FloatBlockData::verify(){
+	bool UnsignedCharBlockData::verify(){
 		return this->hash == computeHash();
 	}
 
-	bool FloatBlockData::lock() {
+	bool UnsignedCharBlockData::lock() {
 		//TODO
 		return false;
 	}
 
 
-	std::string FloatBlockData::getHash(){
+	std::string UnsignedCharBlockData::getHash(){
 		return this->hash;
 	}
 
-	std::map<std::string, Transaction<TransactionData*>*> FloatBlockData::getTransactions(){
+	std::map<std::string, Transaction<TransactionData*>*> UnsignedCharBlockData::getTransactions(){
 		return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
 	}
 
-	unsigned long FloatBlockData::getSize(){
+	unsigned long UnsignedCharBlockData::getSize(){
 		return this->size;
 	}
 
-	unsigned long FloatBlockData::getTransactionCount(){
+	unsigned long UnsignedCharBlockData::getTransactionCount(){
 		return this->transactionCount;
 	}
 
-	unsigned long FloatBlockData::getBits(){
+	unsigned long UnsignedCharBlockData::getBits(){
 		return this->bits;
 	}
 
-	time_t FloatBlockData::getTimeCreated(){
+	time_t UnsignedCharBlockData::getTimeCreated(){
 		return this->timeCreated;
 	}
 
-	time_t FloatBlockData::getTimeRecieved(){
+	time_t UnsignedCharBlockData::getTimeRecieved(){
 		return this->timeRecieved;
 	}
 
-	time_t FloatBlockData::getTimeLocked(){
+	time_t UnsignedCharBlockData::getTimeLocked(){
 		return this->timeLocked;
 	}
 
-	float FloatBlockData::getRawData(){
+	unsigned char UnsignedCharBlockData::getRawData(){
 		return this->rawData;
 	}
 
-	void FloatBlockData::setHash() {
+	void UnsignedCharBlockData::setHash() {
 		if(this->hash != "")
 			throw std::runtime_error("Hash has already been set");
 		this->hash = computeHash();
 	}
 
-	void FloatBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+	void UnsignedCharBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
 		this->transactions = transactions;
 	}
 
-	void FloatBlockData::setSize(unsigned long size){
+	void UnsignedCharBlockData::setSize(unsigned long size){
 		if(this->size != -1)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
-	void FloatBlockData::setTransactionCount(unsigned long count){
+	void UnsignedCharBlockData::setTransactionCount(unsigned long count){
 		if(this->transactionCount != -1)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
-	void FloatBlockData::setBits(unsigned long bits){
+	void UnsignedCharBlockData::setBits(unsigned long bits){
 		if(this->bits != -1)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}
 
-	void FloatBlockData::setTimeCreated(time_t timeCreated){
+	void UnsignedCharBlockData::setTimeCreated(time_t timeCreated){
 		if(this->timeCreated != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeCreated);
@@ -172,7 +172,7 @@ namespace BlockchainCpp {
 		this->timeCreated = timeCreated;
 	}
 
-	void FloatBlockData::setTimeRecieved(time_t timeRecieved){
+	void UnsignedCharBlockData::setTimeRecieved(time_t timeRecieved){
 		if(this->timeRecieved != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeRecieved);
@@ -182,7 +182,7 @@ namespace BlockchainCpp {
 		this->timeRecieved = timeRecieved;
 	}
 
-	void FloatBlockData::setTimeLocked(time_t timeLocked){
+	void UnsignedCharBlockData::setTimeLocked(time_t timeLocked){
 		if(this->timeLocked != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeLocked);

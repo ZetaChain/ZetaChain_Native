@@ -32,7 +32,7 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
-#include "longblockdata.hpp"
+#include "blockdata/longblockdata.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {

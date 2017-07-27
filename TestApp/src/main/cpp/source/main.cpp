@@ -31,20 +31,20 @@ SOFTWARE.
 #include <map> // std::map
 #include "block.hpp" // Block Stuff
 #include "blockchain.hpp" // Blockchain Stuff
-#include "intblockdata.hpp" // IntBlockData
-#include "stringblockdata.hpp" // StringBlockData
-#include "floatblockdata.hpp" // FloatBlockData
-#include "doubleblockdata.hpp" // DoubleBlockData
-#include "charblockdata.hpp" // CharBlockData
-#include "shortblockdata.hpp" // ShortBlockData
-#include "longblockdata.hpp" // LongBlockData
-#include "longlongblockdata.hpp" // LongLongBlockData
-#include "boolblockdata.hpp" // BoolBlockData
-#include "unsignedcharblockdata.hpp" // UnsignedCharBlockData
-#include "unsignedshortblockdata.hpp" // UnsignedShortBlockData
-#include "unsignedintblockdata.hpp" // UnsignedIntBlockData
-#include "unsignedlongblockdata.hpp" // UnsignedLongBlockData
-#include "unsignedlonglongblockdata.hpp" // UnsignedLongLongBlockData
+#include "blockdata/intblockdata.hpp" // IntBlockData
+#include "blockdata/stringblockdata.hpp" // StringBlockData
+#include "blockdata/floatblockdata.hpp" // FloatBlockData
+#include "blockdata/doubleblockdata.hpp" // DoubleBlockData
+#include "blockdata/charblockdata.hpp" // CharBlockData
+#include "blockdata/shortblockdata.hpp" // ShortBlockData
+#include "blockdata/longblockdata.hpp" // LongBlockData
+#include "blockdata/longlongblockdata.hpp" // LongLongBlockData
+#include "blockdata/boolblockdata.hpp" // BoolBlockData
+#include "blockdata/unsignedcharblockdata.hpp" // UnsignedCharBlockData
+#include "blockdata/unsignedshortblockdata.hpp" // UnsignedShortBlockData
+#include "blockdata/unsignedintblockdata.hpp" // UnsignedIntBlockData
+#include "blockdata/unsignedlongblockdata.hpp" // UnsignedLongBlockData
+#include "blockdata/unsignedlonglongblockdata.hpp" // UnsignedLongLongBlockData
 #include "customblockdata.hpp" // CustomBlockData
 #include "customdata.hpp" // CustomData
 #include "constants.hpp" // chars, BLOCK_HEADER

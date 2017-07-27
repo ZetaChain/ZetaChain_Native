@@ -32,24 +32,24 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
-#include "unsignedintblockdata.hpp"
+#include "blockdata/unsignedlonglongblockdata.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {
-	UnsignedIntBlockData::UnsignedIntBlockData(unsigned int data){
+	UnsignedLongLongBlockData::UnsignedLongLongBlockData(unsigned long long data){
 		this->rawData = data;
 	}
 
-	UnsignedIntBlockData::~UnsignedIntBlockData(){
+	UnsignedLongLongBlockData::~UnsignedLongLongBlockData(){
 
 	}
 
-	std::string UnsignedIntBlockData::computeHash(){
+	std::string UnsignedLongLongBlockData::computeHash(){
 		return Hashing::hashVector(this->toBytes());
 	}
 
-	std::vector<unsigned char> UnsignedIntBlockData::toBytes(){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(UnsignedIntBlockData));
+	std::vector<unsigned char> UnsignedLongLongBlockData::toBytes(){
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(UnsignedLongLongBlockData));
 
  		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 		
@@ -66,7 +66,7 @@ namespace BlockchainCpp {
 		return bytes;
 	}
 
-	std::string UnsignedIntBlockData::toString(){
+	std::string UnsignedLongLongBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
 		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
@@ -86,83 +86,83 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool UnsignedIntBlockData::verify(){
+	bool UnsignedLongLongBlockData::verify(){
 		return this->hash == computeHash();
 	}
 
-	bool UnsignedIntBlockData::lock() {
+	bool UnsignedLongLongBlockData::lock() {
 		//TODO
 		return false;
 	}
 
 
-	std::string UnsignedIntBlockData::getHash(){
+	std::string UnsignedLongLongBlockData::getHash(){
 		return this->hash;
 	}
 
-	std::map<std::string, Transaction<TransactionData*>*> UnsignedIntBlockData::getTransactions(){
+	std::map<std::string, Transaction<TransactionData*>*> UnsignedLongLongBlockData::getTransactions(){
 		return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
 	}
 
-	unsigned long UnsignedIntBlockData::getSize(){
+	unsigned long UnsignedLongLongBlockData::getSize(){
 		return this->size;
 	}
 
-	unsigned long UnsignedIntBlockData::getTransactionCount(){
+	unsigned long UnsignedLongLongBlockData::getTransactionCount(){
 		return this->transactionCount;
 	}
 
-	unsigned long UnsignedIntBlockData::getBits(){
+	unsigned long UnsignedLongLongBlockData::getBits(){
 		return this->bits;
 	}
 
-	time_t UnsignedIntBlockData::getTimeCreated(){
+	time_t UnsignedLongLongBlockData::getTimeCreated(){
 		return this->timeCreated;
 	}
 
-	time_t UnsignedIntBlockData::getTimeRecieved(){
+	time_t UnsignedLongLongBlockData::getTimeRecieved(){
 		return this->timeRecieved;
 	}
 
-	time_t UnsignedIntBlockData::getTimeLocked(){
+	time_t UnsignedLongLongBlockData::getTimeLocked(){
 		return this->timeLocked;
 	}
 
-	unsigned int UnsignedIntBlockData::getRawData(){
+	unsigned long long UnsignedLongLongBlockData::getRawData(){
 		return this->rawData;
 	}
 
-	void UnsignedIntBlockData::setHash() {
+	void UnsignedLongLongBlockData::setHash() {
 		if(this->hash != "")
 			throw std::runtime_error("Hash has already been set");
 		this->hash = computeHash();
 	}
 
-	void UnsignedIntBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+	void UnsignedLongLongBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
 		this->transactions = transactions;
 	}
 
-	void UnsignedIntBlockData::setSize(unsigned long size){
+	void UnsignedLongLongBlockData::setSize(unsigned long size){
 		if(this->size != -1)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
-	void UnsignedIntBlockData::setTransactionCount(unsigned long count){
+	void UnsignedLongLongBlockData::setTransactionCount(unsigned long count){
 		if(this->transactionCount != -1)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
-	void UnsignedIntBlockData::setBits(unsigned long bits){
+	void UnsignedLongLongBlockData::setBits(unsigned long bits){
 		if(this->bits != -1)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}
 
-	void UnsignedIntBlockData::setTimeCreated(time_t timeCreated){
+	void UnsignedLongLongBlockData::setTimeCreated(time_t timeCreated){
 		if(this->timeCreated != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeCreated);
@@ -172,7 +172,7 @@ namespace BlockchainCpp {
 		this->timeCreated = timeCreated;
 	}
 
-	void UnsignedIntBlockData::setTimeRecieved(time_t timeRecieved){
+	void UnsignedLongLongBlockData::setTimeRecieved(time_t timeRecieved){
 		if(this->timeRecieved != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeRecieved);
@@ -182,7 +182,7 @@ namespace BlockchainCpp {
 		this->timeRecieved = timeRecieved;
 	}
 
-	void UnsignedIntBlockData::setTimeLocked(time_t timeLocked){
+	void UnsignedLongLongBlockData::setTimeLocked(time_t timeLocked){
 		if(this->timeLocked != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeLocked);

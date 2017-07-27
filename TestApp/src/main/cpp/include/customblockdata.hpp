@@ -31,7 +31,7 @@ SOFTWARE.
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
 #include <stdexcept> // throw throw std::runtime_error()
 #include "transaction.hpp"
-#include "blockdata.hpp"
+#include "blockdata/blockdata.hpp"
 #include "customdata.hpp"
 
 using namespace BlockchainCpp;

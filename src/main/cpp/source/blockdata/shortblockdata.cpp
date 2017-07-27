@@ -32,24 +32,24 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
-#include "intblockdata.hpp"
+#include "blockdata/shortblockdata.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {
-	IntBlockData::IntBlockData(int data){
+	ShortBlockData::ShortBlockData(short data){
 		this->rawData = data;
 	}
 
-	IntBlockData::~IntBlockData(){
+	ShortBlockData::~ShortBlockData(){
 
 	}
 
-	std::string IntBlockData::computeHash(){
+	std::string ShortBlockData::computeHash(){
 		return Hashing::hashVector(this->toBytes());
 	}
 
-	std::vector<unsigned char> IntBlockData::toBytes(){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(IntBlockData));
+	std::vector<unsigned char> ShortBlockData::toBytes(){
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(ShortBlockData));
 
  		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 		
@@ -66,7 +66,7 @@ namespace BlockchainCpp {
 		return bytes;
 	}
 
-	std::string IntBlockData::toString(){
+	std::string ShortBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
 		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
@@ -86,83 +86,83 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool IntBlockData::verify(){
+	bool ShortBlockData::verify(){
 		return this->hash == computeHash();
 	}
 
-	bool IntBlockData::lock() {
+	bool ShortBlockData::lock() {
 		//TODO
 		return false;
 	}
 
 
-	std::string IntBlockData::getHash(){
+	std::string ShortBlockData::getHash(){
 		return this->hash;
 	}
 
-	std::map<std::string, Transaction<TransactionData*>*> IntBlockData::getTransactions(){
+	std::map<std::string, Transaction<TransactionData*>*> ShortBlockData::getTransactions(){
 		return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
 	}
 
-	unsigned long IntBlockData::getSize(){
+	unsigned long ShortBlockData::getSize(){
 		return this->size;
 	}
 
-	unsigned long IntBlockData::getTransactionCount(){
+	unsigned long ShortBlockData::getTransactionCount(){
 		return this->transactionCount;
 	}
 
-	unsigned long IntBlockData::getBits(){
+	unsigned long ShortBlockData::getBits(){
 		return this->bits;
 	}
 
-	time_t IntBlockData::getTimeCreated(){
+	time_t ShortBlockData::getTimeCreated(){
 		return this->timeCreated;
 	}
 
-	time_t IntBlockData::getTimeRecieved(){
+	time_t ShortBlockData::getTimeRecieved(){
 		return this->timeRecieved;
 	}
 
-	time_t IntBlockData::getTimeLocked(){
+	time_t ShortBlockData::getTimeLocked(){
 		return this->timeLocked;
 	}
 
-	int IntBlockData::getRawData(){
+	short ShortBlockData::getRawData(){
 		return this->rawData;
 	}
 
-	void IntBlockData::setHash() {
+	void ShortBlockData::setHash() {
 		if(this->hash != "")
 			throw std::runtime_error("Hash has already been set");
 		this->hash = computeHash();
 	}
 
-	void IntBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+	void ShortBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
 		this->transactions = transactions;
 	}
 
-	void IntBlockData::setSize(unsigned long size){
+	void ShortBlockData::setSize(unsigned long size){
 		if(this->size != -1)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
-	void IntBlockData::setTransactionCount(unsigned long count){
+	void ShortBlockData::setTransactionCount(unsigned long count){
 		if(this->transactionCount != -1)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
-	void IntBlockData::setBits(unsigned long bits){
+	void ShortBlockData::setBits(unsigned long bits){
 		if(this->bits != -1)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}
 
-	void IntBlockData::setTimeCreated(time_t timeCreated){
+	void ShortBlockData::setTimeCreated(time_t timeCreated){
 		if(this->timeCreated != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeCreated);
@@ -172,7 +172,7 @@ namespace BlockchainCpp {
 		this->timeCreated = timeCreated;
 	}
 
-	void IntBlockData::setTimeRecieved(time_t timeRecieved){
+	void ShortBlockData::setTimeRecieved(time_t timeRecieved){
 		if(this->timeRecieved != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeRecieved);
@@ -182,7 +182,7 @@ namespace BlockchainCpp {
 		this->timeRecieved = timeRecieved;
 	}
 
-	void IntBlockData::setTimeLocked(time_t timeLocked){
+	void ShortBlockData::setTimeLocked(time_t timeLocked){
 		if(this->timeLocked != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeLocked);

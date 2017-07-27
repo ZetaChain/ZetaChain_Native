@@ -32,24 +32,24 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
-#include "charblockdata.hpp"
+#include "blockdata/longlongblockdata.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {
-	CharBlockData::CharBlockData(char data){
+	LongLongBlockData::LongLongBlockData(long long data){
 		this->rawData = data;
 	}
 
-	CharBlockData::~CharBlockData(){
+	LongLongBlockData::~LongLongBlockData(){
 
 	}
 
-	std::string CharBlockData::computeHash(){
+	std::string LongLongBlockData::computeHash(){
 		return Hashing::hashVector(this->toBytes());
 	}
 
-	std::vector<unsigned char> CharBlockData::toBytes(){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(CharBlockData));
+	std::vector<unsigned char> LongLongBlockData::toBytes(){
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(LongLongBlockData));
 
  		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 		
@@ -66,7 +66,7 @@ namespace BlockchainCpp {
 		return bytes;
 	}
 
-	std::string CharBlockData::toString(){
+	std::string LongLongBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
 		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
@@ -86,83 +86,83 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool CharBlockData::verify(){
+	bool LongLongBlockData::verify(){
 		return this->hash == computeHash();
 	}
 
-	bool CharBlockData::lock() {
+	bool LongLongBlockData::lock() {
 		//TODO
 		return false;
 	}
 
 
-	std::string CharBlockData::getHash(){
+	std::string LongLongBlockData::getHash(){
 		return this->hash;
 	}
 
-	std::map<std::string, Transaction<TransactionData*>*> CharBlockData::getTransactions(){
+	std::map<std::string, Transaction<TransactionData*>*> LongLongBlockData::getTransactions(){
 		return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
 	}
 
-	unsigned long CharBlockData::getSize(){
+	unsigned long LongLongBlockData::getSize(){
 		return this->size;
 	}
 
-	unsigned long CharBlockData::getTransactionCount(){
+	unsigned long LongLongBlockData::getTransactionCount(){
 		return this->transactionCount;
 	}
 
-	unsigned long CharBlockData::getBits(){
+	unsigned long LongLongBlockData::getBits(){
 		return this->bits;
 	}
 
-	time_t CharBlockData::getTimeCreated(){
+	time_t LongLongBlockData::getTimeCreated(){
 		return this->timeCreated;
 	}
 
-	time_t CharBlockData::getTimeRecieved(){
+	time_t LongLongBlockData::getTimeRecieved(){
 		return this->timeRecieved;
 	}
 
-	time_t CharBlockData::getTimeLocked(){
+	time_t LongLongBlockData::getTimeLocked(){
 		return this->timeLocked;
 	}
 
-	char CharBlockData::getRawData(){
+	long long LongLongBlockData::getRawData(){
 		return this->rawData;
 	}
 
-	void CharBlockData::setHash() {
+	void LongLongBlockData::setHash() {
 		if(this->hash != "")
 			throw std::runtime_error("Hash has already been set");
 		this->hash = computeHash();
 	}
 
-	void CharBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+	void LongLongBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
 		this->transactions = transactions;
 	}
 
-	void CharBlockData::setSize(unsigned long size){
+	void LongLongBlockData::setSize(unsigned long size){
 		if(this->size != -1)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
-	void CharBlockData::setTransactionCount(unsigned long count){
+	void LongLongBlockData::setTransactionCount(unsigned long count){
 		if(this->transactionCount != -1)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
-	void CharBlockData::setBits(unsigned long bits){
+	void LongLongBlockData::setBits(unsigned long bits){
 		if(this->bits != -1)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}
 
-	void CharBlockData::setTimeCreated(time_t timeCreated){
+	void LongLongBlockData::setTimeCreated(time_t timeCreated){
 		if(this->timeCreated != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeCreated);
@@ -172,7 +172,7 @@ namespace BlockchainCpp {
 		this->timeCreated = timeCreated;
 	}
 
-	void CharBlockData::setTimeRecieved(time_t timeRecieved){
+	void LongLongBlockData::setTimeRecieved(time_t timeRecieved){
 		if(this->timeRecieved != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeRecieved);
@@ -182,7 +182,7 @@ namespace BlockchainCpp {
 		this->timeRecieved = timeRecieved;
 	}
 
-	void CharBlockData::setTimeLocked(time_t timeLocked){
+	void LongLongBlockData::setTimeLocked(time_t timeLocked){
 		if(this->timeLocked != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeLocked);

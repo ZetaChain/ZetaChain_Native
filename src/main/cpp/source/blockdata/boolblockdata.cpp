@@ -32,24 +32,24 @@ SOFTWARE.
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "transaction.hpp"
-#include "stringblockdata.hpp"
+#include "blockdata/boolblockdata.hpp"
 #include "hashing.hpp"
 
 namespace BlockchainCpp {
-	StringBlockData::StringBlockData(std::string data){
+	BoolBlockData::BoolBlockData(bool data){
 		this->rawData = data;
 	}
 
-	StringBlockData::~StringBlockData(){
+	BoolBlockData::~BoolBlockData(){
 
 	}
 
-	std::string StringBlockData::computeHash(){
+	std::string BoolBlockData::computeHash(){
 		return Hashing::hashVector(this->toBytes());
 	}
 
-	std::vector<unsigned char> StringBlockData::toBytes(){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(StringBlockData));
+	std::vector<unsigned char> BoolBlockData::toBytes(){
+		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(BoolBlockData));
 
  		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 		
@@ -62,11 +62,11 @@ namespace BlockchainCpp {
 		bytes += Conversions::toBytes(&this->timeCreated);
 		bytes += Conversions::toBytes(&this->timeRecieved);
 		bytes += Conversions::toBytes(&this->timeLocked);
-		bytes += Conversions::toBytes(this->rawData);
+		bytes += Conversions::toBytes(&this->rawData);
 		return bytes;
 	}
 
-	std::string StringBlockData::toString(){
+	std::string BoolBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
 		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
@@ -86,83 +86,83 @@ namespace BlockchainCpp {
 		return j;
 	}
 
-	bool StringBlockData::verify(){
+	bool BoolBlockData::verify(){
 		return this->hash == computeHash();
 	}
 
-	bool StringBlockData::lock() {
+	bool BoolBlockData::lock() {
 		//TODO
 		return false;
 	}
 
 
-	std::string StringBlockData::getHash(){
+	std::string BoolBlockData::getHash(){
 		return this->hash;
 	}
 
-	std::map<std::string, Transaction<TransactionData*>*> StringBlockData::getTransactions(){
+	std::map<std::string, Transaction<TransactionData*>*> BoolBlockData::getTransactions(){
 		return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
 	}
 
-	unsigned long StringBlockData::getSize(){
+	unsigned long BoolBlockData::getSize(){
 		return this->size;
 	}
 
-	unsigned long StringBlockData::getTransactionCount(){
+	unsigned long BoolBlockData::getTransactionCount(){
 		return this->transactionCount;
 	}
 
-	unsigned long StringBlockData::getBits(){
+	unsigned long BoolBlockData::getBits(){
 		return this->bits;
 	}
 
-	time_t StringBlockData::getTimeCreated(){
+	time_t BoolBlockData::getTimeCreated(){
 		return this->timeCreated;
 	}
 
-	time_t StringBlockData::getTimeRecieved(){
+	time_t BoolBlockData::getTimeRecieved(){
 		return this->timeRecieved;
 	}
 
-	time_t StringBlockData::getTimeLocked(){
+	time_t BoolBlockData::getTimeLocked(){
 		return this->timeLocked;
 	}
 
-	std::string StringBlockData::getRawData(){
+	bool BoolBlockData::getRawData(){
 		return this->rawData;
 	}
 
-	void StringBlockData::setHash() {
+	void BoolBlockData::setHash() {
 		if(this->hash != "")
 			throw std::runtime_error("Hash has already been set");
 		this->hash = computeHash();
 	}
 
-	void StringBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+	void BoolBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
 		this->transactions = transactions;
 	}
 
-	void StringBlockData::setSize(unsigned long size){
+	void BoolBlockData::setSize(unsigned long size){
 		if(this->size != -1)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
-	void StringBlockData::setTransactionCount(unsigned long count){
+	void BoolBlockData::setTransactionCount(unsigned long count){
 		if(this->transactionCount != -1)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
-	void StringBlockData::setBits(unsigned long bits){
+	void BoolBlockData::setBits(unsigned long bits){
 		if(this->bits != -1)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}
 
-	void StringBlockData::setTimeCreated(time_t timeCreated){
+	void BoolBlockData::setTimeCreated(time_t timeCreated){
 		if(this->timeCreated != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeCreated);
@@ -172,7 +172,7 @@ namespace BlockchainCpp {
 		this->timeCreated = timeCreated;
 	}
 
-	void StringBlockData::setTimeRecieved(time_t timeRecieved){
+	void BoolBlockData::setTimeRecieved(time_t timeRecieved){
 		if(this->timeRecieved != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeRecieved);
@@ -182,7 +182,7 @@ namespace BlockchainCpp {
 		this->timeRecieved = timeRecieved;
 	}
 
-	void StringBlockData::setTimeLocked(time_t timeLocked){
+	void BoolBlockData::setTimeLocked(time_t timeLocked){
 		if(this->timeLocked != 0) {
 			struct tm* timeinfo;
 			timeinfo = localtime(&this->timeLocked);
