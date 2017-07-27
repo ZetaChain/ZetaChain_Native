@@ -23,6 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
+
 #define MAX_BLOCK_SIZE (2 << 20 - 1) // 1 MEBIBYTE
 #define BLOCK_HEADER_SIZE = 4
 
