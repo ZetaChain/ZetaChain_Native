@@ -29,8 +29,10 @@ SOFTWARE.
 #define BLOCK_HEADER_SIZE = 4
 
 const unsigned char BLOCK_HEADER[4] = {'B', 'L', 'K', 0};
+const unsigned char TRANSACTION_OUTPUT_HEADER[4] = {'O', 'U', 'T', 0};
 const unsigned char TRANSACTION_INPUT_HEADER[4] = {'I', 'N', 0, 0};
 const unsigned char TRANSACTION_HEADER[4] = {'T', 'R', 'A', 0};
+
 const char chars[] =
 	"0123456789"
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
