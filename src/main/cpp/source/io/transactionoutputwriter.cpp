@@ -30,7 +30,7 @@ SOFTWARE.
 #include "transactions/transactionoutput.hpp"
 #include "io/transactionoutputwriter.hpp"
 
-namespace BlockchainCpp {
+namespace BlockchainCpp::IO {
 	TransactionOutputWriter::TransactionOutputWriter(std::string filePath, TransactionOutput* output, bool binary){
 		this->filePath = filePath;
 		this->output = output;

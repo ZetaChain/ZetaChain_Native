@@ -28,7 +28,7 @@ SOFTWARE.
 #include <fstream>
 #include "transactions/transactioninput.hpp"
 
-namespace BlockchainCpp {
+namespace BlockchainCpp::IO {
 	
 	class TransactionInputWriter {
 		public:

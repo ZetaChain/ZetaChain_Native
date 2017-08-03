@@ -29,7 +29,7 @@ SOFTWARE.
 #include "transactions/transaction.hpp"
 #include "constants.hpp"
 
-namespace BlockchainCpp {
+namespace BlockchainCpp::IO {
 	template <class T>
 	class TransactionWriter {
 		public:

@@ -30,7 +30,7 @@ SOFTWARE.
 #include "transactions/transactioninput.hpp"
 #include "io/transactioninputwriter.hpp"
 
-namespace BlockchainCpp {
+namespace BlockchainCpp::IO {
 	TransactionInputWriter::TransactionInputWriter(std::string filePath, TransactionInput* input, bool binary){
 		this->filePath = filePath;
 		this->input = input;
