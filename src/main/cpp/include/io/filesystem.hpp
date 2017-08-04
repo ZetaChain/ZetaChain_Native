@@ -37,10 +37,10 @@ namespace BlockchainCpp::IO::Filesystem {
 		BOOL deleteFile(LPCSTR filePath);
 
 	#elif __linux__ || __unix__ || __APPLE__
-		int mkdir(std::string path, mode_t mode);
-		int open(std::string pathname, int flags);
-		int open(std::string pathname, int flags, mode_t mode);
-		int creat(std::string pathname, mode_t mode);
-		void remove(std::string file);
+		int createDirectory(std::string path, mode_t mode);
+		int openFile(std::string pathname, int flags);
+		int openFile(std::string pathname, int flags, mode_t mode);
+		int createFile(std::string pathname, mode_t mode);
+		void deleteFile(std::string file);
 	#endif
 }
