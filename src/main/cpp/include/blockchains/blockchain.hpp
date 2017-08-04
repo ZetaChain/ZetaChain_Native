@@ -31,6 +31,8 @@ SOFTWARE.
 #include <vector> // std::vector
 #include <map> // std::map
 #include <stdexcept> // throw std::runtime_error()
+#include "conversions.hpp"
+#include "operators.hpp"
 #include "constants.hpp" // MAX_BLOCK_SIZE
 
 namespace BlockchainCpp {
@@ -45,10 +47,10 @@ namespace BlockchainCpp {
 
 		}
 
-		Blockchain(std::map<std::string, BlockType*>, std::vector<Blockchain<BlockType>> orphanChains) : public Blockchain() {
+		Blockchain(std::map<std::string, BlockType*>, std::vector<Blockchain<BlockType>> orphanedChains) : public Blockchain() {
 			
 			this->blocks = hashedBlocks;
-			this->orphanChains = orphanChains;
+			this->orphanedChains = orphanedChains;
 		}
 
 		template <class BlockType>
@@ -117,12 +119,35 @@ namespace BlockchainCpp {
 			return nullptr;
 		}
 
+		std::vector<unsigned char> toBytes() {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(Blockchain<BlockType>));
+			if(this->lastBlock != nullptr){
+				// for(int i = 0 i < sizeof(BlockData) - 1; i++){
+				// 	bytes.push_back(static_cast<unsigned char>(*(this->lastBlock + i)));
+				// }
+				bytes += this->lastBlock->toBytes();
+			}
+			for(std::map<std::string, BlockType*>::iterator it = this->blocks.begin(); it != this->blocks.end(); it++) {
+				bytes += it->second->toBytes();
+			}
+			if (this->orphanedChains.size() > 0) {
+				for (int i = 0; i < this->orphanedChains.size() - 1; i++) {
+					bytes += orphanedChains[i]->toBytes();
+				}
+			}
+			return bytes;
+		}
+
+		std::string toString() {
+			return "TODO";
+		}
+
 		std::map<std::string, BlockType*> getBlocks() const {
 			return this->blocks;
 		}
 
 		std::vector<Blockchain<BlockType>> getOrphanedChains() const {
-			return this->orphanChains;
+			return this->orphanedChains;
 		}
 
 		BlockType* getLastBlock() const {
@@ -139,17 +164,17 @@ namespace BlockchainCpp {
 			// }
 			// delete this->blocks;
 
-			// for(int i = 0; i < this->orphanChains->size(); i++) [
-			// 	delete this->orphanChains[i];
+			// for(int i = 0; i < this->orphanedChains->size(); i++) [
+			// 	delete this->orphanedChains[i];
 			// ]
-			// delete this->orphanChains;
+			// delete this->orphanedChains;
 		}
 	protected:
 
 	private:
 		BlockType* lastBlock = nullptr;
 		std::map<std::string, BlockType*> blocks = std::map<std::string, BlockType*>();
-		std::vector<Blockchain<BlockType>*> orphanChains = std::vector<Blockchain<BlockType>*>();
+		std::vector<Blockchain<BlockType>*> orphanedChains = std::vector<Blockchain<BlockType>*>();
 		unsigned long count = 0;
 	};
 }
