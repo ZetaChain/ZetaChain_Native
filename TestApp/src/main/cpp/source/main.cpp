@@ -29,6 +29,7 @@ SOFTWARE.
 #include <chrono> // high_resolution_clock, std::chrono::time_point_cast, std::chrono::nanoseconds
 #include <vector> // std::vector
 #include <map> // std::map
+#include <stdexcept> // std::runtime_error
 #include "blocks/block.hpp" // Block Stuff
 #include "blockchains/blockchain.hpp" // Blockchain Stuff
 #include "blockdata/intblockdata.hpp" // IntBlockData
@@ -47,11 +48,14 @@ SOFTWARE.
 #include "blockdata/unsignedlonglongblockdata.hpp" // UnsignedLongLongBlockData
 #include "customblockdata.hpp" // CustomBlockData
 #include "customdata.hpp" // CustomData
+#include "io/blockchainwriter.hpp" // BlockchainWriter
+#include "io/filesystem.hpp" // createDirectory, createFile
 #include "constants.hpp" // chars, BLOCK_HEADER
 
 using namespace BlockchainCpp;
 
 extern bool __nosha256;
+extern bool __useJSONFormat;
 
 void createIntBlockchain();
 void createStringBlockchain();
@@ -72,16 +76,19 @@ void createCustomDataBlockchain();
 int main(int argc, char** argv) {
 
 	//Uncomment when debugging in Visual Studio
-	// char ch;
-	// std::cin >> ch;
+	//	char ch;
+	//	std::cin >> ch;
 
 	for(int i = 0; i < argc; i++){
 		std::cout << argv[i] << std::endl;
 		if(std::string(argv[i]) == "--nosha256")
 			__nosha256 = true;
+		else if(std::string(argv[i]) == "--useJSONFormat")
+			__useJSONFormat = true;
 	}
 
 	std::cout << "Using SHA256: " << static_cast<int>(!__nosha256) << std::endl;
+	std::cout << "Using JSON File Format: " << static_cast<int>(__useJSONFormat) << std::endl;
 
 	createIntBlockchain();
 	createStringBlockchain();
@@ -138,6 +145,18 @@ void createIntBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+	std::cout << "Writing Blockchain to: " << "data/intblockchain.dat" << std::endl;
+	if(!IO::Filesystem::createDirectory("data", NULL))
+		throw std::runtime_error("Could Not Create data directory");
+	IO::BlockchainWriter<Block<IntBlockData>>* writer = new IO::BlockchainWriter<Block<IntBlockData>>("data/intblockchain.dat", &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << "data/intblockchain.dat" << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << "data/intblockchain.dat" << std::endl;
+	writer->close();
+	std::cout << std::endl;
+	
 }
 
 void createStringBlockchain() {
