@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
+rm -f TestApp
 sudo ./gradlew clean -POS=linux
 sudo ./gradlew build -POS=linux
-# gdb r build\exe\testApp\TestApp.exe
-build/exe/testApp/TestApp.exe | output.log
+cp -f build/testApp/TestApp TestApp
+# gdb r build\testApp\TestApp
+build/testApp/TestApp | output.log
