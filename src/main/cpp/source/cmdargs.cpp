@@ -23,3 +23,4 @@ SOFTWARE.
 */
 
 bool __nosha256 = false;
+bool __useJSONFormat = false;
