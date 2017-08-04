@@ -1,3 +1,4 @@
+#pragma once
 /*
 MIT License
 
@@ -22,16 +23,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
-
 #ifdef _WIN32
 	#include <windows.h>
 #elif __APPLE__
 	#include "TargetConditionals.h"
+	#include <sys/stat.h>
+	#include <sys/types.h>
+	#include <fcntl.h>
 #elif __linux__
-	// linux
+	#include <sys/stat.h>
+	#include <sys/types.h>
+	#include <fcntl.h>
+
 #elif __unix__ // all unices not caught above
-	// Unix
+	#include <sys/stat.h>
+	#include <sys/types.h>
+	#include <fcntl.h>
 #else
 	#error "Unknown compiler"
 #endif

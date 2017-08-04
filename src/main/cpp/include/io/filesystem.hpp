@@ -23,22 +23,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifdef _WIN32
-	#include <windows.h>
-#elif __APPLE__
-	#include "TargetConditionals.h"
-	#include <sys/stat.h>
-	#include <sys/types.h>
-	#include <fcntl.h>
-#elif __linux__
-	#include <sys/stat.h>
-	#include <sys/types.h>
-	#include <fcntl.h>
+#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
+#include <string>
 
-#elif __unix__ // all unices not caught above
-	#include <sys/stat.h>
-	#include <sys/types.h>
-	#include <fcntl.h>
-#else
-	#error "Unknown compiler"
-#endif
+
+namespace BlockchainCpp::IO::Filesystem {
+	#ifdef _WIN32
+		HANDLE createFile(LPCSTR fileName, DWORD desiredAccess, DWORD shareMode, LPSECURITY_ATTRIBUTES attributes,
+						DWORD creationDisposition, DWORD flags, HANDLE templateFile);
+		BOOL createDirectory(LPCSTR directoryName, LPSECURITY_ATTRIBUTES attributes);
+		BOOL closeFile(HANDLE file);
+		BOOL openFile(LPCSTR fileName, LPOFSTRUCT reOpenBuf, UINT style);
+		BOOL deleteFile(LPCSTR filePath);
+
+	#elif __linux__ || __unix__ || __APPLE__
+		int mkdir(std::string path, mode_t mode);
+		int open(std::string pathname, int flags);
+		int open(std::string pathname, int flags, mode_t mode);
+		int creat(std::string pathname, mode_t mode);
+		void remove(std::string file);
+	#endif
+}
