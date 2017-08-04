@@ -41,7 +41,10 @@ namespace BlockchainCpp::IO {
 				this->filePath = filePath;
 				this->blockchain = blockchain;
 				this->binary = binary;
-				file.open(this->filePath);
+				if(this->binary)
+					file.open(this->filePath, std::fstream::out | std::fstream::binary);
+				else
+					file.open(this->filePath, std::fstream::out);
 			}
 			
 			~BlockchainWriter() {
