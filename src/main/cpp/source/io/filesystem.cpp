@@ -35,6 +35,14 @@ namespace BlockchainCpp::IO::Filesystem {
 		BOOL createDirectory(LPCSTR directoryName, LPSECURITY_ATTRIBUTES attributes) {
 			return CreateDirectory(directoryName, attributes);
 		}
+		bool directoryExists(LPCSTR directoryName) {
+			DWORD attributes = GetFileAttributesA(directoryName);
+			if(attributes == INVALID_FILE_ATTRIBUTES)
+				return false;
+			if(attributes & FILE_ATTRIBUTE_DIRECTORY)
+				return true;
+			return false;
+		}
 		BOOL closeFile(HANDLE file) {
 			return CloseHandle(file);
 		}
@@ -48,6 +56,12 @@ namespace BlockchainCpp::IO::Filesystem {
 	#elif __linux__ || __unix__ || __APPLE__
 		int createDirectory(std::string path, mode_t mode) {
 			return mkdir(path.c_str(), mode);
+		}
+		bool directoryExists(std::string directory) {
+			struct stat sb;
+			if(stat(directory.c_str(), &sb) == 0 && S_ISDIR(sb.st_mode))
+				return true;
+			return false;
 		}
 		int openFile(std::string path, int flags) {
 			return open(path.c_str(), flags);

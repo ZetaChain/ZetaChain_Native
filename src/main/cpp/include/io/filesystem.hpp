@@ -32,12 +32,14 @@ namespace BlockchainCpp::IO::Filesystem {
 		HANDLE createFile(LPCSTR fileName, DWORD desiredAccess, DWORD shareMode, LPSECURITY_ATTRIBUTES attributes,
 						DWORD creationDisposition, DWORD flags, HANDLE templateFile);
 		BOOL createDirectory(LPCSTR directoryName, LPSECURITY_ATTRIBUTES attributes);
+		bool directoryExists(LPCSTR directoryName);
 		BOOL closeFile(HANDLE file);
 		BOOL openFile(LPCSTR fileName, LPOFSTRUCT reOpenBuf, UINT style);
 		BOOL deleteFile(LPCSTR filePath);
 
 	#elif __linux__ || __unix__ || __APPLE__
 		int createDirectory(std::string path, mode_t mode);
+		bool directoryExists(std::string directory);
 		int openFile(std::string pathname, int flags);
 		int openFile(std::string pathname, int flags, mode_t mode);
 		int createFile(std::string pathname, mode_t mode);
