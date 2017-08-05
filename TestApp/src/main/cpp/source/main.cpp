@@ -146,16 +146,22 @@ void createIntBlockchain() {
 
 	std::cout << std::endl << std::endl;
 
-	std::cout << "Writing Blockchain to: " << "data/intblockchain.dat" << std::endl;
+	std::string path;
+	if(__useJSONFormat)
+		path = "data/intblockchain.json";
+	else
+		path = "data/intblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
 	if(!IO::Filesystem::directoryExists("data")) {
 		if(!IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<IntBlockData>>* writer = new IO::BlockchainWriter<Block<IntBlockData>>("data/intblockchain.dat", &blockchain, !__useJSONFormat);
+	IO::BlockchainWriter<Block<IntBlockData>>* writer = new IO::BlockchainWriter<Block<IntBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
-		std::cout << "Blockchain was successfully written to: " << "data/intblockchain.dat" << std::endl;
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
-		std::cout << "ERROR! Could not write blockchain to: " << "data/intblockchain.dat" << std::endl;
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
 	writer->close();
 	std::cout << std::endl;
 	
