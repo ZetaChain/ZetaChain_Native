@@ -207,4 +207,12 @@ namespace BlockchainCpp::IO::Serialisation {
 		result->setTimeLocked(timeLocked);
 		return result;
 	}
+	TransactionData* readTransactionData(std::ifstream* stream) {
+		std::string hash = *readString(stream);
+		unsigned long size = *readUnsignedLong(stream);
+		// TransactionData* result = new TransactionData(); // TODO fix
+		// result->setHash(hash);
+		// result->setSize(size);
+		return nullptr;
+	}
 }

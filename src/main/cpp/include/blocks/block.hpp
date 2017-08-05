@@ -128,17 +128,17 @@ namespace BlockchainCpp {
 		}
 
 		unsigned long getSize() const {
-			return this->getSize;
+			return this->size;
 		}
 
 		unsigned long getBits() const {
-			return this.bits;
+			return this->bits;
 		}
 
 		char isMainChain() const {
-			if (this->isMainChain == -1)
+			if (this->mainChain == -1)
 				return 0;
-			return this.mainChain;
+			return this->mainChain;
 		}
 
 		long getIndex() const {
@@ -147,6 +147,10 @@ namespace BlockchainCpp {
 
 		long getValue() const {
 			return this->value;
+		}
+
+		long getNonce() const {
+			return this->nonce;
 		}
 
 		std::string getPreviousHash() const {
@@ -200,9 +204,9 @@ namespace BlockchainCpp {
 
 		void setIsMainChain(bool isMainChain){
 			if(this->mainChain != -1)
-				throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain + 
+				throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain) + 
 				"\n To unlink or link this block from the main chain " + 
-				"you must first create an immutable uncle (orphaned block) to merge into its place"));
+				"you must first create an immutable uncle (orphaned block) to merge into its place");
 			this->mainChain = static_cast<char>(isMainChain);
 		}
 
@@ -216,6 +220,12 @@ namespace BlockchainCpp {
 			if(this->value != -1)
 				throw std::runtime_error("Value has already been set");
 			this->value = value;
+		}
+
+		void setNonce(long nonce) {
+			if(this->nonce != -1)
+				throw std::runtime_error("Nonce has already been set");
+			this->nonce = nonce;
 		}
 
 		void setPreviousHash(std::string _hash){

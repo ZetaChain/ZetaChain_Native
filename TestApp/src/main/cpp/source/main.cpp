@@ -76,8 +76,8 @@ void createCustomDataBlockchain();
 int main(int argc, char** argv) {
 
 	//Uncomment when debugging in Visual Studio
-	//	char ch;
-	//	std::cin >> ch;
+	// char ch;
+	// std::cin >> ch;
 
 	for(int i = 0; i < argc; i++){
 		std::cout << argv[i] << std::endl;

@@ -56,14 +56,12 @@ namespace BlockchainCpp::Conversions {
 	std::vector<unsigned char> toBytes(std::string str);
 
 	template <class T>
-	T mapToValues(std::map<std::string, T> values, int size) {
-		T ptr = reinterpret_cast<T>(malloc(sizeof(T) * size));
-		int cnt = 0;
+	std::vector<T> mapToValues(std::map<std::string, T> values) {
+		std::vector<T> data = std::vector<T>();
 		for(std::map<std::string, T>::iterator it = values.begin(); it != values.end(); it++){
-			ptr[cnt] = it->second->toString()
-			cnt++;
+			data.push_back(it->second);
 		}
-		return ptr;
+		return data;
 	}
 	
 	template <class T>

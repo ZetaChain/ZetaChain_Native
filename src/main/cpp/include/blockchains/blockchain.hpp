@@ -146,7 +146,7 @@ namespace BlockchainCpp {
 			return this->blocks;
 		}
 
-		std::vector<Blockchain<BlockType>> getOrphanedChains() const {
+		std::vector<Blockchain<BlockType>*> getOrphanedChains() const {
 			return this->orphanedChains;
 		}
 
@@ -156,6 +156,10 @@ namespace BlockchainCpp {
 
 		unsigned long getCount() const {
 			return this->count;
+		}
+
+		unsigned long getOrphanCount() const {
+			return this->orphanCount;
 		}
 
 		virtual ~Blockchain() {
@@ -173,8 +177,9 @@ namespace BlockchainCpp {
 
 	private:
 		BlockType* lastBlock = nullptr;
+		unsigned long count = 0;
+		unsigned long orphanCount = 0;
 		std::map<std::string, BlockType*> blocks = std::map<std::string, BlockType*>();
 		std::vector<Blockchain<BlockType>*> orphanedChains = std::vector<Blockchain<BlockType>*>();
-		unsigned long count = 0;
 	};
 }
