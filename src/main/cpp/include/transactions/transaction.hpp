@@ -83,7 +83,12 @@ namespace BlockchainCpp {
 				return inputs;
 			}
 
+			int getInputCount() const {
+				return inputCount;
+			}
+
 			void setInputs(std::map<std::string, TransactionInput*> inputs) {
+				this->inputCount = inputs.size();
 				this->inputs = inputs
 			}
 
@@ -91,7 +96,12 @@ namespace BlockchainCpp {
 				return outputs;
 			}
 
+			int getOutputCount() const {
+				return outputCount;
+			}
+
 			void setOutputs(std::map<std::string, TransactionOutput*> outputs) {
+				this->outputCount = outputs.size();
 				this->outputs = outputs
 			}
 
@@ -160,6 +170,8 @@ namespace BlockchainCpp {
 			}
 
 			std::string hash;
+			int inputCount = 0;
+			int outputCount = 0;
 			std::map<std::string, TransactionInput*> inputs;
 			std::map<std::string, TransactionOutput*> outputs;
 			double value;
