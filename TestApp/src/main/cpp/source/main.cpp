@@ -203,6 +203,27 @@ void createStringBlockchain() {
 		std::cout << "Hash: " << blk_s->getHash() << " Height: " << blk_s->getHeight() << " Data: " << blk_s->getData()->getRawData() << std::endl;
 	}
 
+	std::cout << std::endl;
+
+	std::string path;
+	if(__useJSONFormat)
+		path = "data/stringblockchain.json";
+	else
+		path = "data/stringblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<StringBlockData>>* writer = new IO::BlockchainWriter<Block<StringBlockData>>(path, &blockchain_s, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
+
 }
 
 void createFloatBlockchain() {
@@ -240,6 +261,25 @@ void createFloatBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/floatblockchain.json";
+	else
+		path = "data/floatblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<FloatBlockData>>* writer = new IO::BlockchainWriter<Block<FloatBlockData>>(path, &blockchain_f, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createDoubleBlockchain() {
@@ -277,6 +317,25 @@ void createDoubleBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+	std::string path;
+	if(__useJSONFormat)
+		path = "data/doubleblockchain.json";
+	else
+		path = "data/doubleblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<DoubleBlockData>>* writer = new IO::BlockchainWriter<Block<DoubleBlockData>>(path, &blockchain_d, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createCharBlockchain() {
@@ -310,6 +369,27 @@ void createCharBlockchain() {
 		std::cout << "Found Block " << height_c << std::endl;
 		std::cout << "Hash: " << blk_c->getHash() << " Height: " << blk_c->getHeight() << " Data: " << blk_c->getData()->getRawData() << std::endl;
 	}
+
+	std::cout << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/charblockchain.json";
+	else
+		path = "data/charblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<CharBlockData>>* writer = new IO::BlockchainWriter<Block<CharBlockData>>(path, &blockchain_c, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createShortBlockchain() {
@@ -348,6 +428,25 @@ void createShortBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/shortblockchain.json";
+	else
+		path = "data/shortblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<ShortBlockData>>* writer = new IO::BlockchainWriter<Block<ShortBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createLongBlockchain() {
@@ -386,6 +485,25 @@ void createLongBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/longblockchain.json";
+	else
+		path = "data/longblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<LongBlockData>>* writer = new IO::BlockchainWriter<Block<LongBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 
@@ -425,6 +543,25 @@ void createLongLongBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/longlongblockchain.json";
+	else
+		path = "data/longlongblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<LongLongBlockData>>* writer = new IO::BlockchainWriter<Block<LongLongBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createBoolBlockchain() {
@@ -463,6 +600,25 @@ void createBoolBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/boolblockchain.json";
+	else
+		path = "data/boolblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<BoolBlockData>>* writer = new IO::BlockchainWriter<Block<BoolBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createUnsignedCharBlockchain() {
@@ -501,6 +657,24 @@ void createUnsignedCharBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/unsignedcharblockchain.json";
+	else
+		path = "data/unsignedcharblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<UnsignedCharBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedCharBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 void createUnsignedShortBlockchain() {
 	auto t = std::chrono::high_resolution_clock::now();
@@ -538,6 +712,25 @@ void createUnsignedShortBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/unsignedshortblockchain.json";
+	else
+		path = "data/unsignedshortblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<UnsignedShortBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedShortBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 void createUnsignedIntBlockchain() {
 	auto t = std::chrono::high_resolution_clock::now();
@@ -575,6 +768,25 @@ void createUnsignedIntBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/unsignedintblockchain.json";
+	else
+		path = "data/unsignedintblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<UnsignedIntBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedIntBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createUnsignedLongBlockchain() {
@@ -613,6 +825,25 @@ void createUnsignedLongBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+	std::string path;
+	if(__useJSONFormat)
+		path = "data/unsignedlongblockchain.json";
+	else
+		path = "data/unsignedlongblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<UnsignedLongBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedLongBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createUnsignedLongLongBlockchain() {
@@ -651,6 +882,25 @@ void createUnsignedLongLongBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/unsignedlonglongblockchain.json";
+	else
+		path = "data/unsignedlonglongblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<UnsignedLongLongBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedLongLongBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
 
 void createCustomDataBlockchain() {
@@ -700,4 +950,23 @@ void createCustomDataBlockchain() {
 	}
 
 	std::cout << std::endl << std::endl;
+
+		std::string path;
+	if(__useJSONFormat)
+		path = "data/customblockchain.json";
+	else
+		path = "data/customblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<Block<CustomBlockData>>* writer = new IO::BlockchainWriter<Block<CustomBlockData>>(path, &blockchain, !__useJSONFormat);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
 }
