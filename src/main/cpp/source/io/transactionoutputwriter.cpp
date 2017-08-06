@@ -28,6 +28,7 @@ SOFTWARE.
 #include <vector>
 #include "constants.hpp"
 #include "transactions/transactionoutput.hpp"
+#include "io/serialisation.hpp"
 #include "io/transactionoutputwriter.hpp"
 
 namespace BlockchainCpp::IO {
@@ -49,10 +50,7 @@ namespace BlockchainCpp::IO {
 	bool TransactionOutputWriter::write() {
 		if(this->binary){
 			file << TRANSACTION_OUTPUT_HEADER;
-			std::vector<unsigned char> bytes = this->output->toBytes();
-			for(int i = 0; i < bytes.size() - 1; i++){
-				file << bytes[i];
-			}
+			Serialisation::writeTransactionOutput(&file, output);
 			file << 0;
 		}
 		else {

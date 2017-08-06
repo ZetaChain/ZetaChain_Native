@@ -26,6 +26,7 @@ SOFTWARE.
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <string>
 #include <fstream>
+#include "io/serialisation.hpp"
 #include "transactions/transaction.hpp"
 #include "constants.hpp"
 
@@ -50,10 +51,7 @@ namespace BlockchainCpp::IO {
 			bool write() {
 				if(this->binary) {
 					file << TRANSACTION_HEADER;
-					std::vector<unsigned char> bytes = this->transaction->toBytes();
-					for (int i = 0; i < bytes.size() - 1; i++){
-						file << bytes[i];
-					}
+					Serialisation::writeTransaction(&file, transaction);
 					file << 0;
 				}
 				else {

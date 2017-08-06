@@ -28,6 +28,7 @@ SOFTWARE.
 #include <vector>
 #include <fstream>
 #include "constants.hpp"
+#include "io/serialisation.hpp"
 #include "blocks/block.hpp"
 #include "blockdata/blockdata.hpp"
 
@@ -54,10 +55,7 @@ namespace BlockchainCpp::IO {
 			bool write() {
 				if(this->binary) {
 					file << BLOCK_HEADER;
-					std::vector<unsigned char> bytes = this->block->toBytes();
-					for(int i = 0; i < bytes.size() - 1; i++) {
-						file << bytes[i];
-					}
+					Serialisation::writeBlock(&file, block);
 					file << 0;
 				}
 				else {
