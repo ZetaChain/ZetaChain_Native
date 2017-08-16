@@ -56,5 +56,6 @@ namespace BlockchainCpp {
 		time_t timeLocked = -1;
 		
 		private:
+			void* rawData; // Only Exists to prevent template errors when reading and writing
 	};
 }
