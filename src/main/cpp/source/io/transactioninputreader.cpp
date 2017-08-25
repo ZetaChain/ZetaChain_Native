@@ -48,12 +48,14 @@ namespace BlockchainCpp::IO {
 
 	TransactionInput* TransactionInputReader::read() {
 		if(this->binary) {
-			header[0] = *Serialisation::readUnsignedChar(&file);
-			header[1] = *Serialisation::readUnsignedChar(&file);
-			header[2] = *Serialisation::readUnsignedChar(&file);
-			header[3] = *Serialisation::readUnsignedChar(&file);
-			if(!this->verify())
-				return nullptr;
+			if(static_cast<int>(file.tellg()) == 0) {
+				header[0] = *Serialisation::readUnsignedChar(&file);
+				header[1] = *Serialisation::readUnsignedChar(&file);
+				header[2] = *Serialisation::readUnsignedChar(&file);
+				header[3] = *Serialisation::readUnsignedChar(&file);
+				if(!this->verify())
+					return nullptr;
+			}
 			input = Serialisation::readTransactionInput(&file);
 			if(!input->verify())
 				return nullptr;
