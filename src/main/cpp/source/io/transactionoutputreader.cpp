@@ -36,9 +36,9 @@ namespace BlockchainCpp::IO {
 		this->filePath = filePath;
 		this->binary = binary;
 		if(this->binary)
-			file.open(this->filePath, std::fstream::out | std::fstream::binary);
+			file.open(this->filePath, std::fstream::in | std::fstream::binary);
 		else
-			file.open(this->filePath, std::fstream::out);
+			file.open(this->filePath, std::fstream::in);
 	}
 
 	TransactionOutputReader::~TransactionOutputReader() {
