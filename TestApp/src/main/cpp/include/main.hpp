@@ -50,7 +50,9 @@ SOFTWARE.
 #include "customblockdata.hpp" // CustomBlockData
 #include "customdata.hpp" // CustomData
 #include "io/blockchainwriter.hpp" // BlockchainWriter
+#include "io/blockchainreader.hpp"
 #include "io/filesystem.hpp" // createDirectory, createFile
+#include "io/serialisation.hpp"
 #include "constants.hpp" // chars, BLOCK_HEADER
 
 using namespace BlockchainCpp;
@@ -75,6 +77,29 @@ void createUnsignedLongLongBlockchain();
 void createCustomDataBlockchain();
 
 template<class T>
-T* readBlockchain() {
-	return nullptr;
+T readBlockchain(std::string filePath, bool binary) {
+	T chain = nullptr;
+	IO::BlockchainReader<decltype(chain)>* reader = new IO::BlockchainReader<decltype(chain)>(filePath, binary);
+	chain = reader->read();
+	reader->close();
+	return chain;
+}
+
+template<class T>
+void loadBlockchain(std::string filePath, bool binary) {
+	T* blockchain = nullptr;
+	blockchain = readBlockchain<decltype(blockchain)>(filePath, binary);
+
+	// std::cout << "Verifying Loaded Blockchain" << std::endl;
+
+	// if(!blockchain->verify())
+	// 	throw std::runtime_error("Error Verifying Blockchain");
+
+	// std::cout << "Blockchain Sucessfully Verified" << std::endl;
+
+	std::cout << "Printing Loaded Blockchain" << std::endl;
+
+	for(int i = 0; i < blockchain->getBlocks().size() - 1; i++) {
+		std::cout << "Hash: " << blockchain->getBlockByHeight(i)->getHash() << " Height: " << blockchain->getBlockByHeight(i)->getHeight() << " Data: " << blockchain->getBlockByHeight(i)->getData()->getRawData() << std::endl;
+	}
 }

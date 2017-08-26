@@ -53,6 +53,18 @@ namespace BlockchainCpp {
 			this->orphanedChains = orphanedChains;
 		}
 
+		virtual ~Blockchain() {
+			// for(int i = 0; i < this->blocks->size() - 1; i++) {
+			// 	delete this->blocks[i];
+			// }
+			// delete this->blocks;
+
+			// for(int i = 0; i < this->orphanedChains->size(); i++) [
+			// 	delete this->orphanedChains[i];
+			// ]
+			// delete this->orphanedChains;
+		}
+
 		template <class BlockType>
 
 		bool add(BlockType* block) {
@@ -142,37 +154,56 @@ namespace BlockchainCpp {
 			return "TODO";
 		}
 
-		std::map<std::string, BlockType*> getBlocks() const {
+		std::map<std::string, BlockType*> getBlocks() {
 			return this->blocks;
 		}
 
-		std::vector<Blockchain<BlockType>*> getOrphanedChains() const {
+		std::vector<Blockchain<BlockType>*> getOrphanedChains() {
 			return this->orphanedChains;
 		}
 
-		BlockType* getLastBlock() const {
+		BlockType* getLastBlock() {
 			return this->lastBlock;
 		}
 
-		unsigned long getCount() const {
+		unsigned long getCount() {
 			return this->count;
 		}
 
-		unsigned long getOrphanCount() const {
+		unsigned long getOrphanCount() {
 			return this->orphanCount;
 		}
 
-		virtual ~Blockchain() {
-			// for(int i = 0; i < this->blocks->size() - 1; i++) {
-			// 	delete this->blocks[i];
-			// }
-			// delete this->blocks;
-
-			// for(int i = 0; i < this->orphanedChains->size(); i++) [
-			// 	delete this->orphanedChains[i];
-			// ]
-			// delete this->orphanedChains;
+		void setBlocks(std::map<std::string, BlockType*> blocks) {
+			if(this->blocks.size() != 0)
+				throw std::runtime_error("Can not set blocks for a non empty blockchain");
+			this->blocks = blocks;
 		}
+
+		void setOrphanedChains(std::vector<Blockchain<BlockType>*> orphanedChains) {
+			if(this->orphanedChains.size() != 0)
+				throw std::runtime_error("Can not set orphaned chains for a non empty blockchain");
+			this->orphanedChains = orphanedChains;
+		}
+
+		void setLastBlock(BlockType* lastBlock) {
+			if(this->lastBlock != nullptr)
+				throw std::runtime_error("Can not modify last block as it is not null");
+			this->lastBlock = lastBlock;
+		}
+
+		void setCount(unsigned long count) {
+			if(this->count != 0)
+				throw std::runtime_error("Can not set block count for a non empty blockchain");
+			this->count = count;
+		}
+
+		void setOrphanCount(unsigned long orphanCount) {
+			if(this->orphanCount != 0)
+				throw std::runtime_error("Can not set orphan count for a non empty blockchain");
+			this->count = orphanCount;
+		}
+
 	protected:
 
 	private:

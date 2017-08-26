@@ -82,7 +82,7 @@ namespace BlockchainCpp {
 			return this->timeLocked != 0;
 		}
 
-		bool verify() const {
+		bool verify() {
 			if(this->timeLocked == 0)
 				if(!lock(1000))
 					throw std::runtime_error("Could not lock block after 1000 cycles");
@@ -107,53 +107,53 @@ namespace BlockchainCpp {
 			return bytes;
 		}
 
-		DataType* getData() const {
+		DataType* getData() {
 			return this->data;
 		}
 
-		std::string getHash() const {
+		std::string getHash() {
 			return this->hash;
 		}
 
-		long getHeight() const {
+		long getHeight() {
 			return this->height;
 		}
 
-		time_t getTimeCreated() const {
+		time_t getTimeCreated() {
 			return this->timeCreated;
 		}
 
-		time_t getTimeLocked() const {
+		time_t getTimeLocked() {
 			return this->timeLocked;
 		}
 
-		unsigned long getSize() const {
+		unsigned long getSize() {
 			return this->size;
 		}
 
-		unsigned long getBits() const {
+		unsigned long getBits() {
 			return this->bits;
 		}
 
-		char isMainChain() const {
+		char isMainChain() {
 			if (this->mainChain == -1)
 				return 0;
 			return this->mainChain;
 		}
 
-		long getIndex() const {
+		long getIndex() {
 			return this->index;
 		}
 
-		long getValue() const {
+		long getValue() {
 			return this->value;
 		}
 
-		long getNonce() const {
+		long getNonce() {
 			return this->nonce;
 		}
 
-		std::string getPreviousHash() const {
+		std::string getPreviousHash() {
 			if (this->previousHash == "")
 				return "";
 			return this-> previousHash;

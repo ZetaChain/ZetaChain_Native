@@ -71,7 +71,7 @@ namespace BlockchainCpp {
 
 			}
 
-			std::string getHash() const {
+			std::string getHash() {
 				return hash;
 			}
 
@@ -79,11 +79,11 @@ namespace BlockchainCpp {
 				this->hash = hash
 			}
 
-			std::map<std::string, TransactionInput*> getInputs() const {
+			std::map<std::string, TransactionInput*> getInputs() {
 				return inputs;
 			}
 
-			int getInputCount() const {
+			int getInputCount() {
 				return inputCount;
 			}
 
@@ -92,11 +92,11 @@ namespace BlockchainCpp {
 				this->inputs = inputs
 			}
 
-			std::map<std::string, TransactionOutput*> getOutputs() const {
+			std::map<std::string, TransactionOutput*> getOutputs() {
 				return outputs;
 			}
 
-			int getOutputCount() const {
+			int getOutputCount() {
 				return outputCount;
 			}
 
@@ -105,7 +105,7 @@ namespace BlockchainCpp {
 				this->outputs = outputs
 			}
 
-			double getValue() const {
+			double getValue() {
 				return value;
 			}
 
@@ -113,7 +113,7 @@ namespace BlockchainCpp {
 				this->value = value;
 			}
 
-			time_t getTimeCreated() const {
+			time_t getTimeCreated() {
 				return timeCreated;
 			}
 
@@ -121,7 +121,7 @@ namespace BlockchainCpp {
 				timeCreated = time_created;
 			}
 
-			time_t getTimeLocked() const {
+			time_t getTimeLocked() {
 				return timeLocked;
 			}
 
@@ -129,7 +129,7 @@ namespace BlockchainCpp {
 				timeLocked = time_locked;
 			}
 
-			time_t getTimeConfirmed() const {
+			time_t getTimeConfirmed() {
 				return timeConfirmed;
 			}
 
@@ -137,7 +137,7 @@ namespace BlockchainCpp {
 				timeConfirmed = time_confirmed;
 			}
 
-			T* getData() const {
+			T* getData() {
 				return data;
 			}
 

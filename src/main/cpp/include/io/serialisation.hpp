@@ -160,8 +160,8 @@ namespace BlockchainCpp::IO::Serialisation {
 	TransactionData* readTransactionData(std::ifstream* stream);
 
 	template <class T>
-	T* readTransaction(std::ifstream* stream) {
-		T* result = new T();
+	T readTransaction(std::ifstream* stream) {
+		T result = T();
 		std::string hash = *readString(stream);
 		int inputCount = *readInt(stream);
 		int outputCount = *readInt(stream);
@@ -194,8 +194,8 @@ namespace BlockchainCpp::IO::Serialisation {
 	}
 
 	template <class T>
-	T* readBlock(std::ifstream* stream) {
-		T* result = new T(nullptr);
+	T readBlock(std::ifstream* stream) {
+		T result = T(nullptr);
 		decltype(result->getData()) data = readBlockData(stream);
 		std::string hash = *readString(stream);
 		long height = *readLong(stream);
@@ -225,8 +225,8 @@ namespace BlockchainCpp::IO::Serialisation {
 	}
 
 	template <class T>
-	T* readBlockData(std::ifstream* stream) {
-		T* result = new T();
+	T readBlockData(std::ifstream* stream) {
+		T result = T();
 		std::string hash = *readString(stream);
 		unsigned long transactionCount = *readUnsignedLong(stream);
 		std::map<std::string, Transaction<TransactionData*>*> transactions = std::map<std::string, Transaction<TransactionData*>*>();
@@ -259,45 +259,45 @@ namespace BlockchainCpp::IO::Serialisation {
 	}
 
 	template <class T>
-	T* readBlockchain(std::ifstream* stream) {
-		T* result = new T();
-		decltype(result->getLastBLock()) lastBlock = readBlock(stream);
-		if(!lastBlock.verify())
+	T readBlockchain(std::ifstream* stream) {
+		T result = T();
+		decltype(result->getLastBlock()) lastBlock = readBlock<decltype(result->getLastBlock())>(stream);
+		if(!lastBlock->verify())
 			return nullptr;
 		unsigned long count = *readUnsignedLong(stream);
 		unsigned long orphanCount = *readUnsignedLong(stream);
 		std::map<std::string, decltype(result->getLastBlock())> blocks = std::map<std::string, decltype(result->getLastBlock())>();
 		for(int i = 0; i < count - 1; i++){
-			decltype(result->getLastBlock()) block = readBlock(stream);
-			if(!block.verify())
+			decltype(result->getLastBlock()) block = readBlock<decltype(result->getLastBlock())>(stream);
+			if(!block->verify())
 				return nullptr;
 			blocks.insert(std::make_pair(block->getHash(), block));
 		}
-		std::vector<Blockchain<decltype(result->getLastBlock()) orphanedChains = std::vector<Blockchain<decltype(result->getLastBlock())();
+		std::vector<Blockchain<decltype(result->getLastBlock())>> orphanedChains = std::vector<Blockchain<decltype(result->getLastBlock())>>();
 		for(int i = 0; i < orphanCount - 1; i++){
-			Blockchain<decltype(result->getLastBlock())> orphan = readOrphanedChain(stream);
+			Blockchain<decltype(result->getLastBlock())> orphan = readOrphanedChain<Blockchain<decltype(result->getLastBlock())>>(stream);
 			orphanedChains.push_back(orphan);
 		}
 		result->setLastBlock(lastBlock);
 		result->setCount(count);
-		result->setOrphanCount(orphanCount)
+		result->setOrphanCount(orphanCount);
 		result->setBlocks(blocks);
 		result->setOrphanedChains(orphanedChains);
 		return result;
 	}
 
 	template <class T>
-	T* readOrphanedChain(std::ifstream* stream) {
-		T* result = new T();
-		decltype(result->getLastBLock()) lastBlock = readBlock(stream);
-		if(!lastBlock.verify())
+	T readOrphanedChain(std::ifstream* stream) {
+		T result = T();
+		decltype(result->getLastBLock()) lastBlock = readBlock<decltype(result->getLastBLock())>(stream);
+		if(!lastBlock->verify())
 			return nullptr;
 		unsigned long count = *readUnsignedLong(stream);
 		unsigned long orphanCount = 0UL;
 		std::map<std::string, decltype(result->getLastBlock())> blocks = std::map<std::string, decltype(result->getLastBlock())>();
 		for(int i = 0; i < count - 1; i++){
-			decltype(result->getLastBlock()) block = readBlock(stream);
-			if(!block.verify())
+			decltype(result->getLastBlock()) block = readBlock<decltype(result->getLastBLock())>(stream);
+			if(!block->verify())
 				return nullptr;
 			blocks.insert(std::make_pair(block->getHash(), block));
 		}

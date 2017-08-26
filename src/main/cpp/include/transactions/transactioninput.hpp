@@ -40,7 +40,7 @@ namespace BlockchainCpp {
 		std::string toString();
 		bool verify();
 
-		std::string getHash() const {
+		std::string getHash() {
 			return hash;
 		}
 
@@ -48,7 +48,7 @@ namespace BlockchainCpp {
 			this->hash = hash;
 		}
 
-		std::string getAddress() const {
+		std::string getAddress() {
 			return address;
 		}
 
@@ -56,7 +56,7 @@ namespace BlockchainCpp {
 			this->address = address;
 		}
 
-		double getValue() const {
+		double getValue() {
 			return value;
 		}
 
@@ -64,7 +64,7 @@ namespace BlockchainCpp {
 			this->value = value;
 		}
 
-		time_t getTimeCreated() const {
+		time_t getTimeCreated() {
 			return timeCreated;
 		}
 
@@ -72,7 +72,7 @@ namespace BlockchainCpp {
 			timeCreated = time_created;
 		}
 
-		time_t getTimeLocked() const {
+		time_t getTimeLocked() {
 			return timeLocked;
 		}
 

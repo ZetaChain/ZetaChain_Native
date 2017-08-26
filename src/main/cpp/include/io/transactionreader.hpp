@@ -47,7 +47,7 @@ namespace BlockchainCpp::IO {
 				free(header);
 			}
 
-			Transaction* read() {
+			T read() {
 				if(this->binary) {
 					if(static_cast<int>(file.tellg()) == 0) {
 						header[0] = *Serialisation::readUnsignedChar(&file);
@@ -58,7 +58,7 @@ namespace BlockchainCpp::IO {
 							return nullptr;
 					}
 				}
-				transaction = Serialisation::readTransaction(&file);
+				transaction = Serialisation::readTransaction<decltype(transaction)>(&file);
 				if(!transaction->verify())
 					return nullptr;
 				return transaction;
@@ -77,8 +77,8 @@ namespace BlockchainCpp::IO {
 		private:
 			std::string filePath;
 			bool binary;
-			Transaction* transaction;
+			T transaction;
 			unsigned char header[4];
-			std::ifstream file
-	}
+			std::ifstream file;
+	};
 }

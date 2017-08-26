@@ -50,7 +50,7 @@ namespace BlockchainCpp::IO {
 				free(header);
 			}
 
-			Block* read() {
+			T read() {
 				if(this->binary) {
 					if(static_cast<int>(file.tellg()) == 0) {
 						header[0] = *Serialisation::readUnsignedChar(&file);
@@ -61,7 +61,7 @@ namespace BlockchainCpp::IO {
 							return nullptr;
 					}
 				}
-				block = Serialisation::readBlock(&file);
+				block = Serialisation::readBlock<decltype(block)>(&file);
 				if(!block->verify())
 					return nullptr;
 				return block;
@@ -80,8 +80,8 @@ namespace BlockchainCpp::IO {
 		private:
 			std::string filePath;
 			bool binary;
-			Block* block;
+			T block;
 			unsigned char header[4];
-			std::ifstream file
-		}
+			std::ifstream file;
+		};
 }

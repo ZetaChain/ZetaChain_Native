@@ -86,6 +86,8 @@ int main(int argc, char** argv) {
 	createUnsignedLongLongBlockchain();
 	createCustomDataBlockchain();
 
+	//loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain.dat", true); /// TODO Fix
+
 	return 0;
 }
 
