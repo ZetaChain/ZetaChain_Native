@@ -59,12 +59,15 @@ model {
 		all {
 			if (toolChain in VisualCpp) {
 				cppCompiler.args "/EHsc", "/W4", "/std:c++latest", "/Zi", "/DEBUG", "/Od"," /FS", "/Fd:BlockchainCpp.pdb",
-				"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
-					"-I C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\atlmfc\\include",
-					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um",
-					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared",
-					"-I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt"
-				linker.args "/DEBUG", "/INCREMENTAL:NO", "libucrt.lib", "kernel32.lib"
+					"/IC:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
+					"/IC:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\atlmfc\\include",
+					"/IC:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um",
+					"/IC:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared",
+					"/IC:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt",
+					"/IC:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v8.0\\include"
+				linker.args "/DEBUG", "/INCREMENTAL:NO", 
+					"/LIBPATH:C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v8.0\\lib\\x64", 
+					"libucrt.lib", "kernel32.lib", "OpenCL.lib"
 				assembler.args "/W3", "/DEBUG", "/Zi", "/c"
 			}
 			if(toolChain in Gcc) {
