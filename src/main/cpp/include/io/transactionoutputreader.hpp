@@ -1,5 +1,4 @@
 #pragma once
-
 /*
 MIT License
 
@@ -25,37 +24,28 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include <map> // std::map
-#include <string> // std::string
-#include <ctime> // time_t localtime() struct tm* asctime()
-#include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
-#include <stdexcept> // throw throw std::runtime_error()
-#include "transactions/transaction.hpp"
-#include "transactions/transactiondata.hpp"
+#include <string>
+#include <fstream>
+#include "transactions/transactionoutput.hpp"
 
-namespace BlockchainCpp {
-
-	class BlockData {
+namespace BlockchainCpp::IO {
+	
+	class TransactionOutputReader {
 		public:
+			TransactionOutputReader(std::string filePath, bool binary = true);
+			~TransactionOutputReader();
 
-		virtual std::string computeHash() = 0;
-		virtual std::vector<unsigned char> toBytes() = 0;
-		virtual std::string toString() = 0;
-		virtual bool verify() = 0;
-		virtual bool lock() = 0;
+			TransactionOutput* read();
+			bool verify();
+			void close();
 
 		protected:
 
-		std::string hash = "";
-		unsigned long transactionCount = -1;
-		std::map<std::string, Transaction<TransactionData*>*> transactions = std::map<std::string, Transaction<TransactionData*>*>();
-		unsigned long size = -1;
-		unsigned long bits = -1;
-		time_t timeCreated = -1;
-		time_t timeRecieved = -1;
-		time_t timeLocked = -1;
-		
 		private:
-			void* rawData; // Only Exists to prevent template errors when reading and writing
+			std::string filePath;
+			bool binary;
+			TransactionOutput* output;
+			unsigned char header[4];
+			std::ifstream file;
 	};
 }

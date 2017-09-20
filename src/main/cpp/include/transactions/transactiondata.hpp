@@ -33,7 +33,7 @@ namespace BlockchainCpp {
 	class TransactionData {
 	public:
 
-		std::string getHash() const {
+		std::string getHash() {
 			return hash;
 		}
 
@@ -41,7 +41,7 @@ namespace BlockchainCpp {
 			this->hash = hash;
 		}
 
-		unsigned long getSize() const {
+		unsigned long getSize() {
 			return size;
 		}
 

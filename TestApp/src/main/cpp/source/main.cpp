@@ -30,6 +30,7 @@ SOFTWARE.
 #include <vector> // std::vector
 #include <map> // std::map
 #include <stdexcept> // std::runtime_error
+#include "main.hpp"
 #include "blocks/block.hpp" // Block Stuff
 #include "blockchains/blockchain.hpp" // Blockchain Stuff
 #include "blockdata/intblockdata.hpp" // IntBlockData
@@ -51,27 +52,6 @@ SOFTWARE.
 #include "io/blockchainwriter.hpp" // BlockchainWriter
 #include "io/filesystem.hpp" // createDirectory, createFile
 #include "constants.hpp" // chars, BLOCK_HEADER
-
-using namespace BlockchainCpp;
-
-extern bool __nosha256;
-extern bool __useJSONFormat;
-
-void createIntBlockchain();
-void createStringBlockchain();
-void createFloatBlockchain();
-void createDoubleBlockchain();
-void createCharBlockchain();
-void createShortBlockchain();
-void createLongBlockchain();
-void createLongLongBlockchain();
-void createBoolBlockchain();
-void createUnsignedCharBlockchain();
-void createUnsignedShortBlockchain();
-void createUnsignedIntBlockchain();
-void createUnsignedLongBlockchain();
-void createUnsignedLongLongBlockchain();
-void createCustomDataBlockchain();
 
 int main(int argc, char** argv) {
 
@@ -105,6 +85,8 @@ int main(int argc, char** argv) {
 	createUnsignedLongBlockchain();
 	createUnsignedLongLongBlockchain();
 	createCustomDataBlockchain();
+
+	//loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain.dat", true); /// TODO Fix
 
 	return 0;
 }
