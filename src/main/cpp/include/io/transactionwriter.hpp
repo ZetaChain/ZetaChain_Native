@@ -34,7 +34,7 @@ namespace BlockchainCpp::IO {
 	template <class T>
 	class TransactionWriter {
 		public:
-			TransactionWriter(std::string filePath, Transaction<T>* transaction, bool binary = true){
+			TransactionWriter(std::string filePath, Transaction<T>* transaction, bool binary = false){
 				this->filePath = filePath;
 				this->transaction = transaction;
 				this->binary = binary;
