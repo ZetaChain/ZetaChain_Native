@@ -100,6 +100,6 @@ void loadBlockchain(std::string filePath, bool binary) {
 	std::cout << "Printing Loaded Blockchain" << std::endl;
 
 	for(int i = 0; i < blockchain->getBlocks().size() - 1; i++) {
-		std::cout << "Hash: " << blockchain->getBlockByHeight(i)->getHash() << " Height: " << blockchain->getBlockByHeight(i)->getHeight() << " Data: " << blockchain->getBlockByHeight(i)->getData()->getRawData() << std::endl;
+		std::cout << "Hash: " << blockchain->getBlockByHeight(i).getHash() << " Height: " << blockchain->getBlockByHeight(i).getHeight() << " Data: " << blockchain->getBlockByHeight(i).getData()->getRawData() << std::endl;
 	}
 }

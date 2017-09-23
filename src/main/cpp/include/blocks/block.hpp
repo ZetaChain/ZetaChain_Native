@@ -47,6 +47,10 @@ namespace BlockchainCpp {
 
 	public:
 
+		Block() {
+			
+		}
+
 		Block(DataType* data) {
 			this->data = data;
 		}
@@ -162,16 +166,19 @@ namespace BlockchainCpp {
 		void setData(DataType* data){
 			if(this->data != nullptr)
 				throw std::runtime_error("Data has already been set!");
-			if(data == nullptr || *(data) = NULL)
-				throw std::runtime_error("Can not set block data to null");
-			*(this->data) = *(data);
-			this-> data = data;
+			this->data = data;
 		}
 
 		void setHash() {
 			if(this->hash != "")
 				throw std::runtime_error("Hash has already been set");
 			this->hash = computeHash();
+		}
+
+		void setHash(std::string hash) { // For use only when deserialising
+			if(this->hash != "")
+				throw std::runtime_error("Hash has already been set");
+			this->hash = hash;
 		}
 
 		void setHeight(long height){
@@ -182,6 +189,18 @@ namespace BlockchainCpp {
 			this->height = height;
 		}
 
+		void setSize(unsigned long size){
+			if(this->size != -1)
+				throw std::runtime_error("Block size has already been set");
+			this->size = size;
+		}
+
+		void setBits(unsigned long bits){
+			if(this->bits != -1)
+				throw std::runtime_error("Bits has already been set");
+			this->bits = bits;
+		}
+
 		void setTimeCreated(time_t time) {
 			if(this->timeCreated != 0) {
 				struct tm* timeinfo;
@@ -189,7 +208,7 @@ namespace BlockchainCpp {
 				time_t _time = this->timeCreated;
 				throw std::runtime_error("Block was already created");
 			}
-			this->time = time;
+			this->timeCreated = time;
 		}
 		
 		void setTimeLocked(time_t time) {
@@ -204,9 +223,7 @@ namespace BlockchainCpp {
 
 		void setIsMainChain(bool isMainChain){
 			if(this->mainChain != -1)
-				throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain) + 
-				"\n To unlink or link this block from the main chain " + 
-				"you must first create an immutable uncle (orphaned block) to merge into its place");
+				throw std::runtime_error("Main Chain property has already been set \n To unlink or link this block from the main chain you must first create an immutable uncle (orphaned block) to merge into its place");
 			this->mainChain = static_cast<char>(isMainChain);
 		}
 
@@ -240,8 +257,8 @@ namespace BlockchainCpp {
 		long height = -1;
 		time_t timeCreated = 0;
 		time_t timeLocked = 0;
-		const unsigned long size = sizeof(DataType);
-		const unsigned long bits = size * 8;
+		unsigned long size = -1;
+		unsigned long bits = -1;
 		char mainChain = -1;
 		long index = -1;
 		long value = -1;

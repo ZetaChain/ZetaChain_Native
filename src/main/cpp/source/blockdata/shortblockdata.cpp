@@ -141,6 +141,12 @@ namespace BlockchainCpp {
 		this->hash = computeHash();
 	}
 
+	void ShortBlockData::setHash(std::string hash) {
+		if(this->hash != "")
+			throw std::runtime_error("Hash has already been set");
+		this->hash = hash;
+	}
+
 	void ShortBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
@@ -193,6 +199,10 @@ namespace BlockchainCpp {
 			throw std::runtime_error("Block Data was already locked");
 		}
 		this->timeLocked = timeLocked;
+	}
+	
+	void ShortBlockData::setRawData(short rawData) {
+		this->rawData = rawData;
 	}
 
 }

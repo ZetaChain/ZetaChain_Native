@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
 	createUnsignedLongLongBlockchain();
 	createCustomDataBlockchain();
 
-	//loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain.dat", true); /// TODO Fix
+	// loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain.dat", true); /// TODO: Fix
 
 	return 0;
 }
@@ -117,7 +117,7 @@ void createIntBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<IntBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<IntBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -176,10 +176,10 @@ void createStringBlockchain() {
 		i++;
 	}
 
-	unsigned long height_s = 1234UL;
+	unsigned long height_s = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height_s << "..." << std::endl;
-	Block<StringBlockData>* blk_s = blockchain_s.getBlockByHeight(height_s);
+	Block<StringBlockData>* blk_s = &blockchain_s.getBlockByHeight(height_s);
 	if(blk_s != nullptr) {
 		std::cout << "Found Block " << height_s << std::endl;
 		std::cout << "Hash: " << blk_s->getHash() << " Height: " << blk_s->getHeight() << " Data: " << blk_s->getData()->getRawData() << std::endl;
@@ -233,7 +233,7 @@ void createFloatBlockchain() {
 	unsigned long height_f = 532UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height_f << "..." << std::endl;
-	Block<FloatBlockData>* blk_f = blockchain_f.getBlockByHeight(height_f);
+	Block<FloatBlockData>* blk_f = &blockchain_f.getBlockByHeight(height_f);
 	if(blk_f != nullptr) {
 		std::cout << "Found Block " << height_f << std::endl;
 		std::cout << "Hash: " << blk_f->getHash() << " Height: " << blk_f->getHeight() << " Data: " << blk_f->getData()->getRawData() << std::endl;
@@ -289,7 +289,7 @@ void createDoubleBlockchain() {
 	unsigned long height_d = 532UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height_d << "..." << std::endl;
-	Block<DoubleBlockData>* blk_d = blockchain_d.getBlockByHeight(height_d);
+	Block<DoubleBlockData>* blk_d = &blockchain_d.getBlockByHeight(height_d);
 	if(blk_d != nullptr) {
 		std::cout << "Found Block " << height_d << std::endl;
 		std::cout << "Hash: " << blk_d->getHash() << " Height: " << blk_d->getHeight() << " Data: " << blk_d->getData()->getRawData() << std::endl;
@@ -346,7 +346,7 @@ void createCharBlockchain() {
 	unsigned long height_c = 357UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height_c << "..." << std::endl;
-	Block<CharBlockData>* blk_c = blockchain_c.getBlockByHeight(height_c);
+	Block<CharBlockData>* blk_c = &blockchain_c.getBlockByHeight(height_c);
 	if(blk_c != nullptr) {
 		std::cout << "Found Block " << height_c << std::endl;
 		std::cout << "Hash: " << blk_c->getHash() << " Height: " << blk_c->getHeight() << " Data: " << blk_c->getData()->getRawData() << std::endl;
@@ -400,7 +400,7 @@ void createShortBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<ShortBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<ShortBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -457,7 +457,7 @@ void createLongBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<LongBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<LongBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -515,7 +515,7 @@ void createLongLongBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<LongLongBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<LongLongBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -572,7 +572,7 @@ void createBoolBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<BoolBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<BoolBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -629,7 +629,7 @@ void createUnsignedCharBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<UnsignedCharBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<UnsignedCharBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << static_cast<int>(blk->getData()->getRawData()) << std::endl;
@@ -684,7 +684,7 @@ void createUnsignedShortBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<UnsignedShortBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<UnsignedShortBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -740,7 +740,7 @@ void createUnsignedIntBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<UnsignedIntBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<UnsignedIntBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -797,7 +797,7 @@ void createUnsignedLongBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<UnsignedLongBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<UnsignedLongBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -854,7 +854,7 @@ void createUnsignedLongLongBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<UnsignedLongLongBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<UnsignedLongLongBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
@@ -922,7 +922,7 @@ void createCustomDataBlockchain() {
 	unsigned long height = 999UL;
 	std::cout << std::endl << std::endl;
 	std::cout << "Finding Block " << height << "..." << std::endl;
-	Block<CustomBlockData>* blk = blockchain.getBlockByHeight(height);
+	Block<CustomBlockData>* blk = &blockchain.getBlockByHeight(height);
 	if(blk != nullptr) {
 		std::cout << "Found Block " << height << std::endl;
 		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;

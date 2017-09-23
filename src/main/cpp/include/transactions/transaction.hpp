@@ -97,8 +97,9 @@ namespace BlockchainCpp {
 				// j["data", rawData.dump()]; // TODO: Uncomment when transaction data is implemented
 				return j;
 			}
+			
 			bool verify() {
-
+				return true;
 			}
 
 			std::string getHash() {
@@ -106,7 +107,7 @@ namespace BlockchainCpp {
 			}
 
 			void setHash(std::string hash) {
-				this->hash = hash
+				this->hash = hash;
 			}
 
 			std::map<std::string, TransactionInput*> getInputs() {
@@ -119,7 +120,7 @@ namespace BlockchainCpp {
 
 			void setInputs(std::map<std::string, TransactionInput*> inputs) {
 				this->inputCount = inputs.size();
-				this->inputs = inputs
+				this->inputs = inputs;
 			}
 
 			std::map<std::string, TransactionOutput*> getOutputs() {
@@ -132,7 +133,7 @@ namespace BlockchainCpp {
 
 			void setOutputs(std::map<std::string, TransactionOutput*> outputs) {
 				this->outputCount = outputs.size();
-				this->outputs = outputs
+				this->outputs = outputs;
 			}
 
 			double getValue() {

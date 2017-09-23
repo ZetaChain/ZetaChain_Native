@@ -145,6 +145,12 @@ void CustomBlockData::setHash() {
 	this->hash = computeHash();
 }
 
+void CustomBlockData::setHash(std::string hash) {
+	if(this->hash != "")
+		throw std::runtime_error("Hash has already been set");
+	this->hash = hash;
+}
+
 void CustomBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 	if(this->transactions.size() != 0)
 		throw std::runtime_error("Transactions have already been set");
@@ -197,4 +203,8 @@ void CustomBlockData::setTimeLocked(time_t timeLocked){
 		throw std::runtime_error("Block Data was already locked");
 	}
 	this->timeLocked = timeLocked;
+}
+
+void CustomBlockData::setRawData(CustomData* rawData) {
+	this->rawData = rawData;
 }

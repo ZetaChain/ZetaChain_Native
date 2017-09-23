@@ -55,6 +55,7 @@ namespace BlockchainCpp {
 			int getRawData();
 
 			void setHash();
+			void setHash(std::string hash);
 			void setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions);
 			void setSize(unsigned long size);
 			void setTransactionCount(unsigned long count);
@@ -62,6 +63,7 @@ namespace BlockchainCpp {
 			void setTimeCreated(time_t timeCreated);
 			void setTimeRecieved(time_t timeRecieved);
 			void setTimeLocked(time_t timeLocked);
+			void setRawData(int rawData);
 		protected:
 			int rawData;
 		private:
