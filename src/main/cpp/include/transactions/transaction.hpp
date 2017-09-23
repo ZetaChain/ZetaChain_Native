@@ -37,6 +37,7 @@ SOFTWARE.
 #include "conversions.hpp"
 #include "operators.hpp"
 #include "hashing.hpp"
+#include "thirdparty/json.hpp"
 
 namespace BlockchainCpp {
 	
@@ -65,7 +66,36 @@ namespace BlockchainCpp {
 			}
 
 			std::string toString() {
-				return "";
+				nlohmann::json j;
+				nlohmann::json inputArr = nlohmann::json::array();
+				nlohmann::json outputArr = nlohmann::json::array();
+
+				std::vector<std::string> inputValues = Conversions::mapToValuesString(this->inputs, this->inputs.size());
+				std::vector<std::string> outputValues = Conversions::mapToValuesString(this->outputs, this->outputs.size());
+				
+				for(int i = 0; i < inputValues.size() - 1; i++) {
+					nlohmann::json obj = inputValues[i];
+					inputArr.push_back(obj);
+				}
+
+				for(int i = 0; i < outputValues.size() - 1; i++){
+					nlohmann::json obj = outputValues[i];
+					outputArr.push_back(obj);
+				}
+
+				// nlohmann::json rawData = this->data->toString(); // TODO: Uncomment when transaction data is implemented
+				
+				j["hash", this->hash];
+				j["inputCount", this->inputCount];
+				j["outputCount", this->outputCount];
+				j["inputs", inputArr.dump()];
+				j["outputs", outputArr.dump()];
+				j["value", this->value];
+				j["timeCreated", this->timeCreated];
+				j["timeLocked", this->timeLocked];
+				j["timeConfirmed", this->timeConfirmed];
+				// j["data", rawData.dump()]; // TODO: Uncomment when transaction data is implemented
+				return j;
 			}
 			bool verify() {
 
@@ -137,11 +167,11 @@ namespace BlockchainCpp {
 				timeConfirmed = time_confirmed;
 			}
 
-			T* getData() {
+			T getData() {
 				return data;
 			}
 
-			void setData(T* data) {
+			void setData(T data) {
 				this->data = data;
 			}
 
@@ -166,7 +196,7 @@ namespace BlockchainCpp {
 		private:
 
 			std::string computeHash() {
-				return Hashing::hashString(this->toBytes())
+				return Hashing::hashString(this->toBytes());
 			}
 
 			std::string hash;
@@ -178,6 +208,6 @@ namespace BlockchainCpp {
 			time_t timeCreated;
 			time_t timeLocked;
 			time_t timeConfirmed;
-			T* data;
+			T data;
 	};
 }

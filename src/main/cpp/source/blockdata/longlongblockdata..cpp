@@ -69,20 +69,23 @@ namespace BlockchainCpp {
 	std::string LongLongBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
-		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
 		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 
-		j["type", "TransactionInput"];
+		for(int i = 0; i < this->transactions.size() - 1; i++) {
+			nlohmann::json obj = values[i];
+			j.push_back(obj);
+		}
+		
+		j["type", "BlockData"];
 		j["hash", this->hash];
 		j["size", this->size];
-		for(int x = 0, y = 0; x < this->transactions.size() - 1; x++, y++) {
-			j.push_back("Transaction: " + keys[x] + ", " + values[y]);
-		}
+		j["transactions", transactions.dump()];
 		j["transactionCount", this->transactionCount];
 		j["bits", this->bits];
 		j["timeCreated", this->timeCreated];
 		j["timeRecieved", this->timeRecieved];
 		j["timeLocked", this->timeLocked];
+		j["rawData", this->rawData];
 		return j;
 	}
 

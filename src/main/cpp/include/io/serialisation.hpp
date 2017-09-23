@@ -72,7 +72,7 @@ namespace BlockchainCpp::IO::Serialisation {
 		writeLongLong(stream, data->getTimeCreated());
 		writeLongLong(stream, data->getTimeLocked());
 		writeLongLong(stream, data->getTimeConfirmed());
-		writeTransactionData(stream, *data->getData());
+		writeTransactionData(stream, data->getData());
 		return true;
 	}
 

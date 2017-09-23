@@ -37,6 +37,7 @@ namespace BlockchainCpp {
 	class BoolBlockData : public BlockData {
 		public:
 			BoolBlockData(const bool data);
+			BoolBlockData();
 			virtual ~BoolBlockData();
 			std::string computeHash() override;
 			std::vector<unsigned char> toBytes() override;
