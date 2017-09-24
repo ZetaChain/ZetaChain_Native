@@ -62,8 +62,8 @@ namespace BlockchainCpp::IO {
 					}
 				}
 				blockchain = Serialisation::readBlockchain<decltype(blockchain)>(&file);
-				// if(!blockchain->verify()) // TODO Implement
-				// 	return nullptr;
+				if(!blockchain->verify())
+					return nullptr;
 				return blockchain;
 			}
 			bool verify() {
