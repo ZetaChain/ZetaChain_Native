@@ -72,6 +72,8 @@ namespace BlockchainCpp {
 		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 
 		for(int i = 0; i < this->transactions.size() - 1; i++) {
+			if(values.size() == 0)
+				break;
 			nlohmann::json obj = values[i];
 			j.push_back(obj);
 		}
@@ -79,7 +81,7 @@ namespace BlockchainCpp {
 		j["type", "BlockData"];
 		j["hash", this->hash];
 		j["size", this->size];
-		j["transactions", transactions.dump()];
+		j["transactions"] = transactions.dump();
 		j["transactionCount", this->transactionCount];
 		j["bits", this->bits];
 		j["timeCreated", this->timeCreated];
@@ -154,19 +156,19 @@ namespace BlockchainCpp {
 	}
 
 	void CharBlockData::setSize(unsigned long size){
-		if(this->size != -1)
+		if(this->size != 0)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
 	void CharBlockData::setTransactionCount(unsigned long count){
-		if(this->transactionCount != -1)
+		if(this->transactionCount != 0)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
 	void CharBlockData::setBits(unsigned long bits){
-		if(this->bits != -1)
+		if(this->bits != 0)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}

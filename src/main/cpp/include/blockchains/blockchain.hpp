@@ -31,6 +31,7 @@ SOFTWARE.
 #include <vector> // std::vector
 #include <map> // std::map
 #include <stdexcept> // throw std::runtime_error()
+#include "thirdparty/json.hpp"
 #include "conversions.hpp"
 #include "operators.hpp"
 #include "constants.hpp" // MAX_BLOCK_SIZE
@@ -148,8 +149,42 @@ namespace BlockchainCpp {
 			return bytes;
 		}
 
+		bool verify() {
+			for(std::map<std::string, BlockType>::iterator itr = blocks.begin(); itr != blocks.end(); itr++) {
+				if(!itr->second.verify())
+				return false;
+			}
+			return true;
+		}
+
 		std::string toString() {
-			return "TODO";
+			nlohmann::json j;
+			nlohmann::json lBlock = this->lastBlock->toString();
+			nlohmann::json blocksArr = nlohmann::json::array();
+			nlohmann::json orphanedChainsArr = nlohmann::json::array();
+
+			std::vector<std::string> blockValues = std::vector<std::string>(this->blocks.size());
+
+			for(std::map<std::string, BlockType>::iterator itr = this->blocks.begin(); itr != this->blocks.end(); itr++) {
+				blockValues.push_back(itr->second.toString());
+			}
+
+			for(int i = 0; i < blockValues.size() - 1; i++) {
+				nlohmann::json obj = blockValues[i];
+				blocksArr.push_back(obj);
+			}
+
+			for(int i = 0; i < orphanedChains.size() - 1; i++) {
+				nlohmann::json obj = orphanedChains[i]->toString();
+				orphanedChainsArr.push_back(obj);
+			}
+
+			j["lastBlock", lBlock.dump()];
+			j["count", this->count];
+			j["orphanCount", this->orphanCount];
+			j["blocks", blocksArr.dump()];
+			j["orphanedChains", orphanedChainsArr.dump()];
+			return j;
 		}
 
 		std::map<std::string, BlockType> getBlocks() {

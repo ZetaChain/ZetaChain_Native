@@ -31,6 +31,7 @@ SOFTWARE.
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
 #include <stdexcept> // throw throw std::runtime_error()
 #include <vector> // std::vector
+#include "thirdparty/json.hpp"
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "constants.hpp" // MAX_BLOCK_SIZE
@@ -92,6 +93,25 @@ namespace BlockchainCpp {
 					throw std::runtime_error("Could not lock block after 1000 cycles");
 			std::string newHash = computeHash();
 			return newHash == this->hash;
+		}
+
+		std::string toString() {
+			nlohmann::json j;
+			nlohmann::json dataSegment = this->data->toString();
+
+			j["data", dataSegment.dump()];
+			j["hash", this->hash];
+			j["height", this->height];
+			j["timeCreated", this->timeCreated];
+			j["timeLocked", this->timeLocked];
+			j["size", this->size];
+			j["bits", this->bits];
+			j["mainChain", this->mainChain];
+			j["index", this->index];
+			j["value", this->value];
+			j["nonce", this->nonce];
+			j["previousHash", this->previousHash];
+			return j;
 		}
 
 		std::vector<unsigned char> toBytes() {
@@ -190,13 +210,13 @@ namespace BlockchainCpp {
 		}
 
 		void setSize(unsigned long size){
-			if(this->size != -1)
+			if(this->size != 0)
 				throw std::runtime_error("Block size has already been set");
 			this->size = size;
 		}
 
 		void setBits(unsigned long bits){
-			if(this->bits != -1)
+			if(this->bits != 0)
 				throw std::runtime_error("Bits has already been set");
 			this->bits = bits;
 		}

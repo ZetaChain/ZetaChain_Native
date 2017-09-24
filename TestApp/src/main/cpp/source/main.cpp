@@ -56,8 +56,8 @@ SOFTWARE.
 int main(int argc, char** argv) {
 
 	//Uncomment when debugging in Visual Studio
-	// char ch;
-	// std::cin >> ch;
+	char ch;
+	std::cin >> ch;
 
 	for(int i = 0; i < argc; i++){
 		std::cout << argv[i] << std::endl;
@@ -85,8 +85,8 @@ int main(int argc, char** argv) {
 	createUnsignedLongBlockchain();
 	createUnsignedLongLongBlockchain();
 	createCustomDataBlockchain();
-
-	// loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain.dat", true); /// TODO: Fix
+	
+	loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain", !__useJSONFormat);
 
 	return 0;
 }

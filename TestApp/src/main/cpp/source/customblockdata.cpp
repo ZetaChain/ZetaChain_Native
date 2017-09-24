@@ -83,7 +83,7 @@ std::string CustomBlockData::toString(){
 	j["type", "BlockData"];
 	j["hash", this->hash];
 	j["size", this->size];
-	j["transactions", transactions.dump()];
+	j["transactions"] = transactions.dump();
 	j["transactionCount", this->transactionCount];
 	j["bits", this->bits];
 	j["timeCreated", this->timeCreated];
@@ -158,19 +158,19 @@ void CustomBlockData::setTransactions(std::map<std::string, Transaction<Transact
 }
 
 void CustomBlockData::setSize(unsigned long size){
-	if(this->size != -1)
+	if(this->size != 0)
 		throw std::runtime_error("Size has already been set");
 	this->size = size;
 }
 
 void CustomBlockData::setTransactionCount(unsigned long count){
-	if(this->transactionCount != -1)
+	if(this->transactionCount != 0)
 		throw std::runtime_error("Transaction Count has already been set");
 	this->transactionCount = count;
 }
 
 void CustomBlockData::setBits(unsigned long bits){
-	if(this->bits != -1)
+	if(this->bits != 0)
 		throw std::runtime_error("Bits has already been set");
 	this->bits = bits;
 }
