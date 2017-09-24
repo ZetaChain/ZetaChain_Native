@@ -47,10 +47,10 @@ namespace BlockchainCpp {
 		protected:
 
 		std::string hash = "";
-		unsigned long transactionCount = -1;
+		unsigned long transactionCount = 0;
 		std::map<std::string, Transaction<TransactionData*>*> transactions = std::map<std::string, Transaction<TransactionData*>*>();
-		unsigned long size = -1;
-		unsigned long bits = -1;
+		unsigned long size = 0;
+		unsigned long bits = 0;
 		time_t timeCreated = -1;
 		time_t timeRecieved = -1;
 		time_t timeLocked = -1;

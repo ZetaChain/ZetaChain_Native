@@ -71,20 +71,25 @@ std::vector<unsigned char> CustomBlockData::toBytes(){
 std::string CustomBlockData::toString(){
 	nlohmann::json j;
 	nlohmann::json transactions = nlohmann::json::array();
-	std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
 	std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 
-	j["type", "TransactionInput"];
+	for(int i = 0; i < this->transactions.size() - 1; i++) {
+		nlohmann::json obj = values[i];
+		j.push_back(obj);
+	}
+
+	// nlohmann::json data = this->rawData->toString(); // TODO: Fix
+
+	j["type", "BlockData"];
 	j["hash", this->hash];
 	j["size", this->size];
-	for(int x = 0, y = 0; x < this->transactions.size() - 1; x++, y++) {
-		j.push_back("Transaction: " + keys[x] + ", " + values[y]);
-	}
+	j["transactions"] = transactions.dump();
 	j["transactionCount", this->transactionCount];
 	j["bits", this->bits];
 	j["timeCreated", this->timeCreated];
 	j["timeRecieved", this->timeRecieved];
 	j["timeLocked", this->timeLocked];
+	// j["rawData", data.dump()]; // TODO: Fix
 	return j;
 }
 
@@ -140,6 +145,12 @@ void CustomBlockData::setHash() {
 	this->hash = computeHash();
 }
 
+void CustomBlockData::setHash(std::string hash) {
+	if(this->hash != "")
+		throw std::runtime_error("Hash has already been set");
+	this->hash = hash;
+}
+
 void CustomBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 	if(this->transactions.size() != 0)
 		throw std::runtime_error("Transactions have already been set");
@@ -147,19 +158,19 @@ void CustomBlockData::setTransactions(std::map<std::string, Transaction<Transact
 }
 
 void CustomBlockData::setSize(unsigned long size){
-	if(this->size != -1)
+	if(this->size != 0)
 		throw std::runtime_error("Size has already been set");
 	this->size = size;
 }
 
 void CustomBlockData::setTransactionCount(unsigned long count){
-	if(this->transactionCount != -1)
+	if(this->transactionCount != 0)
 		throw std::runtime_error("Transaction Count has already been set");
 	this->transactionCount = count;
 }
 
 void CustomBlockData::setBits(unsigned long bits){
-	if(this->bits != -1)
+	if(this->bits != 0)
 		throw std::runtime_error("Bits has already been set");
 	this->bits = bits;
 }
@@ -192,4 +203,8 @@ void CustomBlockData::setTimeLocked(time_t timeLocked){
 		throw std::runtime_error("Block Data was already locked");
 	}
 	this->timeLocked = timeLocked;
+}
+
+void CustomBlockData::setRawData(CustomData* rawData) {
+	this->rawData = rawData;
 }

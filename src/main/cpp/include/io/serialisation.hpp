@@ -57,7 +57,7 @@ namespace BlockchainCpp::IO::Serialisation {
 	bool writeTransactionData(std::ofstream* stream, TransactionData* data);
 
 	template <class T>
-	bool writeTransaction(std::ofstream* stream, T* data) {
+	bool writeTransaction(std::ofstream* stream, T data) {
 		writeString(stream, data->getHash());
 		writeInt(stream, data->getInputCount());
 		writeInt(stream, data->getOutputCount());
@@ -72,28 +72,28 @@ namespace BlockchainCpp::IO::Serialisation {
 		writeLongLong(stream, data->getTimeCreated());
 		writeLongLong(stream, data->getTimeLocked());
 		writeLongLong(stream, data->getTimeConfirmed());
-		writeTransactionData(stream, *data->getData());
+		writeTransactionData(stream, data->getData());
 		return true;
 	}
 
 	template <class T>
-	bool writeBlock(std::ofstream* stream, T* data) {
-		writeBlockData(stream, data->getData());
-		writeLong(stream, data->getHeight());
-		writeLongLong(stream, data->getTimeCreated());
-		writeLongLong(stream, data->getTimeLocked());
-		writeUnsignedLong(stream, data->getSize());
-		writeUnsignedLong(stream, data->getBits());
-		writeChar(stream, data->isMainChain());
-		writeLong(stream, data->getIndex());
-		writeLong(stream, data->getValue());
-		writeLong(stream, data->getNonce());
-		writeString(stream, data->getPreviousHash());
+	bool writeBlock(std::ofstream* stream, T data) {
+		writeBlockData(stream, data.getData());
+		writeLong(stream, data.getHeight());
+		writeLongLong(stream, data.getTimeCreated());
+		writeLongLong(stream, data.getTimeLocked());
+		writeUnsignedLong(stream, data.getSize());
+		writeUnsignedLong(stream, data.getBits());
+		writeChar(stream, data.isMainChain());
+		writeLong(stream, data.getIndex());
+		writeLong(stream, data.getValue());
+		writeLong(stream, data.getNonce());
+		writeString(stream, data.getPreviousHash());
 		return true;
 	}
 
 	template <class T>
-	bool writeBlockData(std::ofstream* stream, T* data) {
+	bool writeBlockData(std::ofstream* stream, T data) {
 		writeString(stream, data->getHash());
 		writeUnsignedLong(stream, data->getTransactionCount());
 		if(data->getTransactions().size() > 0) {
@@ -106,7 +106,7 @@ namespace BlockchainCpp::IO::Serialisation {
 		writeLongLong(stream, data->getTimeCreated());
 		writeLongLong(stream, data->getTimeRecieved());
 		writeLongLong(stream, data->getTimeLocked());
-		T d = *data;
+		auto d = *data;
 		std::vector<unsigned char> bytes = serialise(stream, d.getRawData());
 		for(int i = 0; i < sizeof(d.getRawData()) - 1; i++){
 			writeUnsignedChar(stream, bytes[i]);
@@ -115,12 +115,13 @@ namespace BlockchainCpp::IO::Serialisation {
 	}
 
 	template <class T>
-	bool writeBlockchain(std::ofstream* stream, T* data) {
-		if(data->getLastBlock() != nullptr)
-			writeBlock(stream, data->getLastBlock());
+	bool writeBlockchain(std::ofstream* stream, T data) {
+		decltype(data->getLastBlock()) blkPtr = data->getLastBlock();
+		auto blk = *blkPtr;
+		writeBlock(stream, blk);
 		writeUnsignedLong(stream, data->getCount());
 		writeUnsignedLong(stream, data->getOrphanCount());
-		std::vector<decltype(data->getLastBlock())> blocks = Conversions::mapToValues(data->getBlocks());
+		std::vector<decltype(blk)> blocks = Conversions::mapToValues(data->getBlocks());
 		for(int i = 0; i < blocks.size() - 1; i++) {
 			writeBlock(stream, blocks[i]);
 		}
@@ -131,11 +132,12 @@ namespace BlockchainCpp::IO::Serialisation {
 	}
 
 	template <class T>
-	bool writeOrphanedChain(std::ofstream* stream, T* data) {
-		if(data->getLastBlock() != nullptr)
-			writeBlock(stream, data->getLastBlock());
+	bool writeOrphanedChain(std::ofstream* stream, T data) {
+		decltype(data->getLastBlock()) blkPtr = data->getLastBlock();
+		auto blk = *blkPtr;
+		writeBlock(stream, blk);
 		writeUnsignedLong(stream, data->getCount());
-		std::vector<decltype(data->getLastBlock())> blocks = Conversions::mapToValues(data->getBlocks());
+		std::vector<decltype(blk)> blocks = Conversions::mapToValues(data->getBlocks());
 		for(int i = 0; i < blocks.size() - 1; i++) {
 			writeBlock(stream, blocks[i]);
 		}
@@ -179,16 +181,16 @@ namespace BlockchainCpp::IO::Serialisation {
 		time_t timeCreated = *readUnsignedLong(stream);
 		time_t timeLocked = *readUnsignedLong(stream);
 		time_t timeConfirmed = *readUnsignedLong(stream);
-		void* out = malloc(sizeof(decltype(result->getData())));
-		decltype(result->getData()) data = deserialise(stream, &out, sizeof(decltype(result->getData())));
-		result->setHash(hash);
-		result->setInputs(inputs);
-		result->setOutputs(outputs);
-		result->setValue(value);
-		result->setTimeCreated(timeCreated);
-		result->setTimeLocked(timeLocked);
-		result->setTimeConfirmed(timeConfirmed);
-		result->setData(data);
+		void* out = malloc(sizeof(decltype(result.getData())));
+		decltype(result.getData()) data = *deserialise<decltype(result.getData())>(stream, &out, sizeof(decltype(result.getData())));
+		result.setHash(hash);
+		result.setInputs(inputs);
+		result.setOutputs(outputs);
+		result.setValue(value);
+		result.setTimeCreated(timeCreated);
+		result.setTimeLocked(timeLocked);
+		result.setTimeConfirmed(timeConfirmed);
+		result.setData(data);
 		free(out);
 		return result;
 	}
@@ -196,7 +198,7 @@ namespace BlockchainCpp::IO::Serialisation {
 	template <class T>
 	T readBlock(std::ifstream* stream) {
 		T result = T(nullptr);
-		decltype(result->getData()) data = readBlockData(stream);
+		decltype(result.getData()) data = readBlockData<decltype(result.getData())>(stream);
 		std::string hash = *readString(stream);
 		long height = *readLong(stream);
 		time_t timeCreated = *readUnsignedLong(stream);
@@ -208,18 +210,18 @@ namespace BlockchainCpp::IO::Serialisation {
 		long value = *readLong(stream);
 		long nonce = *readLong(stream);
 		std::string previousHash = *readString(stream);
-		result->setData(data);
-		result->setHash(data);
-		result->setHeight(height);
-		result->setTimeCreated(timeCreated);
-		result->setTimeLocked(timeLocked);
-		result->setSize(size);
-		result->setBits(bits);
-		result->setIsMainChain(mainChain);
-		result->setValue(value);
-		result->setNonce(nonce);
-		result->setPreviousHash(previousHash);
-		if(!result->verify())
+		result.setData(data);
+		result.setHash(hash);
+		result.setHeight(height);
+		result.setTimeCreated(timeCreated);
+		result.setTimeLocked(timeLocked);
+		result.setSize(size);
+		result.setBits(bits);
+		result.setIsMainChain(mainChain);
+		result.setValue(value);
+		result.setNonce(nonce);
+		result.setPreviousHash(previousHash);
+		if(!result.verify())
 			return nullptr;
 		return result;
 	}
@@ -231,7 +233,7 @@ namespace BlockchainCpp::IO::Serialisation {
 		unsigned long transactionCount = *readUnsignedLong(stream);
 		std::map<std::string, Transaction<TransactionData*>*> transactions = std::map<std::string, Transaction<TransactionData*>*>();
 		for(int i = 0; i < transactionCount - 1; i++){
-			Transaction<TransactionData*>* tx = readTransactionData(str);
+			Transaction<TransactionData*>* tx = &readTransaction<Transaction<TransactionData*>>(stream);
 			if(!tx->verify())
 				return nullptr;
 			transactions.insert(std::make_pair(tx->getHash(), tx));
@@ -241,8 +243,8 @@ namespace BlockchainCpp::IO::Serialisation {
 		time_t timeCreated = *readUnsignedLong(stream);
 		time_t timeRecieved = *readUnsignedLong(stream);
 		time_t timeLocked = *readUnsignedLong(stream);
-		void* out = malloc(sizeof(decltype(result->getRawData())))
-		decltype(result->getRawData()) data = deserialise(stream, &out, sizeof(decltype(result->rawData())));
+		void* out = malloc(sizeof(decltype(result->getRawData())));
+		decltype(result->getRawData()) data = *deserialise<decltype(result->getRawData())>(stream, &out, sizeof(decltype(result->getRawData())));
 		result->setHash(hash);
 		result->setTransactionCount(transactionCount);
 		result->setTransactions(transactions);
@@ -261,21 +263,23 @@ namespace BlockchainCpp::IO::Serialisation {
 	template <class T>
 	T readBlockchain(std::ifstream* stream) {
 		T result = T();
-		decltype(result->getLastBlock()) lastBlock = readBlock<decltype(result->getLastBlock())>(stream);
+		decltype(result->getLastBlock()) blkPtr = result->getLastBlock();
+		auto blk = *blkPtr;
+		decltype(result->getLastBlock()) lastBlock = &readBlock<decltype(blk)>(stream);
 		if(!lastBlock->verify())
 			return nullptr;
 		unsigned long count = *readUnsignedLong(stream);
 		unsigned long orphanCount = *readUnsignedLong(stream);
-		std::map<std::string, decltype(result->getLastBlock())> blocks = std::map<std::string, decltype(result->getLastBlock())>();
+		std::map<std::string, decltype(blk)> blocks = std::map<std::string, decltype(blk)>();
 		for(int i = 0; i < count - 1; i++){
-			decltype(result->getLastBlock()) block = readBlock<decltype(result->getLastBlock())>(stream);
-			if(!block->verify())
+			decltype(blk) block = readBlock<decltype(blk)>(stream);
+			if(!block.verify())
 				return nullptr;
-			blocks.insert(std::make_pair(block->getHash(), block));
+			blocks.insert(std::make_pair(block.getHash(), block));
 		}
-		std::vector<Blockchain<decltype(result->getLastBlock())>> orphanedChains = std::vector<Blockchain<decltype(result->getLastBlock())>>();
+		std::vector<Blockchain<decltype(blk)>*> orphanedChains = std::vector<Blockchain<decltype(blk)>*>();
 		for(int i = 0; i < orphanCount - 1; i++){
-			Blockchain<decltype(result->getLastBlock())> orphan = readOrphanedChain<Blockchain<decltype(result->getLastBlock())>>(stream);
+			Blockchain<decltype(blk)>* orphan = &readOrphanedChain<Blockchain<decltype(blk)>>(stream);
 			orphanedChains.push_back(orphan);
 		}
 		result->setLastBlock(lastBlock);
@@ -289,22 +293,25 @@ namespace BlockchainCpp::IO::Serialisation {
 	template <class T>
 	T readOrphanedChain(std::ifstream* stream) {
 		T result = T();
-		decltype(result->getLastBLock()) lastBlock = readBlock<decltype(result->getLastBLock())>(stream);
+		decltype(result.getLastBlock()) blkPtr = result.getLastBlock();
+		auto blk = *blkPtr;
+
+		decltype(result.getLastBlock()) lastBlock = &readBlock<decltype(blk)>(stream);
 		if(!lastBlock->verify())
-			return nullptr;
+			throw std::runtime_error("Last Block could not be verified");
 		unsigned long count = *readUnsignedLong(stream);
 		unsigned long orphanCount = 0UL;
-		std::map<std::string, decltype(result->getLastBlock())> blocks = std::map<std::string, decltype(result->getLastBlock())>();
+		std::map<std::string, decltype(blk)> blocks = std::map<std::string, decltype(blk)>();
 		for(int i = 0; i < count - 1; i++){
-			decltype(result->getLastBlock()) block = readBlock<decltype(result->getLastBLock())>(stream);
-			if(!block->verify())
-				return nullptr;
-			blocks.insert(std::make_pair(block->getHash(), block));
+			decltype(blk) block = readBlock<decltype(blk)>(stream);
+			if(!block.verify())
+				throw std::runtime_error("Block could not be verified");
+			blocks.insert(std::make_pair(block.getHash(), block));
 		}
-		result->setLastBlock(lastBlock);
-		result->setCount(count);
-		result->setOrphanCount(orphanCount)
-		result->setBlocks(blocks);
+		result.setLastBlock(lastBlock);
+		result.setCount(count);
+		result.setOrphanCount(orphanCount);
+		result.setBlocks(blocks);
 		return result;
 	}
 

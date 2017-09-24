@@ -32,7 +32,7 @@ namespace BlockchainCpp::IO {
 	
 	class TransactionOutputReader {
 		public:
-			TransactionOutputReader(std::string filePath, bool binary = true);
+			TransactionOutputReader(std::string filePath, bool binary = false);
 			~TransactionOutputReader();
 
 			TransactionOutput* read();

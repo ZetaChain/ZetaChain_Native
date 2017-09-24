@@ -32,7 +32,7 @@ namespace BlockchainCpp::IO {
 	
 	class TransactionOutputWriter {
 		public:
-			TransactionOutputWriter(std::string filePath, TransactionOutput* output, bool binary = true);
+			TransactionOutputWriter(std::string filePath, TransactionOutput* output, bool binary = false);
 			~TransactionOutputWriter();
 
 			bool write();

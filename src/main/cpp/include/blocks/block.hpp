@@ -31,6 +31,7 @@ SOFTWARE.
 #include <chrono> // std::chrono::high_resolution_clock, std::chrono::duration_cast, std::chrono::nanoseconds
 #include <stdexcept> // throw throw std::runtime_error()
 #include <vector> // std::vector
+#include "thirdparty/json.hpp"
 #include "operators.hpp"
 #include "conversions.hpp" // toBytes()
 #include "constants.hpp" // MAX_BLOCK_SIZE
@@ -46,6 +47,10 @@ namespace BlockchainCpp {
 	class Block {
 
 	public:
+
+		Block() {
+			
+		}
 
 		Block(DataType* data) {
 			this->data = data;
@@ -88,6 +93,25 @@ namespace BlockchainCpp {
 					throw std::runtime_error("Could not lock block after 1000 cycles");
 			std::string newHash = computeHash();
 			return newHash == this->hash;
+		}
+
+		std::string toString() {
+			nlohmann::json j;
+			nlohmann::json dataSegment = this->data->toString();
+
+			j["data", dataSegment.dump()];
+			j["hash", this->hash];
+			j["height", this->height];
+			j["timeCreated", this->timeCreated];
+			j["timeLocked", this->timeLocked];
+			j["size", this->size];
+			j["bits", this->bits];
+			j["mainChain", this->mainChain];
+			j["index", this->index];
+			j["value", this->value];
+			j["nonce", this->nonce];
+			j["previousHash", this->previousHash];
+			return j;
 		}
 
 		std::vector<unsigned char> toBytes() {
@@ -162,16 +186,19 @@ namespace BlockchainCpp {
 		void setData(DataType* data){
 			if(this->data != nullptr)
 				throw std::runtime_error("Data has already been set!");
-			if(data == nullptr || *(data) = NULL)
-				throw std::runtime_error("Can not set block data to null");
-			*(this->data) = *(data);
-			this-> data = data;
+			this->data = data;
 		}
 
 		void setHash() {
 			if(this->hash != "")
 				throw std::runtime_error("Hash has already been set");
 			this->hash = computeHash();
+		}
+
+		void setHash(std::string hash) { // For use only when deserialising
+			if(this->hash != "")
+				throw std::runtime_error("Hash has already been set");
+			this->hash = hash;
 		}
 
 		void setHeight(long height){
@@ -182,6 +209,18 @@ namespace BlockchainCpp {
 			this->height = height;
 		}
 
+		void setSize(unsigned long size){
+			if(this->size != 0)
+				throw std::runtime_error("Block size has already been set");
+			this->size = size;
+		}
+
+		void setBits(unsigned long bits){
+			if(this->bits != 0)
+				throw std::runtime_error("Bits has already been set");
+			this->bits = bits;
+		}
+
 		void setTimeCreated(time_t time) {
 			if(this->timeCreated != 0) {
 				struct tm* timeinfo;
@@ -189,7 +228,7 @@ namespace BlockchainCpp {
 				time_t _time = this->timeCreated;
 				throw std::runtime_error("Block was already created");
 			}
-			this->time = time;
+			this->timeCreated = time;
 		}
 		
 		void setTimeLocked(time_t time) {
@@ -204,9 +243,7 @@ namespace BlockchainCpp {
 
 		void setIsMainChain(bool isMainChain){
 			if(this->mainChain != -1)
-				throw std::runtime_error("Main Chain property has already been set to: " + static_cast<bool>(this->mainChain) + 
-				"\n To unlink or link this block from the main chain " + 
-				"you must first create an immutable uncle (orphaned block) to merge into its place");
+				throw std::runtime_error("Main Chain property has already been set \n To unlink or link this block from the main chain you must first create an immutable uncle (orphaned block) to merge into its place");
 			this->mainChain = static_cast<char>(isMainChain);
 		}
 
@@ -240,8 +277,8 @@ namespace BlockchainCpp {
 		long height = -1;
 		time_t timeCreated = 0;
 		time_t timeLocked = 0;
-		const unsigned long size = sizeof(DataType);
-		const unsigned long bits = size * 8;
+		unsigned long size = -1;
+		unsigned long bits = -1;
 		char mainChain = -1;
 		long index = -1;
 		long value = -1;

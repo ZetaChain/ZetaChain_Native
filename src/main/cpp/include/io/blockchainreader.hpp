@@ -37,7 +37,7 @@ namespace BlockchainCpp::IO {
 	template <class T>
 	class BlockchainReader {
 		public:
-			BlockchainReader(std::string filePath, bool binary = true) {
+			BlockchainReader(std::string filePath, bool binary = false) {
 				this->filePath = filePath;
 				this->binary = binary;
 				if(this->binary)
@@ -56,7 +56,7 @@ namespace BlockchainCpp::IO {
 						header[0] = *Serialisation::readUnsignedChar(&file);
 						header[1] = *Serialisation::readUnsignedChar(&file);
 						header[2] = *Serialisation::readUnsignedChar(&file);
-						header[3] = *Serialisation::readUnsignedChar(&file);
+						header[3] = '\0';
 						if(!this->verify())
 							return nullptr;
 					}

@@ -78,6 +78,10 @@ void createCustomDataBlockchain();
 
 template<class T>
 T readBlockchain(std::string filePath, bool binary) {
+	if(binary && filePath.find('.') != std::string::npos)
+		filePath += ".dat";
+	else if(!binary && filePath.find('.') != std::string::npos)
+		filePath += ".json";
 	T chain = nullptr;
 	IO::BlockchainReader<decltype(chain)>* reader = new IO::BlockchainReader<decltype(chain)>(filePath, binary);
 	chain = reader->read();
@@ -86,20 +90,36 @@ T readBlockchain(std::string filePath, bool binary) {
 }
 
 template<class T>
+void writeBlockchain(std::string filePath, bool binary, T blockchain) {
+	std::cout << "Writing Blockchain to: " << filePath << std::endl;
+	if(!IO::Filesystem::directoryExists("data")) {
+		if(!IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	IO::BlockchainWriter<decltype(blockchain.getBlocks()[0])>* writer = new IO::BlockchainWriter<decltype(blockchain.getBlocks()[0])>(filePath, &blockchain, binary);
+	if(writer->write())
+		std::cout << "Blockchain was successfully written to: " << filePath << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << filePath << std::endl;
+	writer->close();
+	std::cout << std::endl;
+}
+
+template<class T>
 void loadBlockchain(std::string filePath, bool binary) {
 	T* blockchain = nullptr;
 	blockchain = readBlockchain<decltype(blockchain)>(filePath, binary);
 
-	// std::cout << "Verifying Loaded Blockchain" << std::endl;
+	std::cout << "Verifying Loaded Blockchain" << std::endl;
 
-	// if(!blockchain->verify())
-	// 	throw std::runtime_error("Error Verifying Blockchain");
+	if(!blockchain->verify())
+		throw std::runtime_error("Error Verifying Blockchain");
 
-	// std::cout << "Blockchain Sucessfully Verified" << std::endl;
+	std::cout << "Blockchain Sucessfully Verified" << std::endl;
 
 	std::cout << "Printing Loaded Blockchain" << std::endl;
 
 	for(int i = 0; i < blockchain->getBlocks().size() - 1; i++) {
-		std::cout << "Hash: " << blockchain->getBlockByHeight(i)->getHash() << " Height: " << blockchain->getBlockByHeight(i)->getHeight() << " Data: " << blockchain->getBlockByHeight(i)->getData()->getRawData() << std::endl;
+		std::cout << "Hash: " << blockchain->getBlockByHeight(i).getHash() << " Height: " << blockchain->getBlockByHeight(i).getHeight() << " Data: " << blockchain->getBlockByHeight(i).getData()->getRawData() << std::endl;
 	}
 }

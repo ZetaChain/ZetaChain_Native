@@ -37,7 +37,7 @@ namespace BlockchainCpp::IO {
 	template <class T>
 	class BlockWriter {
 		public:
-			BlockWriter(std::string filePath, Block<T>* block, bool binary = true) {
+			BlockWriter(std::string filePath, Block<T>* block, bool binary = false) {
 				this->filePath = filePath;
 				this->block = block;
 				this->binary = binary;

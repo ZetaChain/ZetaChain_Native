@@ -69,20 +69,25 @@ namespace BlockchainCpp {
 	std::string IntBlockData::toString(){
 		nlohmann::json j;
 		nlohmann::json transactions = nlohmann::json::array();
-		std::vector<std::string> keys = Conversions::mapToKeys(this->transactions, this->transactions.size());
 		std::vector<std::string> values = Conversions::mapToValuesString(this->transactions, this->transactions.size());
 
-		j["type", "TransactionInput"];
+		for(int i = 0; i < this->transactions.size() - 1; i++) {
+			if(values.size() == 0)
+				break;
+			nlohmann::json obj = values[i];
+			j.push_back(obj);
+		}
+		
+		j["type", "BlockData"];
 		j["hash", this->hash];
 		j["size", this->size];
-		for(int x = 0, y = 0; x < this->transactions.size() - 1; x++, y++) {
-			j.push_back("Transaction: " + keys[x] + ", " + values[y]);
-		}
+		j["transactions"] = transactions.dump();
 		j["transactionCount", this->transactionCount];
 		j["bits", this->bits];
 		j["timeCreated", this->timeCreated];
 		j["timeRecieved", this->timeRecieved];
 		j["timeLocked", this->timeLocked];
+		j["rawData", this->rawData];
 		return j;
 	}
 
@@ -138,6 +143,12 @@ namespace BlockchainCpp {
 		this->hash = computeHash();
 	}
 
+	void IntBlockData::setHash(std::string hash) {
+		if(this->hash != "")
+			throw std::runtime_error("Hash has already been set");
+		this->hash = hash;
+	}
+
 	void IntBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
@@ -145,19 +156,19 @@ namespace BlockchainCpp {
 	}
 
 	void IntBlockData::setSize(unsigned long size){
-		if(this->size != -1)
+		if(this->size != 0)
 			throw std::runtime_error("Size has already been set");
 		this->size = size;
 	}
 
 	void IntBlockData::setTransactionCount(unsigned long count){
-		if(this->transactionCount != -1)
+		if(this->transactionCount != 0)
 			throw std::runtime_error("Transaction Count has already been set");
 		this->transactionCount = count;
 	}
 
 	void IntBlockData::setBits(unsigned long bits){
-		if(this->bits != -1)
+		if(this->bits != 0)
 			throw std::runtime_error("Bits has already been set");
 		this->bits = bits;
 	}
@@ -192,4 +203,7 @@ namespace BlockchainCpp {
 		this->timeLocked = timeLocked;
 	}
 
+	void IntBlockData::setRawData(int rawData) {
+		this->rawData = rawData;
+	}
 }

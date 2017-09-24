@@ -37,7 +37,7 @@ namespace BlockchainCpp::IO {
 	template <class T>
 	class BlockReader {
 		public:
-			BlockReader(std::string filePath, bool binary = true) {
+			BlockReader(std::string filePath, bool binary = false) {
 				this->filePath = filePath;
 				this->binary = binary;
 				if(this->binary)

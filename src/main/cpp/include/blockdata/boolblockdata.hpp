@@ -37,6 +37,7 @@ namespace BlockchainCpp {
 	class BoolBlockData : public BlockData {
 		public:
 			BoolBlockData(const bool data);
+			BoolBlockData();
 			virtual ~BoolBlockData();
 			std::string computeHash() override;
 			std::vector<unsigned char> toBytes() override;
@@ -55,6 +56,7 @@ namespace BlockchainCpp {
 			bool getRawData();
 
 			void setHash();
+			void setHash(std::string hash);
 			void setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions);
 			void setSize(unsigned long size);
 			void setTransactionCount(unsigned long count);
@@ -62,6 +64,7 @@ namespace BlockchainCpp {
 			void setTimeCreated(time_t timeCreated);
 			void setTimeRecieved(time_t timeRecieved);
 			void setTimeLocked(time_t timeLocked);
+			void setRawData(bool rawData);
 		protected:
 			bool rawData;
 		private:

@@ -31,6 +31,7 @@ SOFTWARE.
 #include <vector> // std::vector
 #include <map> // std::map
 #include <stdexcept> // throw std::runtime_error()
+#include "thirdparty/json.hpp"
 #include "conversions.hpp"
 #include "operators.hpp"
 #include "constants.hpp" // MAX_BLOCK_SIZE
@@ -47,7 +48,7 @@ namespace BlockchainCpp {
 
 		}
 
-		Blockchain(std::map<std::string, BlockType*>, std::vector<Blockchain<BlockType>> orphanedChains) : public Blockchain() {
+		Blockchain(std::map<std::string, BlockType>, std::vector<Blockchain<BlockType>> orphanedChains) : public Blockchain() {
 			
 			this->blocks = hashedBlocks;
 			this->orphanedChains = orphanedChains;
@@ -67,7 +68,7 @@ namespace BlockchainCpp {
 
 		template <class BlockType>
 
-		bool add(BlockType* block) {
+		bool add(BlockType block) {
 			if(block->getData() == nullptr)
 				throw std::runtime_error("Can not add a null block to a blockchain");
 			
@@ -84,7 +85,7 @@ namespace BlockchainCpp {
 
 			std::string hash = block->getHash();
 			if(!containsBlockByHash(hash)) {
-				this->blocks.insert( {hash, block} );
+				this->blocks.insert( {hash, *block} );
 				this->count++;
 				lastBlock = block;
 				return true;
@@ -101,7 +102,7 @@ namespace BlockchainCpp {
 			return true;
 		}
 
-		BlockType* getBlockByHash(std::string hash){
+		BlockType getBlockByHash(std::string hash){
 			if(!this->containsBlockByHash(hash))
 				return nullptr;
 
@@ -112,20 +113,18 @@ namespace BlockchainCpp {
 			return height <= count + 1;
 		}
 
-		BlockType* getBlockByHeight(unsigned long height) {
+		BlockType getBlockByHeight(unsigned long height) {
 			if(!this->containsBlockByHeight(height))
 				return nullptr;
 			
 			std::string hash = this->lastBlock->getHash();
-			BlockType* blk = this->lastBlock;
+			BlockType blk = *this->lastBlock;
 
 			while(hash != ""){
 				blk = getBlockByHash(hash);
-				if(blk == nullptr)
-					break;
-				if(blk->getHeight() == height)
+				if(blk.getHeight() == height)
 					return blk;
-				hash = blk->getPreviousHash();
+				hash = blk.getPreviousHash();
 			}
 
 			return nullptr;
@@ -139,7 +138,7 @@ namespace BlockchainCpp {
 				// }
 				bytes += this->lastBlock->toBytes();
 			}
-			for(std::map<std::string, BlockType*>::iterator it = this->blocks.begin(); it != this->blocks.end(); it++) {
+			for(std::map<std::string, BlockType>::iterator it = this->blocks.begin(); it != this->blocks.end(); it++) {
 				bytes += it->second->toBytes();
 			}
 			if (this->orphanedChains.size() > 0) {
@@ -150,11 +149,45 @@ namespace BlockchainCpp {
 			return bytes;
 		}
 
-		std::string toString() {
-			return "TODO";
+		bool verify() {
+			for(std::map<std::string, BlockType>::iterator itr = blocks.begin(); itr != blocks.end(); itr++) {
+				if(!itr->second.verify())
+				return false;
+			}
+			return true;
 		}
 
-		std::map<std::string, BlockType*> getBlocks() {
+		std::string toString() {
+			nlohmann::json j;
+			nlohmann::json lBlock = this->lastBlock->toString();
+			nlohmann::json blocksArr = nlohmann::json::array();
+			nlohmann::json orphanedChainsArr = nlohmann::json::array();
+
+			std::vector<std::string> blockValues = std::vector<std::string>(this->blocks.size());
+
+			for(std::map<std::string, BlockType>::iterator itr = this->blocks.begin(); itr != this->blocks.end(); itr++) {
+				blockValues.push_back(itr->second.toString());
+			}
+
+			for(int i = 0; i < blockValues.size() - 1; i++) {
+				nlohmann::json obj = blockValues[i];
+				blocksArr.push_back(obj);
+			}
+
+			for(int i = 0; i < orphanedChains.size() - 1; i++) {
+				nlohmann::json obj = orphanedChains[i]->toString();
+				orphanedChainsArr.push_back(obj);
+			}
+
+			j["lastBlock", lBlock.dump()];
+			j["count", this->count];
+			j["orphanCount", this->orphanCount];
+			j["blocks", blocksArr.dump()];
+			j["orphanedChains", orphanedChainsArr.dump()];
+			return j;
+		}
+
+		std::map<std::string, BlockType> getBlocks() {
 			return this->blocks;
 		}
 
@@ -174,7 +207,7 @@ namespace BlockchainCpp {
 			return this->orphanCount;
 		}
 
-		void setBlocks(std::map<std::string, BlockType*> blocks) {
+		void setBlocks(std::map<std::string, BlockType> blocks) {
 			if(this->blocks.size() != 0)
 				throw std::runtime_error("Can not set blocks for a non empty blockchain");
 			this->blocks = blocks;
@@ -207,10 +240,10 @@ namespace BlockchainCpp {
 	protected:
 
 	private:
-		BlockType* lastBlock = nullptr;
+		BlockType* lastBlock = new BlockType();
 		unsigned long count = 0;
 		unsigned long orphanCount = 0;
-		std::map<std::string, BlockType*> blocks = std::map<std::string, BlockType*>();
+		std::map<std::string, BlockType> blocks = std::map<std::string, BlockType>();
 		std::vector<Blockchain<BlockType>*> orphanedChains = std::vector<Blockchain<BlockType>*>();
 	};
 }

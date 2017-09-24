@@ -32,7 +32,7 @@ namespace BlockchainCpp::IO {
 	
 	class TransactionInputWriter {
 		public:
-			TransactionInputWriter(std::string filePath, TransactionInput* input, bool binary = true);
+			TransactionInputWriter(std::string filePath, TransactionInput* input, bool binary = false);
 			~TransactionInputWriter();
 
 			bool write();
