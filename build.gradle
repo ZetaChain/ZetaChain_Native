@@ -86,7 +86,10 @@ model {
 				asm {
 					source {
 						srcDirs "/src/main/asm/$OS"
-						include "**/*.s"
+						if(project.getProperty("OS").equals("windows"))
+							include "**/*.asm"
+						else if(project.getProperty("OS").equals("linux"))
+							include "**/*.s"
 					}
 				}
 				cpp {
@@ -117,7 +120,10 @@ model {
 					asm {
 						source {
 							srcDirs "TestApp/src/main/asm/$OS"
-							include "**/*.s"
+							if(project.getProperty("OS").equals("windows"))
+								include "**/*.asm"
+							else if(project.getProperty("OS").equals("linux"))
+								include "**/*.s"
 						}
 					}
 					cpp {
