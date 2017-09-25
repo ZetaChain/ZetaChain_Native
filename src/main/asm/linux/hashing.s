@@ -30,13 +30,13 @@ SOFTWARE.
 .code
 
 HashASM:
-	mov $(message), %rcx
-	sub %rdx, $1
-	mov $(dataSize), %rdx
-	mov %rbx, $0
+	mov %rcx, $(message)
+	sub $1, %rdx
+	mov %rdx, $(dataSize)
+	mov $0, %rbx
 	jmp hashLoop
 	hashLoop:
-		cmp %rbx, $(dataSize)
+		cmp %rbx $(dataSize),
 		je done
 		call HashMessageASM
 		inc %rbx
@@ -45,14 +45,14 @@ HashASM:
 		ret
 
 HashMessageASM:
-	mov hash, $5381
-	mov %rax, $(message)
-	add %rax, %rbx
-	mov %rcx, $(hash)
-	shl %rcx, $5
-	add %rcx, $(hash)
-	add %rcx, %rax
-	add %rcx, %rbx
-	mov hash, %rcx
-	mov %rax, %rcx
+	mov $5381, hash
+	mov $(message), %rax
+	add %rbx, %rax
+	mov $(hash), %rcx
+	shl $5, %rcx
+	add $(hash), %rcx
+	add %rax, %rcx
+	add %rbx, %rcx
+	mov %rcx, hash
+	mov %rcx, %rax
 	ret

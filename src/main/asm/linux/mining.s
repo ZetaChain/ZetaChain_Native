@@ -31,25 +31,25 @@ SOFTWARE.
 .code
 
 calculateValueASM:
-	or %rcx, ${exponent)
-	and %rax, ${exponent)
+	or ${exponent), %rcx
+	and ${exponent), %rax
 	not %rax
-	imul %rax, %rcx
+	imul %rcx, %rax
 	ret
 
 checkMMXASM:
-	mov %eax, $1  This will tell cpuid to put the cpu features into edx
+	mov $1, %eax # This will tell cpuid to put the cpu features into edx.
 	cpuid
 
-	shr %edx, $23
-	and %edx, $1
-	cmp %edx, $0
+	shr $23, %edx
+	and $1, %edx
+	cmp $0, %edx
 	je nommx
-	mov $(mmx), 1
+	mov 1, $(mmx)
 	
 	jmp exit
 	nommx:
-		mov $(mmx), 0
+		mov 0, $(mmx)
 		ret
 	exit:
 		nop
@@ -57,10 +57,10 @@ checkMMXASM:
 
 mineASM:
 	call checkMMXASM
-	cmp $(mmx), $1
+	cmp $1, $(mmx)
 	jne fail
 	call calculateValueASM
 
 	fail:
-		mov %rax, $0
+		mov $0, %rax
 		ret

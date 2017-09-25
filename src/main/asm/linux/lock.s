@@ -30,13 +30,13 @@ SOFTWARE.
 lockBlockASM:
 	push %rax
 	push %rcx
-	movq $0h, %rax
-	movq %rcx, ${timeout}
+	movq %rax, $0
+	movq ${timeout}, %rcx
 	jmp spin
 	spin:
 		nop
 		inc %rax
-		cmpq %rax, ${timeout}
+		cmpq ${timeout}, &rax
 		jl spin
 	pop %rcx
 	pop %rax
