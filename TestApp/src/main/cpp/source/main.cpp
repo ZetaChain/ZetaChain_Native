@@ -31,6 +31,7 @@ SOFTWARE.
 #include <map> // std::map
 #include <stdexcept> // std::runtime_error
 #include "main.hpp"
+#include "opencl/init.hpp"
 #include "blocks/block.hpp" // Block Stuff
 #include "blockchains/blockchain.hpp" // Blockchain Stuff
 #include "blockdata/intblockdata.hpp" // IntBlockData
@@ -65,10 +66,17 @@ int main(int argc, char** argv) {
 			__nosha256 = true;
 		else if(std::string(argv[i]) == "--useJSONFormat")
 			__useJSONFormat = true;
+		else if(std::string(argv[i]) == "--noOpenCL")
+			__noOpenCL = true;
 	}
 
 	std::cout << "Using SHA256: " << static_cast<int>(!__nosha256) << std::endl;
 	std::cout << "Using JSON File Format: " << static_cast<int>(__useJSONFormat) << std::endl;
+	std::cout << "Using OpenCL" << static_cast<int>(!__noOpenCL) << std::endl;
+
+	if(!__noOpenCL) {
+		OpenCL::init();
+	}
 
 	createIntBlockchain();
 	createStringBlockchain();
@@ -86,7 +94,7 @@ int main(int argc, char** argv) {
 	createUnsignedLongLongBlockchain();
 	createCustomDataBlockchain();
 	
-	loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain", !__useJSONFormat);
+	// loadBlockchain<Blockchain<Block<IntBlockData>>>("data/intblockchain", !__useJSONFormat);
 
 	return 0;
 }

@@ -59,6 +59,7 @@ using namespace BlockchainCpp;
 
 extern bool __nosha256;
 extern bool __useJSONFormat;
+extern bool __noOpenCL;
 
 void createIntBlockchain();
 void createStringBlockchain();

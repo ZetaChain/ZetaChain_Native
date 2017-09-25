@@ -1,3 +1,4 @@
+#pragma once
 /*
 MIT License
 
@@ -22,6 +23,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-bool __nosha256 = false;
-bool __useJSONFormat = false;
-bool __noOpenCL = false;
+#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
+#include <CL/cl.h>
+#include <vector>
+#include <stdexcept>
+#include <iostream>
+
+namespace BlockchainCpp::OpenCL {
+	void init();
+	std::vector<cl_platform_id> getPlatforms();
+	std::vector<cl_device_id> getDevices(cl_platform_id platform);
+}
