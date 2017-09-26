@@ -1,7 +1,7 @@
 #!/usr/bin/env bash 
  
-echo "Building BlockchainCpp" 
+echo "Building ZetaChain_Native" 
  
 ./gradlew build 
  
-echo "Finished Building BlockchainCpp" 
+echo "Finished Building ZetaChain_Native" 

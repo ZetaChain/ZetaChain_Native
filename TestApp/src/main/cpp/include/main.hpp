@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ SOFTWARE.
 #include "io/serialisation.hpp"
 #include "constants.hpp" // chars, BLOCK_HEADER
 
-using namespace BlockchainCpp;
+using namespace ZetaChain_Native;
 
 extern bool __nosha256;
 extern bool __useJSONFormat;

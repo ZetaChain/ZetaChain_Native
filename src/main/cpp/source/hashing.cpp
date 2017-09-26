@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ SOFTWARE.
 extern "C" unsigned char* HashASM(unsigned char* data, long size);
 extern bool __nosha256;
 
-namespace BlockchainCpp::Hashing {
+namespace ZetaChain_Native::Hashing {
 	std::string hashString(std::string str){
 		if(__nosha256) {
 			char* cstr = const_cast<char*>(str.c_str());

@@ -2,7 +2,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ SOFTWARE.
 #include <iostream>
 #include "opencl/init.hpp"
 
-namespace BlockchainCpp::OpenCL {
+namespace ZetaChain_Native::OpenCL {
 	void init(){
 		std::vector<cl_platform_id> platforms = getPlatforms();
 		cl_platform_id defaultPlatform = platforms[0];

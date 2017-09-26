@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ SOFTWARE.
 #include <memory>
 #include "conversions.hpp"
 
-namespace BlockchainCpp::Conversions {
+namespace ZetaChain_Native::Conversions {
 	std::vector<unsigned char> toBytes(double* d){
 		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(double));
 		for(int itr = 0; itr < sizeof(double); itr++){

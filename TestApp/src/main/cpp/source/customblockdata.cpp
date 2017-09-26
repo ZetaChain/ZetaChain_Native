@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ SOFTWARE.
 #include "customdata.hpp"
 #include "hashing.hpp"
 
-using namespace BlockchainCpp;
+using namespace ZetaChain_Native;
 
 CustomBlockData::CustomBlockData(CustomData* data){
 	this->rawData = data;

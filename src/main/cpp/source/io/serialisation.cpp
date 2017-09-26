@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ SOFTWARE.
 #include "blockchains/blockchain.hpp"
 #include "io/serialisation.hpp"
 
-namespace BlockchainCpp::IO::Serialisation {
+namespace ZetaChain_Native::IO::Serialisation {
 	bool writeChar(std::ofstream* stream, char data) {
 		*stream << data;
 		return true;

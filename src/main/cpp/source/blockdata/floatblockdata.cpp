@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ SOFTWARE.
 #include "blockdata/floatblockdata.hpp"
 #include "hashing.hpp"
 
-namespace BlockchainCpp {
+namespace ZetaChain_Native {
 	FloatBlockData::FloatBlockData(float data){
 		this->rawData = data;
 	}

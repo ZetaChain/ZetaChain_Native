@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ SOFTWARE.
 #include <string>
 
 
-namespace BlockchainCpp::IO::Filesystem {
+namespace ZetaChain_Native::IO::Filesystem {
 	#ifdef _WIN32
 		HANDLE createFile(LPCSTR fileName, DWORD desiredAccess, DWORD shareMode, LPSECURITY_ATTRIBUTES attributes,
 						DWORD creationDisposition, DWORD flags, HANDLE templateFile) {

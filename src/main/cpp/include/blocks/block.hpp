@@ -3,7 +3,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ SOFTWARE.
 extern "C" void lockBlockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
 
-namespace BlockchainCpp {
+namespace ZetaChain_Native {
 
 	template <class DataType> 
 

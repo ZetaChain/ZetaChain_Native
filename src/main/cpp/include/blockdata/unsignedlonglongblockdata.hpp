@@ -3,7 +3,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ SOFTWARE.
 #include "transactions/transaction.hpp"
 #include "blockdata.hpp"
 
-namespace BlockchainCpp {
+namespace ZetaChain_Native {
 	class UnsignedLongLongBlockData : public BlockData {
 		public:
 			UnsignedLongLongBlockData(const unsigned long long data);

@@ -19,7 +19,7 @@ gradle-app.setting
 .vscode*
 
 # Ignore Visual Studio Solutions and Projects
-BlockchainCpp/*
+ZetaChain_Native/*
 *.vcxproj
 *.filters
 *.sln

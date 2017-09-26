@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ model {
 		}
 		all {
 			if (toolChain in VisualCpp) {
-				cppCompiler.args "/EHsc", "/W0", "/std:c++latest", "/Zi", "/DEBUG", "/Od"," /FS", "/Fd:BlockchainCpp.pdb",
+				cppCompiler.args "/EHsc", "/W0", "/std:c++latest", "/Zi", "/DEBUG", "/Od"," /FS", "/Fd:ZetaChain_Native.pdb",
 					"/IC:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\include",
 					"/IC:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\atlmfc\\include",
 					"/IC:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um",
@@ -80,7 +80,7 @@ model {
 		}
 	}
 	components {
-		BlockchainCpp(NativeLibrarySpec) {
+		ZetaChain_Native(NativeLibrarySpec) {
 			targetPlatform "x64"
 			sources {
 				asm {
@@ -148,7 +148,7 @@ model {
 				}
 			}
 			binaries.all {
-				lib library: "BlockchainCpp", linkage: "static"
+				lib library: "ZetaChain_Native", linkage: "static"
 			}
 		}
 	}

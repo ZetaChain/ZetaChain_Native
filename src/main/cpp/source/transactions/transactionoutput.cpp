@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2017 Blockchain-VCS
+Copyright (c) 2017 ZetaChain_Native
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ SOFTWARE.
 #include "transactions/transactionoutput.hpp"
 #include "hashing.hpp"
 
-namespace BlockchainCpp {
+namespace ZetaChain_Native {
 	std::vector<unsigned char> TransactionOutput::toBytes() {
 		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(TransactionOutput));
 		bytes += Conversions::toBytes(this->hash);
