@@ -24,7 +24,6 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include <CL/cl.h>
 #include <vector>
 #include <stdexcept>
 #include <iostream>
