@@ -33,4 +33,6 @@ namespace ZetaChain_Native::OpenCL {
 	void init();
 	std::vector<cl_platform_id> getPlatforms();
 	std::vector<cl_device_id> getDevices(cl_platform_id platform);
+	cl_context createContext(cl_uint deviceCount, std::vector<cl_platform_id> platforms, std::vector<cl_device_id> devices);
+	void checkError(cl_int error);
 }
