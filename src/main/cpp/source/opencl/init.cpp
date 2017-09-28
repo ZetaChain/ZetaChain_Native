@@ -30,7 +30,7 @@ SOFTWARE.
 #include "opencl/init.hpp"
 
 namespace ZetaChain_Native::OpenCL {
-	void init(){
+	OpenCLHandle* init(){
 		std::vector<cl_platform_id> platforms = getPlatforms();
 		std::cout << "Found " << platforms.size() << " Usable OpenCL Platforms" << std::endl;
 		cl_platform_id defaultPlatform = platforms[0];
@@ -42,6 +42,7 @@ namespace ZetaChain_Native::OpenCL {
 			std::cout << "Successfully Initialised OpenCL Context At: " << "0x" << reinterpret_cast<void*>(context) << std::endl;
 		else
 			throw std::runtime_error("Failed to Initialise OpenCL Context please update your drivers or restart the application with the --noOpenCL option");
+		return new OpenCLHandle(defaultPlatform, context, platforms, devices);
 	}
 
 	std::vector<cl_platform_id> getPlatforms() {
