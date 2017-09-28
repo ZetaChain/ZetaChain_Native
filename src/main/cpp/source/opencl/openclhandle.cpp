@@ -61,7 +61,6 @@ namespace ZetaChain_Native::OpenCL {
 	
 		cl_int error = 0;
 		cl_program program = clCreateProgramWithSource(this->context, 1, sources, lengths, &error);
-		checkError(error);
 	
 		return program;
 	}
@@ -73,7 +72,7 @@ namespace ZetaChain_Native::OpenCL {
 
 	void OpenCLHandle::checkError(cl_int error) {
 		if (error != CL_SUCCESS) {
-			std::cerr << "OpenCL call failed with error " << error << std::endl;
+			std::cerr << "OpenCL call failed with error " << error << " Please update your drivers or restart the application with the --noOpenCL option" << std::endl;
 			std::exit(1);
 		}
 	}
