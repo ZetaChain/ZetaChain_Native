@@ -29,7 +29,10 @@
 lockBlockASM proc
 	push rax
 	push rcx
+	push rdx
 	mov rax, 0h
+	mov rdx, 10h
+	not rdx
 	mov timeout, rcx
 	jmp spin
 	spin:
@@ -37,9 +40,90 @@ lockBlockASM proc
 		inc rax
 		cmp rax, qword ptr [timeout]
 		jl spin
+	pop rdx
 	pop rcx
 	pop rax
 	ret
 lockBlockASM endp
+
+lockBlockChainASM proc
+	push rax
+	push rcx
+	push rdx
+	mov rax, 0h
+	mov rdx, 20h
+	not rdx
+	mov timeout, rcx
+	jmp spin
+	spin:
+		nop
+		inc rax
+		cmp rax, qword ptr [timeout]
+		jl spin
+	pop rdx
+	pop rcx
+	pop rax
+	ret
+lockBlockChainASM endp
+
+lockBlockDataASM proc
+	push rax
+	push rcx
+	push rdx
+	mov rax, 0h
+	mov rdx, 30h
+	not rdx
+	mov timeout, rcx
+	jmp spin
+	spin:
+		nop
+		inc rax
+		cmp rax, qword ptr [timeout]
+		jl spin
+	pop rdx
+	pop rcx
+	pop rax
+	ret
+lockBlockDataASM endp
+
+lockTransactionASM proc
+	push rax
+	push rcx
+	push rdx
+	mov rax, 0h
+	mov rdx, 40h
+	not rdx
+	mov timeout, rcx
+	jmp spin
+	spin:
+		nop
+		inc rax
+		cmp rax, qword ptr [timeout]
+		jl spin
+	pop rdx
+	pop rcx
+	pop rax
+	ret
+lockTransactionASM endp
+
+lockTransactionDataASM proc
+	push rax
+	push rcx
+	push rdx
+	mov rax, 0h
+	mov rdx, 50h
+	not rdx
+	mov timeout, rcx
+	jmp spin
+	spin:
+		nop
+		inc rax
+		cmp rax, qword ptr [timeout]
+		jl spin
+	pop rdx
+	pop rcx
+	pop rax
+	ret
+lockTransactionDataASM endp
 
 end

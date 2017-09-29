@@ -30,7 +30,10 @@ SOFTWARE.
 lockBlockASM:
 	push %rax
 	push %rcx
-	movq %rax, $0
+	push %rdx
+	movq $0, %rax
+	movq $0x10, %rdx
+	not %rdx
 	movq ${timeout}, %rcx
 	jmp spin
 	spin:
@@ -38,6 +41,83 @@ lockBlockASM:
 		inc %rax
 		cmpq ${timeout}, &rax
 		jl spin
+	pop %rdx
+	pop %rcx
+	pop %rax
+	ret
+
+lockBlockChainASM:
+	push %rax
+	push %rcx
+	push %rdx
+	movq $0, %rax
+	movq $0x20, %rdx
+	not %rdx
+	movq ${timeout}, %rcx
+	jmp spin
+	spin:
+		nop
+		inc %rax
+		cmpq ${timeout}, &rax
+		jl spin
+	pop %rdx
+	pop %rcx
+	pop %rax
+	ret
+
+lockBlockDataASM:
+	push %rax
+	push %rcx
+	push %rdx
+	movq $0, %rax
+	movq $0x20, %rdx
+	not %rdx
+	movq ${timeout}, %rcx
+	jmp spin
+	spin:
+		nop
+		inc %rax
+		cmpq ${timeout}, &rax
+		jl spin
+	pop %rdx
+	pop %rcx
+	pop %rax
+	ret
+
+lockTransactionASM:
+	push %rax
+	push %rcx
+	push %rdx
+	movq $0, %rax
+	movq $0x30, %rdx
+	not %rdx
+	movq ${timeout}, %rcx
+	jmp spin
+	spin:
+		nop
+		inc %rax
+		cmpq ${timeout}, &rax
+		jl spin
+	pop %rdx
+	pop %rcx
+	pop %rax
+	ret
+
+lockTransactionDataASM:
+	push %rax
+	push %rcx
+	push %rdx
+	movq $0, %rax
+	movq $0x40, %rdx
+	not %rdx
+	movq ${timeout}, %rcx
+	jmp spin
+	spin:
+		nop
+		inc %rax
+		cmpq ${timeout}, &rax
+		jl spin
+	pop %rdx
 	pop %rcx
 	pop %rax
 	ret
