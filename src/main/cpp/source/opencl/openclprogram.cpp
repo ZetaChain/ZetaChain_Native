@@ -26,9 +26,9 @@ SOFTWARE.
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <vector>
 #include <string>
-#include "globals.hpp"
 #include "opencl/openclhandle.hpp"
 #include "opencl/openclprogram.hpp"
+#include "opencl/opencldata.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLProgram::OpenCLProgram(cl_program program, std::string name, OpenCLHandle** handle) {
@@ -54,6 +54,6 @@ namespace ZetaChain_Native::OpenCL {
 	}
 
 	bool OpenCLProgram::isHandleValid() {
-		return (*this->handle) == __handle;
+		return OpenCLData::getInstance()->handle == (*this->handle);
 	}
 }

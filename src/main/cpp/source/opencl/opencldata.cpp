@@ -23,8 +23,12 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include "opencl/openclhandle.hpp"
+#include "opencl/opencldata.hpp"
 
-namespace ZetaChain_Native {
-	OpenCL::OpenCLHandle* __handle = nullptr;
+namespace ZetaChain_Native::OpenCL {
+	OpenCLData::OpenCLData() {
+		instance = this;
+	}
+
+	OpenCLData* OpenCLData::instance = nullptr;
 }

@@ -55,6 +55,11 @@ namespace ZetaChain_Native::OpenCL {
 		cl_int releaseProgram(cl_program program);
 		cl_int releaseContext(cl_context context);
 
+		cl_platform_id getDefaultPlatform();
+		cl_context getContext();
+		std::vector<cl_platform_id> getPlatforms();
+		std::vector<cl_device_id> getDevices();
+
 	private:
 		cl_platform_id defaultPlatform;
 		cl_context context;

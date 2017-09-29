@@ -36,14 +36,17 @@ SOFTWARE.
 #include "conversions.hpp" // toBytes()
 #include "constants.hpp" // MAX_BLOCK_SIZE
 #include "hashing.hpp"
+#include "opencl/init.hpp"
+#include "opencl/openclhandle.hpp"
+#include "opencl/programarguments.hpp"
+#include "opencl/opencldata.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
 
 namespace ZetaChain_Native {
-
+	
 	template <class DataType> 
-
 	class Block {
 
 	public:
@@ -74,7 +77,34 @@ namespace ZetaChain_Native {
 			if(this->timeLocked != 0)
 				return true;
 			
-			lockBlockASM(timeout);
+			if(!__noOpenCL) {
+				OpenCL::OpenCLData* data = OpenCL::OpenCLData::getInstance();
+				if(!data->handle){
+					data->handle = OpenCL::init();
+					if(!data->handle){
+						throw std::runtime_error("Failed to Initialise OpenCL Handle please update your drivers or restart the application with the --noOpenCL option");
+					}
+					cl_program program = data->handle->createProgram(data->handle->loadKernel("kernels/lockblock.cl"));
+					data->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockvlock.cl", &data->handle);
+					if(!data->currentProgram) {
+						throw std::runtime_error("Failed to Create Program with Kernel Code kernels/lockblock.cl");
+					}
+					OpenCL::ProgramArguments args = {
+						program,
+						data->handle->getDevices().size(),
+						data->handle->getDevices().data(),
+						nullptr,
+						nullptr,
+						nullptr
+					};
+					// data->handle->checkError(data->handle->buildProgram(args));
+					data->handle->releaseProgram(program);
+					delete data->currentProgram;
+				}
+			}
+			else {
+				lockBlockASM(timeout);
+			}
 
 			time_t now;
 			time(&now);
@@ -284,6 +314,7 @@ namespace ZetaChain_Native {
 		long value = -1;
 		long nonce = -1;
 		std::string previousHash = "";
+		OpenCL::OpenCLHandle* handle = nullptr;
 
 	private:
 

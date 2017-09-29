@@ -24,8 +24,6 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include "globals.hpp"
-#include "opencl/openclhandle.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	struct ProgramArguments {
