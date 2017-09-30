@@ -119,15 +119,15 @@ namespace ZetaChain_Native {
 					};
 					cl_mem aBuffer = data->handle->createBuffer(aBufferArgs);
 					data->currentABuffer = new OpenCL::OpenCLBuffer<unsigned long>(aBuffer, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
-					bool result = false;
+					int result = -1;
 					OpenCL::BufferArguments bBufferArgs = {
 						CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
-						sizeof(bool),
+						sizeof(int),
 						reinterpret_cast<void*>(&result),
 						&error
 					};
 					cl_mem bBuffer = data->handle->createBuffer(bBufferArgs);
-					data->currentBBuffer = new OpenCL::OpenCLBuffer<bool>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
+					data->currentBBuffer = new OpenCL::OpenCLBuffer<int>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
 					OpenCL::CommandQueueArguments commandArgs = {
 						data->handle->getDevices()[0],
 						NULL,

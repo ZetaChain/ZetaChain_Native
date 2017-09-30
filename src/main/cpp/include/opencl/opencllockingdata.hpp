@@ -43,7 +43,7 @@ namespace ZetaChain_Native::OpenCL {
 		OpenCLKernel* currentKernel;
 
 		OpenCLBuffer<unsigned long>* currentABuffer;
-		OpenCLBuffer<bool>* currentBBuffer;
+		OpenCLBuffer<int>* currentBBuffer;
 
 		OpenCLCommandQueue* currentCommandQueue;
 	private:

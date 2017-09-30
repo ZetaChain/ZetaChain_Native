@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-__kernel void lockBlockData(__global long* iterations, __global bool* result) {
+__kernel void lockBlockData(__global long* iterations, __global int* result) {
 	const int id = get_global_id(0);
 	long i = id - 1;
-	while (*result != true) {
+	while (*result != 1) {
 		if(~i | (id & (1 << 48)))
-			*result = true;
+			*result = 1;
 		i++;
 	}
 }
