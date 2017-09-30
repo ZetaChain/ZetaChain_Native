@@ -29,6 +29,7 @@ SOFTWARE.
 #include <iostream>
 #include <fstream>
 #include "opencl/programarguments.hpp"
+#include "opencl/bufferarguments.hpp"
 #include "opencl/openclhandle.hpp"
 
 namespace ZetaChain_Native::OpenCL {
@@ -46,6 +47,10 @@ namespace ZetaChain_Native::OpenCL {
 
 	cl_mem OpenCLHandle::createBuffer(cl_mem_flags flags, size_t size, void* host_ptr, cl_int* errorcode) {
 		return clCreateBuffer(this->context, flags, size, host_ptr, errorcode);
+	}
+
+	cl_mem OpenCLHandle::createBuffer(BufferArguments args) {
+		return clCreateBuffer(this->context, args.flags, args.data_size, args.host_ptr, args.errorcode);
 	}
 
 	cl_command_queue OpenCLHandle::createCommandQueue(cl_device_id device, cl_command_queue_properties properties, cl_int* error) {

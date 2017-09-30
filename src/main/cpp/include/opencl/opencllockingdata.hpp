@@ -1,3 +1,4 @@
+#pragma once
 /*
 MIT License
 
@@ -23,12 +24,27 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include "opencl/opencllockingdata.hpp"
+#include "opencl/openclhandle.hpp"
+#include "opencl/openclprogram.hpp"
+#include "opencl/openclkernel.hpp"
+#include "opencl/openclbuffer.hpp"
 
 namespace ZetaChain_Native::OpenCL {
-	OpenCLLockingData::OpenCLLockingData() {
-		instance = this;
-	}
+	class OpenCLLockingData {
+	public:
+		static OpenCLLockingData* getInstance() {
+			if(instance == nullptr)
+				instance = new OpenCLLockingData();
+			return instance;
+		}
+		OpenCLHandle* handle;
+		OpenCLProgram* currentProgram;
+		OpenCLKernel* currentKernel;
 
-	OpenCLLockingData* OpenCLLockingData::instance = nullptr;
+		OpenCLBuffer<unsigned long>* currentABuffer;
+		OpenCLBuffer<unsigned long>* currentBBuffer;
+	private:
+		OpenCLLockingData();
+		static OpenCLLockingData* instance;
+	};
 }

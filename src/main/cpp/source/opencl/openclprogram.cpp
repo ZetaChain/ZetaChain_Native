@@ -28,7 +28,7 @@ SOFTWARE.
 #include <string>
 #include "opencl/openclhandle.hpp"
 #include "opencl/openclprogram.hpp"
-#include "opencl/opencldata.hpp"
+#include "opencl/opencllockingdata.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLProgram::OpenCLProgram(cl_program program, std::string name, OpenCLHandle** handle) {
@@ -54,6 +54,6 @@ namespace ZetaChain_Native::OpenCL {
 	}
 
 	bool OpenCLProgram::isHandleValid() {
-		return OpenCLData::getInstance()->handle == (*this->handle);
+		return OpenCLLockingData::getInstance()->handle == (*this->handle);
 	}
 }

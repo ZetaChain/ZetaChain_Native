@@ -39,7 +39,7 @@ SOFTWARE.
 #include "opencl/init.hpp"
 #include "opencl/openclhandle.hpp"
 #include "opencl/programarguments.hpp"
-#include "opencl/opencldata.hpp"
+#include "opencl/opencllockingdata.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
@@ -78,7 +78,7 @@ namespace ZetaChain_Native {
 				return true;
 			
 			if(!__noOpenCL) {
-				OpenCL::OpenCLData* data = OpenCL::OpenCLData::getInstance();
+				OpenCL::OpenCLLockingData* data = OpenCL::OpenCLLockingData::getInstance();
 				if(!data->handle){
 					data->handle = OpenCL::init();
 					if(!data->handle){
@@ -89,7 +89,7 @@ namespace ZetaChain_Native {
 					if(!data->currentProgram) {
 						throw std::runtime_error("Failed to Create Program with Kernel Code kernels/lockblock.cl");
 					}
-					OpenCL::ProgramArguments args = {
+					OpenCL::ProgramArguments pArgs = {
 						program,
 						data->handle->getDevices().size(),
 						data->handle->getDevices().data(),
@@ -97,8 +97,36 @@ namespace ZetaChain_Native {
 						nullptr,
 						nullptr
 					};
-					data->handle->checkError(data->handle->buildProgram(args));
+					data->handle->checkError(data->handle->buildProgram(pArgs));
+					cl_int error = CL_SUCCESS;
+					cl_kernel kernel = data->handle->createKernel(data->currentProgram->getProgram(), "lockblock.cl", &error);
+					data->currentKernel = new OpenCL::OpenCLKernel(kernel, "kernels/lockblock.cl", &data->handle);
+					data->handle->checkError(error);
+					unsigned long kernelData = timeout + 1; // Adding 1 because of OpenCL control thread
+					const size_t KERNEL_DATA_SIZE = sizeof(kernelData);
+					OpenCL::BufferArguments aBufferArgs = {
+						CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+						sizeof(unsigned char) * KERNEL_DATA_SIZE,
+						reinterpret_cast<void*>(&kernelData),
+						&error
+					};
+					cl_mem aBuffer = data->handle->createBuffer(aBufferArgs);
+					data->currentABuffer = new OpenCL::OpenCLBuffer<unsigned long>(aBuffer, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
+					OpenCL::BufferArguments bBufferArgs = {
+						CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+						sizeof(unsigned char) * KERNEL_DATA_SIZE,
+						reinterpret_cast<void*>(&kernelData),
+						&error
+					};
+					cl_mem bBuffer = data->handle->createBuffer(bBufferArgs);
+					data->currentBBuffer = new OpenCL::OpenCLBuffer<unsigned long>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
+					data->handle->releaseMemObject(bBuffer);
+					data->handle->releaseMemObject(aBuffer);
+					data->handle->releaseKernel(kernel);
 					data->handle->releaseProgram(program);
+					delete data->currentBBuffer;
+					delete data->currentABuffer;
+					delete data->currentKernel;
 					delete data->currentProgram;
 				}
 			}
@@ -113,7 +141,7 @@ namespace ZetaChain_Native {
 			this->timeLocked = now - (timeout / 1000);
 			time_t _time = this->timeLocked;
 			this->hash = computeHash();
-			std::cout << "Block " << this->height << " has sucessfully been locked" << std::endl;
+			std::cout << "Block " << this->height << " has Sucessfully been locked" << std::endl;
 			return this->timeLocked != 0;
 		}
 

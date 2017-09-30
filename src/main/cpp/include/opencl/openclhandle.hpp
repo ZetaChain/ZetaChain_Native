@@ -27,6 +27,7 @@ SOFTWARE.
 #include <vector>
 #include <string>
 #include "opencl/programarguments.hpp"
+#include "opencl/bufferarguments.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	class OpenCLHandle {
@@ -35,6 +36,7 @@ namespace ZetaChain_Native::OpenCL {
 		~OpenCLHandle();
 
 		cl_mem createBuffer(cl_mem_flags flags, size_t size, void* host_ptr, cl_int* errorcode);
+		cl_mem createBuffer(BufferArguments args);
 		cl_command_queue createCommandQueue(cl_device_id device, cl_command_queue_properties properties, cl_int* error);
 		cl_kernel createKernel(cl_program program, const char* kernel_name, cl_int* error);
 		cl_program createProgram(const std::string& source);

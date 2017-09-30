@@ -28,7 +28,7 @@ SOFTWARE.
 #include <string>
 #include "opencl/openclhandle.hpp"
 #include "opencl/openclkernel.hpp"
-#include "opencl/opencldata.hpp"
+#include "opencl/opencllockingdata.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLKernel::OpenCLKernel(cl_kernel kernel, std::string name, OpenCLHandle** handle) {
@@ -38,11 +38,11 @@ namespace ZetaChain_Native::OpenCL {
 	}
 
 	OpenCLKernel::~OpenCLKernel() {
-		(*handle)->releaseProgram(this->program);
+		(*handle)->releaseKernel(this->kernel);
 	}
 
-	cl_kernel OpenCLKernel::getProgram() {
-		return this->program;
+	cl_kernel OpenCLKernel::getKernel() {
+		return this->kernel;
 	}
 
 	std::string OpenCLKernel::getName() {
@@ -54,6 +54,6 @@ namespace ZetaChain_Native::OpenCL {
 	}
 
 	bool OpenCLKernel::isHandleValid() {
-		return OpenCLData::getInstance()->handle == (*this->handle);
+		return OpenCLLockingData::getInstance()->handle == (*this->handle);
 	}
 }
