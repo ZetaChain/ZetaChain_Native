@@ -29,7 +29,9 @@ SOFTWARE.
 #include <iostream>
 #include <fstream>
 #include "opencl/programarguments.hpp"
+#include "opencl/kernelarguments.hpp"
 #include "opencl/bufferarguments.hpp"
+#include "opencl/commandqueuearguments.hpp"
 #include "opencl/openclhandle.hpp"
 
 namespace ZetaChain_Native::OpenCL {
@@ -57,10 +59,17 @@ namespace ZetaChain_Native::OpenCL {
 		return clCreateCommandQueue(this->context, device, properties, error);
 	}
 
+	cl_command_queue OpenCLHandle::createCommandQueue(CommandQueueArguments args) {
+		return clCreateCommandQueue(this->context, args.device, args.properties, args.errcode_ret);
+	}
+
 	cl_kernel OpenCLHandle::createKernel(cl_program program, const char* kernel_name, cl_int* error) {
 		return clCreateKernel(program, kernel_name, error);
 	}
 
+	cl_kernel OpenCLHandle::createKernel(KernelArguments args) {
+		return clCreateKernel(args.program, args.kernel_name, args.errcode_ret);
+	}
 	cl_program OpenCLHandle::createProgram(const std::string& source) {
 		size_t lengths[1] = { source.size() };
 		const char* sources[1] = { source.data() };

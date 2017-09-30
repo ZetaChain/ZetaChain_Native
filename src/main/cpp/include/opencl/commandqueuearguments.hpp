@@ -24,30 +24,11 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include "opencl/openclhandle.hpp"
-#include "opencl/openclprogram.hpp"
-#include "opencl/openclkernel.hpp"
-#include "opencl/openclbuffer.hpp"
-#include "opencl/openclcommandqueue.hpp"
 
 namespace ZetaChain_Native::OpenCL {
-	class OpenCLLockingData {
-	public:
-		static OpenCLLockingData* getInstance() {
-			if(instance == nullptr)
-				instance = new OpenCLLockingData();
-			return instance;
-		}
-		OpenCLHandle* handle;
-		OpenCLProgram* currentProgram;
-		OpenCLKernel* currentKernel;
-
-		OpenCLBuffer<unsigned long>* currentABuffer;
-		OpenCLBuffer<unsigned long>* currentBBuffer;
-
-		OpenCLCommandQueue* currentCommandQueue;
-	private:
-		OpenCLLockingData();
-		static OpenCLLockingData* instance;
+	struct CommandQueueArguments {
+		cl_device_id device;
+		cl_command_queue_properties properties;
+		cl_int* errcode_ret;
 	};
 }

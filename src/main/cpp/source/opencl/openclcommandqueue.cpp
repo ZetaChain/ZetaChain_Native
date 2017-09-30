@@ -1,4 +1,3 @@
-#pragma once
 /*
 MIT License
 
@@ -24,30 +23,41 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
+#include <vector>
+#include <string>
 #include "opencl/openclhandle.hpp"
-#include "opencl/openclprogram.hpp"
-#include "opencl/openclkernel.hpp"
-#include "opencl/openclbuffer.hpp"
+#include "opencl/opencllockingdata.hpp"
 #include "opencl/openclcommandqueue.hpp"
 
 namespace ZetaChain_Native::OpenCL {
-	class OpenCLLockingData {
-	public:
-		static OpenCLLockingData* getInstance() {
-			if(instance == nullptr)
-				instance = new OpenCLLockingData();
-			return instance;
-		}
-		OpenCLHandle* handle;
-		OpenCLProgram* currentProgram;
-		OpenCLKernel* currentKernel;
+	OpenCLCommandQueue::OpenCLCommandQueue(cl_command_queue queue, cl_device_id device, cl_command_queue_properties properties, OpenCLHandle** handle) {
+		this->queue = queue;
+		this->device = device;
+		this->properties = properties;
+		this->handle = handle;
+	}
 
-		OpenCLBuffer<unsigned long>* currentABuffer;
-		OpenCLBuffer<unsigned long>* currentBBuffer;
+	OpenCLCommandQueue::~OpenCLCommandQueue() {
+		(*handle)->releaseCommandQueue(this->queue);
+	}
 
-		OpenCLCommandQueue* currentCommandQueue;
-	private:
-		OpenCLLockingData();
-		static OpenCLLockingData* instance;
-	};
+	bool OpenCLCommandQueue::isHandleValid() {
+		return OpenCLLockingData::getInstance()->handle == (*this->handle);
+	}
+
+	cl_command_queue OpenCLCommandQueue::getQueue() {
+		return this->queue;
+	}
+
+	cl_device_id OpenCLCommandQueue::getDevice() {
+		return this->device;
+	}
+
+	cl_command_queue_properties OpenCLCommandQueue::getProperties() {
+		return this->properties;
+	}
+
+	OpenCLHandle* OpenCLCommandQueue::getHandle() {
+		return *this->handle;
+	}
 }

@@ -39,6 +39,8 @@ SOFTWARE.
 #include "opencl/init.hpp"
 #include "opencl/openclhandle.hpp"
 #include "opencl/programarguments.hpp"
+#include "opencl/kernelarguments.hpp"
+#include "opencl/commandqueuearguments.hpp"
 #include "opencl/opencllockingdata.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
@@ -99,7 +101,12 @@ namespace ZetaChain_Native {
 					};
 					data->handle->checkError(data->handle->buildProgram(pArgs));
 					cl_int error = CL_SUCCESS;
-					cl_kernel kernel = data->handle->createKernel(data->currentProgram->getProgram(), "lockblock.cl", &error);
+					OpenCL::KernelArguments kArgs = {
+						data->currentProgram->getProgram(),
+						"lockblock.cl",
+						&error
+					};
+					cl_kernel kernel = data->handle->createKernel(kArgs);
 					data->currentKernel = new OpenCL::OpenCLKernel(kernel, "kernels/lockblock.cl", &data->handle);
 					data->handle->checkError(error);
 					unsigned long kernelData = timeout + 1; // Adding 1 because of OpenCL control thread
@@ -120,14 +127,26 @@ namespace ZetaChain_Native {
 					};
 					cl_mem bBuffer = data->handle->createBuffer(bBufferArgs);
 					data->currentBBuffer = new OpenCL::OpenCLBuffer<unsigned long>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
+					OpenCL::CommandQueueArguments commandArgs = {
+						data->handle->getDevices()[0],
+						NULL,
+						&error
+					};
+					cl_command_queue commandQueue = data->handle->createCommandQueue(commandArgs);
+					data->currentCommandQueue = new OpenCL::OpenCLCommandQueue(commandQueue, handle->getDevices()[0], NULL, &data->handle);
+
+					data->handle->releaseCommandQueue(commandQueue);
 					data->handle->releaseMemObject(bBuffer);
 					data->handle->releaseMemObject(aBuffer);
 					data->handle->releaseKernel(kernel);
 					data->handle->releaseProgram(program);
+
+					delete data->currentCommandQueue;
 					delete data->currentBBuffer;
 					delete data->currentABuffer;
 					delete data->currentKernel;
 					delete data->currentProgram;
+					delete data->handle;
 				}
 			}
 			else {
