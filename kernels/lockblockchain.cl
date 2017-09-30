@@ -22,13 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-__kernel bool lockBlockchain(long iterations) {
+__kernel void lockBlockchain(__global long* iterations, __global bool* result) {
 	const int id = get_global_id(0);
 	long i = id - 1;
-	while (true) {
+	while (*result != true) {
 		if(~i | (id & (1 << 56)))
-			return true;
+			*result = true;
 		i++;
 	}
-	return false;
 }
