@@ -28,6 +28,7 @@ SOFTWARE.
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include "opencl/programarguments.hpp"
 #include "opencl/openclhandle.hpp"
 
 namespace ZetaChain_Native::OpenCL {
@@ -65,10 +66,14 @@ namespace ZetaChain_Native::OpenCL {
 		return program;
 	}
 
-	cl_int buildProgram(cl_program program, cl_uint num_devices, const cl_device_id *device_list, const char* options, 
+	cl_int OpenCLHandle::buildProgram(cl_program program, cl_uint num_devices, const cl_device_id *device_list, const char* options, 
 			void (*pfn_notify)(cl_program, void *user_data), void* user_data) {
 			return clBuildProgram(program, num_devices, device_list, options, pfn_notify, user_data);
 		}
+
+	cl_int OpenCLHandle::buildProgram(ProgramArguments args) {
+		return clBuildProgram(args.program, args.num_devices, args.device_list, args.options, args.pfn_notify, args.user_data);
+	}
 
 	void OpenCLHandle::checkError(cl_int error) {
 		if (error != CL_SUCCESS) {

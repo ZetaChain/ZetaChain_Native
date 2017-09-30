@@ -97,7 +97,7 @@ namespace ZetaChain_Native {
 						nullptr,
 						nullptr
 					};
-					// data->handle->checkError(data->handle->buildProgram(args));
+					data->handle->checkError(data->handle->buildProgram(args));
 					data->handle->releaseProgram(program);
 					delete data->currentProgram;
 				}

@@ -26,6 +26,7 @@ SOFTWARE.
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <vector>
 #include <string>
+#include "opencl/programarguments.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	class OpenCLHandle {
@@ -39,6 +40,7 @@ namespace ZetaChain_Native::OpenCL {
 		cl_program createProgram(const std::string& source);
 		cl_int buildProgram(cl_program program, cl_uint num_devices, const cl_device_id *device_list, const char *options, 
 			void (*pfn_notify)(cl_program, void *user_data), void *user_data);
+		cl_int buildProgram(ProgramArguments args);
 		void checkError(cl_int error);
 		std::string getPlatformName(cl_platform_id platform);
 		std::string getDeviceName(cl_device_id device);
