@@ -35,6 +35,7 @@ SOFTWARE.
 #include "opencl/kernelargarguments.hpp"
 #include "opencl/openclhandle.hpp"
 #include "opencl/ndrangekernelarguments.hpp"
+#include "opencl/readbufferarguments.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLHandle::OpenCLHandle(cl_platform_id defaultPlatform, cl_context context, std::vector<cl_platform_id> platforms, std::vector<cl_device_id> devices) {
@@ -156,6 +157,10 @@ namespace ZetaChain_Native::OpenCL {
 			return clEnqueueReadBuffer(queue, buffer, blocking_read, offset, size, host_mem, events_in_wait_list, wait_list, event);
 		}
 
+	cl_int OpenCLHandle::enqueueReadBuffer(ReadBufferArguments args) {
+		return clEnqueueReadBuffer(args.queue, args.buffer, args.blocking_read, args.offset, args.size, args.host_mem, args.events_in_wait_list, 
+			args.wait_list, args.event);
+	}
 	cl_int OpenCLHandle::releaseCommandQueue(cl_command_queue cl_command_queue) {
 		return clReleaseCommandQueue(cl_command_queue);
 	}

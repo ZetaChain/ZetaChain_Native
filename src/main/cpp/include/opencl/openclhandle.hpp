@@ -32,6 +32,7 @@ SOFTWARE.
 #include "opencl/commandqueuearguments.hpp"
 #include "opencl/kernelargarguments.hpp"
 #include "opencl/ndrangekernelarguments.hpp"
+#include "opencl/readbufferarguments.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	class OpenCLHandle {
@@ -61,6 +62,7 @@ namespace ZetaChain_Native::OpenCL {
 		cl_int OpenCLHandle::enqueueNDRangeKernel(NDRangeKernelArguments args);
 		cl_int enqueueReadBuffer(cl_command_queue queue, cl_mem buffer, cl_bool blocking_read, size_t offset, 
 			size_t size, void* host_mem, cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event);
+		cl_int enqueueReadBuffer(ReadBufferArguments args);
 		cl_int releaseCommandQueue(cl_command_queue cl_command_queue);
 		cl_int releaseMemObject(cl_mem memobj);
 		cl_int releaseKernel(cl_kernel kernel);

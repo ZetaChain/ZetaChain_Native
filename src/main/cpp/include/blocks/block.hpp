@@ -43,6 +43,7 @@ SOFTWARE.
 #include "opencl/commandqueuearguments.hpp"
 #include "opencl/ndrangekernelarguments.hpp"
 #include "opencl/opencllockingdata.hpp"
+#include "opencl/readbufferarguments.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
@@ -87,6 +88,8 @@ namespace ZetaChain_Native {
 					if(!data->handle){
 						throw std::runtime_error("Failed to Initialise OpenCL Handle please update your drivers or restart the application with the --noOpenCL option");
 					}
+				}
+				else {
 					cl_program program = data->handle->createProgram(data->handle->loadKernel("kernels/lockblock.cl"));
 					data->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockvlock.cl", &data->handle);
 					if(!data->currentProgram) {
@@ -161,6 +164,18 @@ namespace ZetaChain_Native {
 						NULL
 					};
 					data->handle->checkError(data->handle->enqueueNDRangeKernel(ndArgs));
+					OpenCL::ReadBufferArguments readArgs = {
+						commandQueue,
+						bBuffer,
+						CL_TRUE,
+						0,
+						sizeof(int),
+						reinterpret_cast<void*>(&result),
+						0,
+						nullptr,
+						nullptr
+					};
+					data->handle->checkError(data->handle->enqueueReadBuffer(readArgs));
 					data->handle->releaseCommandQueue(commandQueue);
 					data->handle->releaseMemObject(bBuffer);
 					data->handle->releaseMemObject(aBuffer);
