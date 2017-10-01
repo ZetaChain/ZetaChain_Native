@@ -121,7 +121,7 @@ namespace ZetaChain_Native {
 			}
 			else {
 				cl_program program = lockingData->handle->createProgram(lockingData->handle->loadKernel("kernels/lockblockdata.cl"));
-				lockingData->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockvlock.cl", &lockingData->handle);
+				lockingData->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockblockdata.cl", &lockingData->handle);
 				if(!lockingData->currentProgram) {
 					throw std::runtime_error("Failed to Create Program with Kernel Code kernels/lockblockdata.cl");
 				}
