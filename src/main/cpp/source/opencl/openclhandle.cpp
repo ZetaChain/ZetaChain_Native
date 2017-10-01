@@ -34,6 +34,7 @@ SOFTWARE.
 #include "opencl/commandqueuearguments.hpp"
 #include "opencl/kernelargarguments.hpp"
 #include "opencl/openclhandle.hpp"
+#include "opencl/ndrangekernelarguments.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLHandle::OpenCLHandle(cl_platform_id defaultPlatform, cl_context context, std::vector<cl_platform_id> platforms, std::vector<cl_device_id> devices) {
@@ -143,6 +144,12 @@ namespace ZetaChain_Native::OpenCL {
 			return clEnqueueNDRangeKernel(queue, kernel, work, global_work_offset, global_work_size, local_work_size, events_in_wait_list, wait_list, event);
 			
 		}
+
+	cl_int OpenCLHandle::enqueueNDRangeKernel(NDRangeKernelArguments args) {
+		return clEnqueueNDRangeKernel(args.queue, args.kernel, args.work, args.global_work_offset, args.global_work_size, args.local_work_size, 
+			args.events_in_wait_list, args.wait_list, args.event);
+		
+	}
 
 	cl_int OpenCLHandle::enqueueReadBuffer(cl_command_queue queue, cl_mem buffer, cl_bool blocking_read, size_t offset, 
 			size_t size, void* host_mem, cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event) {

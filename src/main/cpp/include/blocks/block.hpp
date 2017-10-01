@@ -41,6 +41,7 @@ SOFTWARE.
 #include "opencl/programarguments.hpp"
 #include "opencl/kernelarguments.hpp"
 #include "opencl/commandqueuearguments.hpp"
+#include "opencl/ndrangekernelarguments.hpp"
 #include "opencl/opencllockingdata.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
@@ -113,7 +114,7 @@ namespace ZetaChain_Native {
 					const size_t KERNEL_DATA_SIZE = sizeof(kernelData);
 					OpenCL::BufferArguments aBufferArgs = {
 						CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-						sizeof(unsigned char) * KERNEL_DATA_SIZE,
+						KERNEL_DATA_SIZE,
 						reinterpret_cast<void*>(&kernelData),
 						&error
 					};
@@ -149,7 +150,17 @@ namespace ZetaChain_Native {
 						&bBuffer
 					};
 					data->handle->setKernelArgument(arg_result);
-
+					const size_t globalWorkSize[] = { KERNEL_DATA_SIZE, 0, 0 };
+					OpenCL::NDRangeKernelArguments ndArgs = {
+						commandQueue,
+						kernel,
+						1,
+						nullptr,
+						0,
+						nullptr,
+						NULL
+					};
+					data->handle->checkError(data->handle->enqueueNDRangeKernel(ndArgs));
 					data->handle->releaseCommandQueue(commandQueue);
 					data->handle->releaseMemObject(bBuffer);
 					data->handle->releaseMemObject(aBuffer);
