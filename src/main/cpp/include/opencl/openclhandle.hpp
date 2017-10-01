@@ -30,6 +30,7 @@ SOFTWARE.
 #include "opencl/kernelarguments.hpp"
 #include "opencl/bufferarguments.hpp"
 #include "opencl/commandqueuearguments.hpp"
+#include "opencl/kernelargarguments.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	class OpenCLHandle {
@@ -52,6 +53,7 @@ namespace ZetaChain_Native::OpenCL {
 		std::string getDeviceName(cl_device_id device);
 		std::string loadKernel(const char* name);
 		cl_int setKernelArgument(cl_kernel kernel, cl_uint index, size_t size, const void* value);
+		cl_int setKernelArgument(KernelArgArguments args);
 		cl_int enqueueNDRangeKernel(cl_command_queue queue, cl_kernel kernel, cl_uint work,
 			const size_t* global_work_offset, const size_t* global_work_size, const size_t* local_work_size,
 			cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event);

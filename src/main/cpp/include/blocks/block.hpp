@@ -135,6 +135,20 @@ namespace ZetaChain_Native {
 					};
 					cl_command_queue commandQueue = data->handle->createCommandQueue(commandArgs);
 					data->currentCommandQueue = new OpenCL::OpenCLCommandQueue(commandQueue, handle->getDevices()[0], NULL, &data->handle);
+					OpenCL::KernelArgArguments arg_iterations = {
+						kernel,
+						0,
+						sizeof(cl_mem),
+						&aBuffer
+					};
+					data->handle->setKernelArgument(arg_iterations);
+					OpenCL::KernelArgArguments arg_result = {
+						kernel,
+						1,
+						sizeof(cl_mem),
+						&bBuffer
+					};
+					data->handle->setKernelArgument(arg_result);
 
 					data->handle->releaseCommandQueue(commandQueue);
 					data->handle->releaseMemObject(bBuffer);

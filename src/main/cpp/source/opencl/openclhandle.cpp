@@ -32,6 +32,7 @@ SOFTWARE.
 #include "opencl/kernelarguments.hpp"
 #include "opencl/bufferarguments.hpp"
 #include "opencl/commandqueuearguments.hpp"
+#include "opencl/kernelargarguments.hpp"
 #include "opencl/openclhandle.hpp"
 
 namespace ZetaChain_Native::OpenCL {
@@ -130,6 +131,10 @@ namespace ZetaChain_Native::OpenCL {
 
 	cl_int OpenCLHandle::setKernelArgument(cl_kernel kernel, cl_uint index, size_t size, const void* value) {
 		return clSetKernelArg(kernel, index, size, value);
+	}
+
+	cl_int OpenCLHandle::setKernelArgument(KernelArgArguments args) {
+		return clSetKernelArg(args.kernel, args.index, args.size, args.value);
 	}
 
 	cl_int OpenCLHandle::enqueueNDRangeKernel(cl_command_queue queue, cl_kernel kernel, cl_uint work, 
