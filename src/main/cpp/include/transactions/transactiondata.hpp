@@ -27,11 +27,14 @@ SOFTWARE.
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <string> // std::string
 #include <vector>
+#include <ctime>
 
 namespace ZetaChain_Native {
 
 	class TransactionData {
 	public:
+		TransactionData();
+		~TransactionData();
 
 		std::string getHash() {
 			return hash;
@@ -49,6 +52,13 @@ namespace ZetaChain_Native {
 			this->size = size;
 		}
 
+		time_t getTimeLocked() {
+			return this->timeLocked;
+		}
+
+		void setTimeLocked(time_t timeLocked) {
+			this->timeLocked = timeLocked;
+		}
 
 		friend bool operator==(const TransactionData& lhs, const TransactionData& rhs) {
 			return lhs.hash == rhs.hash
@@ -59,16 +69,14 @@ namespace ZetaChain_Native {
 			return !(lhs == rhs);
 		}
 
-	protected:
-		virtual std::string computeHash() = 0;
-		virtual std::vector<unsigned char> toBytes() = 0;
-		virtual std::string toString() = 0;
-		virtual bool lock(unsigned long timeout) = 0;
-		
-		std::string hash;
-		unsigned long size;
+		std::string computeHash();
+		std::vector<unsigned char> toBytes();
+		std::string toString();
+		bool lock(unsigned long timeout);
 
 	private:
-
+		std::string hash;
+		unsigned long size;
+		time_t timeLocked;
 	};
 }
