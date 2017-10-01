@@ -96,7 +96,7 @@ namespace ZetaChain_Native {
 					outputArr.push_back(obj);
 				}
 
-				// nlohmann::json rawData = this->data->toString(); // TODO: Uncomment when transaction data is implemented
+				nlohmann::json rawData = this->data->toString();
 				
 				j["hash", this->hash];
 				j["inputCount", this->inputCount];
@@ -107,7 +107,7 @@ namespace ZetaChain_Native {
 				j["timeCreated", this->timeCreated];
 				j["timeLocked", this->timeLocked];
 				j["timeConfirmed", this->timeConfirmed];
-				// j["data", rawData.dump()]; // TODO: Uncomment when transaction data is implemented
+				j["data", rawData.dump()];
 				return j;
 			}
 			

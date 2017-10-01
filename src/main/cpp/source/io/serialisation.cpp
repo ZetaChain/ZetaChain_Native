@@ -111,6 +111,7 @@ namespace ZetaChain_Native::IO::Serialisation {
 	bool writeTransactionData(std::ofstream* stream, TransactionData* data) {
 		writeString(stream, data->getHash());
 		writeUnsignedLong(stream, data->getSize());
+		writeUnsignedLong(stream, data->getTimeLocked());
 		return true;
 	}
 
@@ -210,9 +211,11 @@ namespace ZetaChain_Native::IO::Serialisation {
 	TransactionData* readTransactionData(std::ifstream* stream) {
 		std::string hash = *readString(stream);
 		unsigned long size = *readUnsignedLong(stream);
-		// TransactionData* result = new TransactionData(); // TODO fix
-		// result->setHash(hash);
-		// result->setSize(size);
-		return nullptr;
+		unsigned long timeLocked = *readUnsignedLong(stream);
+		TransactionData* result = new TransactionData();
+		result->setHash(hash);
+		result->setSize(size);
+		result->setTimeLocked(timeLocked);
+		return result;
 	}
 }
