@@ -43,7 +43,7 @@ namespace ZetaChain_Native {
 			std::vector<unsigned char> toBytes() override;
 			std::string toString() override;
 			bool verify() override;
-			bool lock() override;
+			bool lock(unsigned long timeout) override;
 
 			std::string getHash();
 			std::map<std::string, Transaction<TransactionData*>*> getTransactions();

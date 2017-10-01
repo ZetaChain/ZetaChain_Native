@@ -42,7 +42,7 @@ namespace ZetaChain_Native {
 		virtual std::vector<unsigned char> toBytes() = 0;
 		virtual std::string toString() = 0;
 		virtual bool verify() = 0;
-		virtual bool lock() = 0;
+		virtual bool lock(unsigned long timeout) = 0;
 
 		protected:
 

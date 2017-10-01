@@ -82,37 +82,37 @@ namespace ZetaChain_Native {
 				return true;
 			
 			if(!__noOpenCL) {
-				OpenCL::OpenCLLockingData* data = OpenCL::OpenCLLockingData::getInstance();
-				if(!data->handle){
-					data->handle = OpenCL::init();
-					if(!data->handle){
+				OpenCL::OpenCLLockingData* lockingData = OpenCL::OpenCLLockingData::getInstance();
+				if(!lockingData->handle){
+					lockingData->handle = OpenCL::init();
+					if(!lockingData->handle){
 						throw std::runtime_error("Failed to Initialise OpenCL Handle please update your drivers or restart the application with the --noOpenCL option");
 					}
 				}
 				else {
-					cl_program program = data->handle->createProgram(data->handle->loadKernel("kernels/lockblock.cl"));
-					data->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockvlock.cl", &data->handle);
-					if(!data->currentProgram) {
+					cl_program program = lockingData->handle->createProgram(lockingData->handle->loadKernel("kernels/lockblock.cl"));
+					lockingData->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockvlock.cl", &lockingData->handle);
+					if(!lockingData->currentProgram) {
 						throw std::runtime_error("Failed to Create Program with Kernel Code kernels/lockblock.cl");
 					}
 					OpenCL::ProgramArguments pArgs = {
 						program,
-						data->handle->getDevices().size(),
-						data->handle->getDevices().data(),
+						lockingData->handle->getDevices().size(),
+						lockingData->handle->getDevices().data(),
 						nullptr,
 						nullptr,
 						nullptr
 					};
-					data->handle->checkError(data->handle->buildProgram(pArgs));
+					lockingData->handle->checkError(lockingData->handle->buildProgram(pArgs));
 					cl_int error = CL_SUCCESS;
 					OpenCL::KernelArguments kArgs = {
-						data->currentProgram->getProgram(),
+						lockingData->currentProgram->getProgram(),
 						"lockblock.cl",
 						&error
 					};
-					cl_kernel kernel = data->handle->createKernel(kArgs);
-					data->currentKernel = new OpenCL::OpenCLKernel(kernel, "kernels/lockblock.cl", &data->handle);
-					data->handle->checkError(error);
+					cl_kernel kernel = lockingData->handle->createKernel(kArgs);
+					lockingData->currentKernel = new OpenCL::OpenCLKernel(kernel, "kernels/lockblock.cl", &lockingData->handle);
+					lockingData->handle->checkError(error);
 					unsigned long kernelData = timeout + 1; // Adding 1 because of OpenCL control thread
 					const size_t KERNEL_DATA_SIZE = sizeof(kernelData);
 					OpenCL::BufferArguments aBufferArgs = {
@@ -121,8 +121,8 @@ namespace ZetaChain_Native {
 						reinterpret_cast<void*>(&kernelData),
 						&error
 					};
-					cl_mem aBuffer = data->handle->createBuffer(aBufferArgs);
-					data->currentABuffer = new OpenCL::OpenCLBuffer<unsigned long>(aBuffer, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
+					cl_mem aBuffer = lockingData->handle->createBuffer(aBufferArgs);
+					lockingData->currentABuffer = new OpenCL::OpenCLBuffer<unsigned long>(aBuffer, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernelData, &lockingData->handle);
 					int result = -1;
 					OpenCL::BufferArguments bBufferArgs = {
 						CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
@@ -130,29 +130,29 @@ namespace ZetaChain_Native {
 						reinterpret_cast<void*>(&result),
 						&error
 					};
-					cl_mem bBuffer = data->handle->createBuffer(bBufferArgs);
-					data->currentBBuffer = new OpenCL::OpenCLBuffer<int>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &data->handle);
+					cl_mem bBuffer = lockingData->handle->createBuffer(bBufferArgs);
+					lockingData->currentBBuffer = new OpenCL::OpenCLBuffer<int>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &lockingData->handle);
 					OpenCL::CommandQueueArguments commandArgs = {
-						data->handle->getDevices()[0],
+						lockingData->handle->getDevices()[0],
 						NULL,
 						&error
 					};
-					cl_command_queue commandQueue = data->handle->createCommandQueue(commandArgs);
-					data->currentCommandQueue = new OpenCL::OpenCLCommandQueue(commandQueue, handle->getDevices()[0], NULL, &data->handle);
+					cl_command_queue commandQueue = lockingData->handle->createCommandQueue(commandArgs);
+					lockingData->currentCommandQueue = new OpenCL::OpenCLCommandQueue(commandQueue, lockingData->handle->getDevices()[0], NULL, &lockingData->handle);
 					OpenCL::KernelArgArguments arg_iterations = {
 						kernel,
 						0,
 						sizeof(cl_mem),
 						&aBuffer
 					};
-					data->handle->setKernelArgument(arg_iterations);
+					lockingData->handle->setKernelArgument(arg_iterations);
 					OpenCL::KernelArgArguments arg_result = {
 						kernel,
 						1,
 						sizeof(cl_mem),
 						&bBuffer
 					};
-					data->handle->setKernelArgument(arg_result);
+					lockingData->handle->setKernelArgument(arg_result);
 					const size_t globalWorkSize[] = { KERNEL_DATA_SIZE, 0, 0 };
 					OpenCL::NDRangeKernelArguments ndArgs = {
 						commandQueue,
@@ -163,7 +163,7 @@ namespace ZetaChain_Native {
 						nullptr,
 						NULL
 					};
-					data->handle->checkError(data->handle->enqueueNDRangeKernel(ndArgs));
+					lockingData->handle->checkError(lockingData->handle->enqueueNDRangeKernel(ndArgs));
 					OpenCL::ReadBufferArguments readArgs = {
 						commandQueue,
 						bBuffer,
@@ -175,19 +175,19 @@ namespace ZetaChain_Native {
 						nullptr,
 						nullptr
 					};
-					data->handle->checkError(data->handle->enqueueReadBuffer(readArgs));
-					data->handle->releaseCommandQueue(commandQueue);
-					data->handle->releaseMemObject(bBuffer);
-					data->handle->releaseMemObject(aBuffer);
-					data->handle->releaseKernel(kernel);
-					data->handle->releaseProgram(program);
+					lockingData->handle->checkError(lockingData->handle->enqueueReadBuffer(readArgs));
+					lockingData->handle->releaseCommandQueue(commandQueue);
+					lockingData->handle->releaseMemObject(bBuffer);
+					lockingData->handle->releaseMemObject(aBuffer);
+					lockingData->handle->releaseKernel(kernel);
+					lockingData->handle->releaseProgram(program);
 
-					delete data->currentCommandQueue;
-					delete data->currentBBuffer;
-					delete data->currentABuffer;
-					delete data->currentKernel;
-					delete data->currentProgram;
-					delete data->handle;
+					delete lockingData->currentCommandQueue;
+					delete lockingData->currentBBuffer;
+					delete lockingData->currentABuffer;
+					delete lockingData->currentKernel;
+					delete lockingData->currentProgram;
+					delete lockingData->handle;
 				}
 			}
 			else {
