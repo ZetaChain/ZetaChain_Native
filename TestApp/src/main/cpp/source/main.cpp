@@ -32,6 +32,7 @@ SOFTWARE.
 #include <stdexcept> // std::runtime_error
 #include "main.hpp"
 #include "opencl/init.hpp"
+#include "opencl/openclhandle.hpp"
 #include "blocks/block.hpp" // Block Stuff
 #include "blockchains/blockchain.hpp" // Blockchain Stuff
 #include "blockdata/intblockdata.hpp" // IntBlockData
@@ -72,10 +73,12 @@ int main(int argc, char** argv) {
 
 	std::cout << "Using SHA256: " << static_cast<int>(!__nosha256) << std::endl;
 	std::cout << "Using JSON File Format: " << static_cast<int>(__useJSONFormat) << std::endl;
-	std::cout << "Using OpenCL" << static_cast<int>(!__noOpenCL) << std::endl;
+	std::cout << "Using OpenCL " << static_cast<int>(!__noOpenCL) << std::endl;
 
 	if(!__noOpenCL) {
-		OpenCL::init();
+		OpenCL::OpenCLHandle* handle = OpenCL::init();
+		std::cout << std::endl;
+		delete handle;
 	}
 
 	createIntBlockchain();

@@ -34,6 +34,19 @@ SOFTWARE.
 #include "transactions/transaction.hpp"
 #include "blockdata/unsignedcharblockdata.hpp"
 #include "hashing.hpp"
+#include "opencl/init.hpp"
+#include "opencl/openclhandle.hpp"
+#include "opencl/opencllockingdata.hpp"
+#include "opencl/programarguments.hpp"
+#include "opencl/kernelarguments.hpp"
+#include "opencl/commandqueuearguments.hpp"
+#include "opencl/ndrangekernelarguments.hpp"
+#include "opencl/opencllockingdata.hpp"
+#include "opencl/readbufferarguments.hpp"
+
+extern bool __noOpenCL;
+
+extern "C" void lockBlockDataASM(unsigned long timeout);
 
 namespace ZetaChain_Native {
 	UnsignedCharBlockData::UnsignedCharBlockData(unsigned char data){
@@ -95,9 +108,132 @@ namespace ZetaChain_Native {
 		return this->hash == computeHash();
 	}
 
-	bool UnsignedCharBlockData::lock() {
-		//TODO
-		return false;
+	bool UnsignedCharBlockData::lock(unsigned long timeout = 1000) {
+		if(this->timeLocked != 0)
+		return true;
+	
+		if(!__noOpenCL) {
+			OpenCL::OpenCLLockingData* lockingData = OpenCL::OpenCLLockingData::getInstance();
+			if(!lockingData->handle){
+				lockingData->handle = OpenCL::init();
+				if(!lockingData->handle){
+					throw std::runtime_error("Failed to Initialise OpenCL Handle please update your drivers or restart the application with the --noOpenCL option");
+				}
+			}
+			else {
+				cl_program program = lockingData->handle->createProgram(lockingData->handle->loadKernel("kernels/lockblockdata.cl"));
+				lockingData->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/lockblockdata.cl", &lockingData->handle);
+				if(!lockingData->currentProgram) {
+					throw std::runtime_error("Failed to Create Program with Kernel Code kernels/lockblockdata.cl");
+				}
+				OpenCL::ProgramArguments pArgs = {
+					program,
+					lockingData->handle->getDevices().size(),
+					lockingData->handle->getDevices().data(),
+					nullptr,
+					nullptr,
+					nullptr
+				};
+				lockingData->handle->checkError(lockingData->handle->buildProgram(pArgs));
+				cl_int error = CL_SUCCESS;
+				OpenCL::KernelArguments kArgs = {
+					lockingData->currentProgram->getProgram(),
+					"lockblock.cl",
+					&error
+				};
+				cl_kernel kernel = lockingData->handle->createKernel(kArgs);
+				lockingData->currentKernel = new OpenCL::OpenCLKernel(kernel, "kernels/lockblockdata.cl", &lockingData->handle);
+				lockingData->handle->checkError(error);
+				unsigned long kernelData = timeout + 1; // Adding 1 because of OpenCL control thread
+				const size_t KERNEL_DATA_SIZE = sizeof(kernelData);
+				OpenCL::BufferArguments aBufferArgs = {
+					CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+					KERNEL_DATA_SIZE,
+					reinterpret_cast<void*>(&kernelData),
+					&error
+				};
+				cl_mem aBuffer = lockingData->handle->createBuffer(aBufferArgs);
+				lockingData->currentABuffer = new OpenCL::OpenCLBuffer<unsigned long>(aBuffer, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernelData, &lockingData->handle);
+				int result = -1;
+				OpenCL::BufferArguments bBufferArgs = {
+					CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+					sizeof(int),
+					reinterpret_cast<void*>(&result),
+					&error
+				};
+				cl_mem bBuffer = lockingData->handle->createBuffer(bBufferArgs);
+				lockingData->currentBBuffer = new OpenCL::OpenCLBuffer<int>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, kernelData, &lockingData->handle);
+				OpenCL::CommandQueueArguments commandArgs = {
+					lockingData->handle->getDevices()[0],
+					NULL,
+					&error
+				};
+				cl_command_queue commandQueue = lockingData->handle->createCommandQueue(commandArgs);
+				lockingData->currentCommandQueue = new OpenCL::OpenCLCommandQueue(commandQueue, lockingData->handle->getDevices()[0], NULL, &lockingData->handle);
+				OpenCL::KernelArgArguments arg_iterations = {
+					kernel,
+					0,
+					sizeof(cl_mem),
+					&aBuffer
+				};
+				lockingData->handle->setKernelArgument(arg_iterations);
+				OpenCL::KernelArgArguments arg_result = {
+					kernel,
+					1,
+					sizeof(cl_mem),
+					&bBuffer
+				};
+				lockingData->handle->setKernelArgument(arg_result);
+				const size_t globalWorkSize[] = { KERNEL_DATA_SIZE, 0, 0 };
+				OpenCL::NDRangeKernelArguments ndArgs = {
+					commandQueue,
+					kernel,
+					1,
+					nullptr,
+					0,
+					nullptr,
+					NULL
+				};
+				lockingData->handle->checkError(lockingData->handle->enqueueNDRangeKernel(ndArgs));
+				OpenCL::ReadBufferArguments readArgs = {
+					commandQueue,
+					bBuffer,
+					CL_TRUE,
+					0,
+					sizeof(int),
+					reinterpret_cast<void*>(&result),
+					0,
+					nullptr,
+					nullptr
+				};
+				lockingData->handle->checkError(lockingData->handle->enqueueReadBuffer(readArgs));
+				lockingData->handle->releaseCommandQueue(commandQueue);
+				lockingData->handle->releaseMemObject(bBuffer);
+				lockingData->handle->releaseMemObject(aBuffer);
+				lockingData->handle->releaseKernel(kernel);
+				lockingData->handle->releaseProgram(program);
+
+				delete lockingData->currentCommandQueue;
+				delete lockingData->currentBBuffer;
+				delete lockingData->currentABuffer;
+				delete lockingData->currentKernel;
+				delete lockingData->currentProgram;
+				delete lockingData->handle;
+			}
+		}
+		else {
+			lockBlockDataASM(timeout);
+		}
+
+		time_t now;
+		time(&now);
+		struct tm* timeinfo;
+		timeinfo = localtime(&now);
+		this->timeLocked = now - (timeout / 1000);
+		time_t _time = this->timeLocked;
+		this->hash = computeHash();
+		std::cout << "Block Data has Sucessfully been locked" << std::endl;
+		return this->timeLocked != 0;;
 	}
 
 

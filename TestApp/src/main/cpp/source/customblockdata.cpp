@@ -97,7 +97,7 @@ bool CustomBlockData::verify(){
 	return this->hash == computeHash();
 }
 
-bool CustomBlockData::lock() {
+bool CustomBlockData::lock(unsigned long timeout = 1000) {
 	//TODO
 	return false;
 }

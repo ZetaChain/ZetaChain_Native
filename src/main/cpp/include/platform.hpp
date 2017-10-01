@@ -25,20 +25,24 @@ SOFTWARE.
 
 #ifdef _WIN32
 	#include <windows.h>
+	#include <CL/cl.h>
 #elif __APPLE__
 	#include "TargetConditionals.h"
 	#include <sys/stat.h>
 	#include <sys/types.h>
 	#include <fcntl.h>
+	#include "OpenCL/opencl.h"
 #elif __linux__
 	#include <sys/stat.h>
 	#include <sys/types.h>
 	#include <fcntl.h>
+	#include <CL/cl.h>
 
 #elif __unix__ // all unices not caught above
 	#include <sys/stat.h>
 	#include <sys/types.h>
 	#include <fcntl.h>
+	#include <CL/cl.h>
 #else
 	#error "Unknown compiler"
 #endif
