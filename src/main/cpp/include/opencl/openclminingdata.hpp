@@ -31,26 +31,27 @@ SOFTWARE.
 #include "opencl/openclcommandqueue.hpp"
 
 namespace ZetaChain_Native::OpenCL {
-	class OpenCLLockingData {
+	class OpenCLMiningData {
 	public:
-		static OpenCLLockingData* getInstance() {
+		static OpenCLMiningData* getInstance() {
 			if(instance == nullptr)
-				instance = new OpenCLLockingData();
+				instance = new OpenCLMiningData();
 			return instance;
 		}
 		OpenCLHandle* handle;
 		OpenCLProgram* currentProgram;
 		OpenCLKernel* currentKernel;
 
-		OpenCLBuffer<unsigned long>* currentABuffer;
-		OpenCLBuffer<int>* currentBBuffer;
+		OpenCLBuffer<void*>* currentABuffer;
+		OpenCLBuffer<unsigned long>* currentBBuffer;
+		OpenCLBuffer<long>* currentCBuffer;
 
 		OpenCLCommandQueue* currentCommandQueue;
 		
-		OpenCLLockingData(OpenCLLockingData const&) = delete;
-		void operator=(OpenCLLockingData const&) = delete;
+		OpenCLMiningData(OpenCLMiningData const&) = delete;
+		void operator=(OpenCLMiningData const&) = delete;
 	private:
-		OpenCLLockingData();
-		static OpenCLLockingData* instance;
+		OpenCLMiningData();
+		static OpenCLMiningData* instance;
 	};
 }

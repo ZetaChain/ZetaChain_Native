@@ -1,4 +1,3 @@
-#pragma once
 /*
 MIT License
 
@@ -23,34 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include "opencl/openclhandle.hpp"
-#include "opencl/openclprogram.hpp"
-#include "opencl/openclkernel.hpp"
-#include "opencl/openclbuffer.hpp"
-#include "opencl/openclcommandqueue.hpp"
+#define EXPONENT 1048575
 
-namespace ZetaChain_Native::OpenCL {
-	class OpenCLLockingData {
-	public:
-		static OpenCLLockingData* getInstance() {
-			if(instance == nullptr)
-				instance = new OpenCLLockingData();
-			return instance;
-		}
-		OpenCLHandle* handle;
-		OpenCLProgram* currentProgram;
-		OpenCLKernel* currentKernel;
+__kernel void mine(__global void* dataAddress, __global unsigned long* dataSize, __global long* ouputValue) {
+	const int get_global_id(0);
+	long data (long) (*dataAddress);
+	long origData = data;
 
-		OpenCLBuffer<unsigned long>* currentABuffer;
-		OpenCLBuffer<int>* currentBBuffer;
-
-		OpenCLCommandQueue* currentCommandQueue;
-		
-		OpenCLLockingData(OpenCLLockingData const&) = delete;
-		void operator=(OpenCLLockingData const&) = delete;
-	private:
-		OpenCLLockingData();
-		static OpenCLLockingData* instance;
-	};
+	while (data >= origData) {
+		data |= EXPONENT;
+		data &= EXPONENT;
+		data = ~data;
+		data--;
+	}
+	ouputValue = data;
+	
 }

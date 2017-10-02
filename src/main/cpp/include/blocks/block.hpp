@@ -38,11 +38,12 @@ SOFTWARE.
 #include "hashing.hpp"
 #include "opencl/init.hpp"
 #include "opencl/openclhandle.hpp"
+#include "opencl/opencllockingdata.hpp"
+//#include "opencl/openclminingdata.hpp"
 #include "opencl/programarguments.hpp"
 #include "opencl/kernelarguments.hpp"
 #include "opencl/commandqueuearguments.hpp"
 #include "opencl/ndrangekernelarguments.hpp"
-#include "opencl/opencllockingdata.hpp"
 #include "opencl/readbufferarguments.hpp"
 
 extern "C" void lockBlockASM(unsigned long timeout);
@@ -70,7 +71,139 @@ namespace ZetaChain_Native {
 		long mine() {
 			std::cout << "Mining Block " << this->height << std::endl;
 			auto start = std::chrono::high_resolution_clock::now();
-			this->setValue(mineASM(reinterpret_cast<void*>(this->data), sizeof(this->data)));
+			if(!__noOpenCL) {
+				OpenCL::OpenCLMiningData* miningData = OpenCL::OpenCLMiningData::getInstance();
+				if(!miningData->handle){
+					miningData->handle = OpenCL::init();
+					if(!miningData->handle){
+						throw std::runtime_error("Failed to Initialise OpenCL Handle please update your drivers or restart the application with the --noOpenCL option");
+					}
+				}
+				else {
+					cl_program program = miningData->handle->createProgram(miningData->handle->loadKernel("kernels/mining.cl"));
+					miningData->currentProgram = new OpenCL::OpenCLProgram(program, "kernels/mining.cl", &miningData->handle);
+					if(!miningData->currentProgram) {
+						throw std::runtime_error("Failed to Create Program with Kernel Code kernels/mining.cl");
+					}
+					OpenCL::ProgramArguments pArgs = {
+						program,
+						miningData->handle->getDevices().size(),
+						miningData->handle->getDevices().data(),
+						nullptr,
+						nullptr,
+						nullptr
+					};
+					miningData->handle->checkError(miningData->handle->buildProgram(pArgs));
+					cl_int error = CL_SUCCESS;
+					OpenCL::KernelArguments kArgs = {
+						miningData->currentProgram->getProgram(),
+						"lockblock.cl",
+						&error
+					};
+					cl_kernel kernel = miningData->handle->createKernel(kArgs);
+					miningData->currentKernel = new OpenCL::OpenCLKernel(kernel, "kernels/mining.cl", &miningData->handle);
+					miningData->handle->checkError(error);
+					void* kernelData = reinterpret_cast<void*>(this->data);
+					const size_t KERNEL_DATA_SIZE = sizeof(this->data);
+					OpenCL::BufferArguments aBufferArgs = {
+						CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+						KERNEL_DATA_SIZE,
+						reinterpret_cast<void*>(&kernelData),
+						&error
+					};
+					cl_mem aBuffer = miningData->handle->createBuffer(aBufferArgs);
+					miningData->currentABuffer = new OpenCL::OpenCLBuffer<void*>(aBuffer, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, kernelData, &miningData->handle);
+					unsigned long result = sizeof(this->data);
+					OpenCL::BufferArguments bBufferArgs = {
+						CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+						sizeof(unsigned long),
+						reinterpret_cast<void*>(&result),
+						&error
+					};
+					cl_mem bBuffer = miningData->handle->createBuffer(bBufferArgs);
+					miningData->currentBBuffer = new OpenCL::OpenCLBuffer<unsigned long>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, result, &miningData->handle);
+					long outputData = LONG_MAX;
+					OpenCL::BufferArguments cBufferArgs = {
+						CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR,
+						sizeof(long),
+						reinterpret_cast<void*>(&outputData),
+						&error
+					};
+					cl_mem cBuffer = miningData->handle->createBuffer(cBufferArgs);
+					miningData->currentCBuffer = new OpenCL::OpenCLBuffer<long>(bBuffer, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, outputData, &miningData->handle);
+					OpenCL::CommandQueueArguments commandArgs = {
+						miningData->handle->getDevices()[0],
+						NULL,
+						&error
+					};
+					cl_command_queue commandQueue = miningData->handle->createCommandQueue(commandArgs);
+					miningData->currentCommandQueue = new OpenCL::OpenCLCommandQueue(commandQueue, miningData->handle->getDevices()[0], NULL, &miningData->handle);
+					OpenCL::KernelArgArguments arg_data = {
+						kernel,
+						0,
+						sizeof(cl_mem),
+						&aBuffer
+					};
+					miningData->handle->setKernelArgument(arg_data);
+					OpenCL::KernelArgArguments arg_data_size = {
+						kernel,
+						1,
+						sizeof(cl_mem),
+						&bBuffer
+					};
+					miningData->handle->setKernelArgument(arg_data_size);
+					OpenCL::KernelArgArguments output_data = {
+						kernel,
+						2,
+						sizeof(cl_mem),
+						&cBuffer
+					};
+					miningData->handle->setKernelArgument(output_data);
+					const size_t globalWorkSize[] = { KERNEL_DATA_SIZE, 0, 0 };
+					OpenCL::NDRangeKernelArguments ndArgs = {
+						commandQueue,
+						kernel,
+						1,
+						nullptr,
+						0,
+						nullptr,
+						NULL
+					};
+					miningData->handle->checkError(miningData->handle->enqueueNDRangeKernel(ndArgs));
+					OpenCL::ReadBufferArguments readArgs = {
+						commandQueue,
+						bBuffer,
+						CL_TRUE,
+						0,
+						sizeof(int),
+						reinterpret_cast<void*>(&outputData),
+						0,
+						nullptr,
+						nullptr
+					};
+					miningData->handle->checkError(miningData->handle->enqueueReadBuffer(readArgs));
+					this->value = outputData;
+					
+					miningData->handle->releaseCommandQueue(commandQueue);
+					miningData->handle->releaseMemObject(cBuffer);
+					miningData->handle->releaseMemObject(bBuffer);
+					miningData->handle->releaseMemObject(aBuffer);
+					miningData->handle->releaseKernel(kernel);
+					miningData->handle->releaseProgram(program);
+	
+					delete miningData->currentCommandQueue;
+					delete miningData->currentCBuffer;
+					delete miningData->currentBBuffer;
+					delete miningData->currentABuffer;
+					delete miningData->currentKernel;
+					delete miningData->currentProgram;
+					delete miningData->handle;
+				}
+			}
+			else {
+				this->setValue(mineASM(reinterpret_cast<void*>(this->data), sizeof(this->data)));
+			}
+			
 			auto end = std::chrono::high_resolution_clock::now();
 			auto diff = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
 			std::cout << "Block " << this->height << " Was Sucessfully Mined in: " << diff << " ns" << std::endl;
