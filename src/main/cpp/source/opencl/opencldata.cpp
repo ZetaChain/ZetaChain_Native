@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
-#include "opencl/opencllockingdata.hpp"
+#include "opencl/opencldata.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLLockingData::OpenCLLockingData() {
@@ -31,4 +31,10 @@ namespace ZetaChain_Native::OpenCL {
 	}
 
 	OpenCLLockingData* OpenCLLockingData::instance = nullptr;
+
+	OpenCLMiningData::OpenCLMiningData() {
+		instance = this;
+	}
+
+	OpenCLMiningData* OpenCLMiningData::instance = nullptr;
 }

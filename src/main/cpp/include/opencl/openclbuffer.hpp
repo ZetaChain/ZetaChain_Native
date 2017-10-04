@@ -27,7 +27,7 @@ SOFTWARE.
 #include <vector>
 #include <string>
 #include "opencl/openclhandle.hpp"
-#include "opencl/opencllockingdata.hpp"
+#include "opencl/opencldata.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	

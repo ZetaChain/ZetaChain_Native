@@ -28,7 +28,7 @@ SOFTWARE.
 #include <string>
 #include "opencl/openclhandle.hpp"
 #include "opencl/openclkernel.hpp"
-#include "opencl/opencllockingdata.hpp"
+#include "opencl/opencldata.hpp"
 
 namespace ZetaChain_Native::OpenCL {
 	OpenCLKernel::OpenCLKernel(cl_kernel kernel, std::string name, OpenCLHandle** handle) {

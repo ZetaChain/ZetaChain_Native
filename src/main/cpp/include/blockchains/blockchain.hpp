@@ -37,12 +37,12 @@ SOFTWARE.
 #include "constants.hpp" // MAX_BLOCK_SIZE
 #include "opencl/init.hpp"
 #include "opencl/openclhandle.hpp"
-#include "opencl/opencllockingdata.hpp"
+#include "opencl/opencldata.hpp"
 #include "opencl/programarguments.hpp"
 #include "opencl/kernelarguments.hpp"
 #include "opencl/commandqueuearguments.hpp"
 #include "opencl/ndrangekernelarguments.hpp"
-#include "opencl/opencllockingdata.hpp"
+#include "opencl/opencldata.hpp"
 #include "opencl/readbufferarguments.hpp"
 
 extern bool __noOpenCL;

@@ -53,4 +53,28 @@ namespace ZetaChain_Native::OpenCL {
 		OpenCLLockingData();
 		static OpenCLLockingData* instance;
 	};
+
+	class OpenCLMiningData {
+	public:
+		static OpenCLMiningData* getInstance() {
+			if(instance == nullptr)
+				instance = new OpenCLMiningData();
+			return instance;
+		}
+		OpenCLHandle* handle;
+		OpenCLProgram* currentProgram;
+		OpenCLKernel* currentKernel;
+
+		OpenCLBuffer<void*>* currentABuffer;
+		OpenCLBuffer<unsigned long>* currentBBuffer;
+		OpenCLBuffer<long>* currentCBuffer;
+
+		OpenCLCommandQueue* currentCommandQueue;
+		
+		OpenCLMiningData(OpenCLMiningData const&) = delete;
+		void operator=(OpenCLMiningData const&) = delete;
+	private:
+		OpenCLMiningData();
+		static OpenCLMiningData* instance;
+	};
 }
