@@ -63,15 +63,15 @@ int main(int argc, char** argv) {
 
 	for(int i = 0; i < argc; i++){
 		std::cout << argv[i] << std::endl;
-		if(std::string(argv[i]) == "--nosha256")
-			__nosha256 = true;
+		if(std::string(argv[i]) == "--noSHA256")
+			__noSHA256 = true;
 		else if(std::string(argv[i]) == "--useJSONFormat")
 			__useJSONFormat = true;
 		else if(std::string(argv[i]) == "--noOpenCL")
 			__noOpenCL = true;
 	}
 
-	std::cout << "Using SHA256: " << static_cast<int>(!__nosha256) << std::endl;
+	std::cout << "Using SHA256: " << static_cast<int>(!__noSHA256) << std::endl;
 	std::cout << "Using JSON File Format: " << static_cast<int>(__useJSONFormat) << std::endl;
 	std::cout << "Using OpenCL " << static_cast<int>(!__noOpenCL) << std::endl;
 

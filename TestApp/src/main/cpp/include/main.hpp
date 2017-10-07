@@ -57,7 +57,7 @@ SOFTWARE.
 
 using namespace ZetaChain_Native;
 
-extern bool __nosha256;
+extern bool __noSHA256;
 extern bool __useJSONFormat;
 extern bool __noOpenCL;
 

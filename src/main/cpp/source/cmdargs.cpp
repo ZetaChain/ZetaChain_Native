@@ -22,6 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-bool __nosha256 = false;
+bool __noSHA256 = false;
 bool __useJSONFormat = false;
 bool __noOpenCL = false;
