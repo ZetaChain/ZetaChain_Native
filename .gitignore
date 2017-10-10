@@ -24,3 +24,6 @@ ZetaChain_Native/*
 *.filters
 *.sln
 vs/*
+
+## Linux build artefacts
+linux-deps/*
