@@ -50,7 +50,7 @@ model {
 				cppCompiler.define "DLL_EXPORT", "_CRT_SECURE_NO_WARNINGS"
 			}
 			if(toolChain in Gcc){
-				// TODO 
+				
 			}
 			if(toolChain in Clang){
 				//TODO 
@@ -71,7 +71,7 @@ model {
 				assembler.args "/W3", "/DEBUG", "/Zi", "/c"
 			}
 			if(toolChain in Gcc) {
-				cppCompiler.args "-Wall", "--std=c++14", "-g", "-pedantic"
+				cppCompiler.args "-w", "--std=c++14", "-g", "-pedantic"
 				assembler.args "-Wall", "-g"
 			}
 			if(toolChain in Clang){

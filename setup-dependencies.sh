@@ -21,8 +21,8 @@ tar -xvf Python-$version.tgz
 cd Python-$version
 
 ./configure
-make
-sudo make install
+make -j6
+sudo make install -j6
 
 cd ../..
 
