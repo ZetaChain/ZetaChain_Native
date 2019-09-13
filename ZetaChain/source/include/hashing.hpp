@@ -28,20 +28,31 @@ SOFTWARE.
 #include <string>
 #include <vector>
 
-extern "C" unsigned char* HashASM(unsigned char* data, long size);
+namespace ZetaChain_Native {
+	namespace Hashing {
+		std::string hashString(std::string str);
+		std::string hashChar(char ch);
+		std::string hashUnsignedChar(unsigned char uch);
+		std::string hashShort(short s);
+		std::string hashUnsignedShort(unsigned short us);
+		std::string hashInt(int i);
+		std::string hashUnsignedInt(unsigned int ui);
+		std::string hashLong(long l);
+		std::string hashUnsignedLong(unsigned long ul);
+		std::string hashLongLong(long long ll);
+		std::string hashUnsignedLongLong(unsigned long long ull);
+		std::string hashBoolean(bool b);
 
-namespace ZetaChain_Native::Hashing {
-	std::string hashString(std::string str);
-	std::string hashChar(char ch);
-	std::string hashUnsignedChar(unsigned char uch);
-	std::string hashShort(short s);
-	std::string hashUnsignedShort(unsigned short us);
-	std::string hashInt(int i);
-	std::string hashUnsignedInt(unsigned int ui);
-	std::string hashLong(long l);
-	std::string hashUnsignedLong(unsigned long ul);
-	std::string hashLongLong(long long ll);
-	std::string hashUnsignedLongLong(unsigned long long ull);
-	std::string hashBoolean(bool b);
-	std::string hashVector(std::vector<unsigned char> vec);
+		template <class T>
+
+		std::string hashVector(std::vector<T> vec) {
+			std::string str = "";
+			if (vec.size() == 0)
+				return "";
+			for (int i = 0; i < vec.size() - 1; i++) {
+				str += vec[i];
+			}
+			return hashString(str);
+		}
+	}
 }

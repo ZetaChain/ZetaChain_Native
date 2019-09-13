@@ -25,11 +25,13 @@ SOFTWARE.
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 
-namespace ZetaChain_Native::OpenCL {
-	struct KernelArgArguments {
-		cl_kernel kernel;
-		cl_uint index;
-		size_t size;
-		const void* value;
-	};
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		struct KernelArgArguments {
+			cl_kernel kernel;
+			cl_uint index;
+			size_t size;
+			const void* value;
+		};
+	}
 }

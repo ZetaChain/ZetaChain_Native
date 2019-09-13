@@ -28,21 +28,22 @@ SOFTWARE.
 #include <string>
 #include "opencl/openclhandle.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	class OpenCLProgram {
-	public:
-		OpenCLProgram(cl_program program, std::string name, OpenCLHandle** handle);
-		~OpenCLProgram();
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		class OpenCLProgram {
+		public:
+			OpenCLProgram(cl_program program, std::string name, OpenCLHandle** handle);
+			~OpenCLProgram();
 
-		bool isHandleValid();
+			bool isHandleValid();
 
-		cl_program getProgram();
-		std::string getName();
-		OpenCLHandle* getHandle();
-	private:
-		cl_program program;
-		std::string name;
-		OpenCLHandle** handle;
-	};
-
+			cl_program getProgram();
+			std::string getName();
+			OpenCLHandle* getHandle();
+		private:
+			cl_program program;
+			std::string name;
+			OpenCLHandle** handle;
+		};
+	}
 }

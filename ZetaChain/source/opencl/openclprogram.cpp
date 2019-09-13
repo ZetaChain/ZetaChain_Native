@@ -30,30 +30,32 @@ SOFTWARE.
 #include "opencl/openclprogram.hpp"
 #include "opencl/opencldata.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	OpenCLProgram::OpenCLProgram(cl_program program, std::string name, OpenCLHandle** handle) {
-		this->program = program;
-		this->name = name;
-		this->handle = handle;
-	}
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		OpenCLProgram::OpenCLProgram(cl_program program, std::string name, OpenCLHandle** handle) {
+			this->program = program;
+			this->name = name;
+			this->handle = handle;
+		}
 
-	OpenCLProgram::~OpenCLProgram() {
-		(*handle)->releaseProgram(this->program);
-	}
+		OpenCLProgram::~OpenCLProgram() {
+			(*handle)->releaseProgram(this->program);
+		}
 
-	cl_program OpenCLProgram::getProgram() {
-		return this->program;
-	}
+		cl_program OpenCLProgram::getProgram() {
+			return this->program;
+		}
 
-	std::string OpenCLProgram::getName() {
-		return this->name;
-	}
+		std::string OpenCLProgram::getName() {
+			return this->name;
+		}
 
-	OpenCLHandle* OpenCLProgram::getHandle() {
-		return *this->handle;
-	}
+		OpenCLHandle* OpenCLProgram::getHandle() {
+			return *this->handle;
+		}
 
-	bool OpenCLProgram::isHandleValid() {
-		return OpenCLLockingData::getInstance()->handle == (*this->handle);
+		bool OpenCLProgram::isHandleValid() {
+			return OpenCLLockingData::getInstance()->handle == (*this->handle);
+		}
 	}
 }

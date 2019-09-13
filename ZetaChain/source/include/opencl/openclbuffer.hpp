@@ -29,45 +29,45 @@ SOFTWARE.
 #include "opencl/openclhandle.hpp"
 #include "opencl/opencldata.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	
-	template<class KernelData>
-	class OpenCLBuffer {
-	public:
-		OpenCLBuffer(cl_mem buffer, cl_mem_flags flags, KernelData data, OpenCLHandle** handle) {
-			this->buffer = buffer;
-			this->flags = flags;
-			this->data = data;
-			this->handle = handle;
-		}
-		~OpenCLBuffer() {
-			(*handle)->releaseMemObject(this->buffer);
-		}
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		template<class KernelData>
+		class OpenCLBuffer {
+		public:
+			OpenCLBuffer(cl_mem buffer, cl_mem_flags flags, KernelData data, OpenCLHandle** handle) {
+				this->buffer = buffer;
+				this->flags = flags;
+				this->data = data;
+				this->handle = handle;
+			}
+			~OpenCLBuffer() {
+				(*handle)->releaseMemObject(this->buffer);
+			}
 
-		bool isHandleValid() {
-			return OpenCLLockingData::getInstance() == (*this->handle);
-		}
+			bool isHandleValid() {
+				return OpenCLLockingData::getInstance() == (*this->handle);
+			}
 
-		cl_mem getBuffer() {
-			return this->buffer;
-		}
+			cl_mem getBuffer() {
+				return this->buffer;
+			}
 
-		cl_mem_flags getFlags() {
-			return this->flags;
-		}
-		
-		KernelData getData() {
-			return this->data;
-		}
-		
-		OpenCLHandle* getHandle() {
-			return *this->handle;
-		}
-	private:
-		cl_mem buffer;
-		cl_mem_flags flags;
-		KernelData data;
-		OpenCLHandle** handle;
-	};
+			cl_mem_flags getFlags() {
+				return this->flags;
+			}
 
+			KernelData getData() {
+				return this->data;
+			}
+
+			OpenCLHandle* getHandle() {
+				return *this->handle;
+			}
+		private:
+			cl_mem buffer;
+			cl_mem_flags flags;
+			KernelData data;
+			OpenCLHandle** handle;
+		};
+	}
 }

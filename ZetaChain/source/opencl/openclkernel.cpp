@@ -30,30 +30,32 @@ SOFTWARE.
 #include "opencl/openclkernel.hpp"
 #include "opencl/opencldata.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	OpenCLKernel::OpenCLKernel(cl_kernel kernel, std::string name, OpenCLHandle** handle) {
-		this->kernel = kernel;
-		this->name = name;
-		this->handle = handle;
-	}
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		OpenCLKernel::OpenCLKernel(cl_kernel kernel, std::string name, OpenCLHandle** handle) {
+			this->kernel = kernel;
+			this->name = name;
+			this->handle = handle;
+		}
 
-	OpenCLKernel::~OpenCLKernel() {
-		(*handle)->releaseKernel(this->kernel);
-	}
+		OpenCLKernel::~OpenCLKernel() {
+			(*handle)->releaseKernel(this->kernel);
+		}
 
-	cl_kernel OpenCLKernel::getKernel() {
-		return this->kernel;
-	}
+		cl_kernel OpenCLKernel::getKernel() {
+			return this->kernel;
+		}
 
-	std::string OpenCLKernel::getName() {
-		return this->name;
-	}
+		std::string OpenCLKernel::getName() {
+			return this->name;
+		}
 
-	OpenCLHandle* OpenCLKernel::getHandle() {
-		return *this->handle;
-	}
+		OpenCLHandle* OpenCLKernel::getHandle() {
+			return *this->handle;
+		}
 
-	bool OpenCLKernel::isHandleValid() {
-		return OpenCLLockingData::getInstance()->handle == (*this->handle);
+		bool OpenCLKernel::isHandleValid() {
+			return OpenCLLockingData::getInstance()->handle == (*this->handle);
+		}
 	}
 }

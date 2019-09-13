@@ -29,35 +29,37 @@ SOFTWARE.
 #include "opencl/opencldata.hpp"
 #include "opencl/openclcommandqueue.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	OpenCLCommandQueue::OpenCLCommandQueue(cl_command_queue queue, cl_device_id device, cl_command_queue_properties properties, OpenCLHandle** handle) {
-		this->queue = queue;
-		this->device = device;
-		this->properties = properties;
-		this->handle = handle;
-	}
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		OpenCLCommandQueue::OpenCLCommandQueue(cl_command_queue queue, cl_device_id device, cl_command_queue_properties properties, OpenCLHandle** handle) {
+			this->queue = queue;
+			this->device = device;
+			this->properties = properties;
+			this->handle = handle;
+		}
 
-	OpenCLCommandQueue::~OpenCLCommandQueue() {
-		(*handle)->releaseCommandQueue(this->queue);
-	}
+		OpenCLCommandQueue::~OpenCLCommandQueue() {
+			(*handle)->releaseCommandQueue(this->queue);
+		}
 
-	bool OpenCLCommandQueue::isHandleValid() {
-		return OpenCLLockingData::getInstance()->handle == (*this->handle);
-	}
+		bool OpenCLCommandQueue::isHandleValid() {
+			return OpenCLLockingData::getInstance()->handle == (*this->handle);
+		}
 
-	cl_command_queue OpenCLCommandQueue::getQueue() {
-		return this->queue;
-	}
+		cl_command_queue OpenCLCommandQueue::getQueue() {
+			return this->queue;
+		}
 
-	cl_device_id OpenCLCommandQueue::getDevice() {
-		return this->device;
-	}
+		cl_device_id OpenCLCommandQueue::getDevice() {
+			return this->device;
+		}
 
-	cl_command_queue_properties OpenCLCommandQueue::getProperties() {
-		return this->properties;
-	}
+		cl_command_queue_properties OpenCLCommandQueue::getProperties() {
+			return this->properties;
+		}
 
-	OpenCLHandle* OpenCLCommandQueue::getHandle() {
-		return *this->handle;
+		OpenCLHandle* OpenCLCommandQueue::getHandle() {
+			return *this->handle;
+		}
 	}
 }

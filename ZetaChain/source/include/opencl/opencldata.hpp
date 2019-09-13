@@ -30,51 +30,53 @@ SOFTWARE.
 #include "opencl/openclbuffer.hpp"
 #include "opencl/openclcommandqueue.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	class OpenCLLockingData {
-	public:
-		static OpenCLLockingData* getInstance() {
-			if(instance == nullptr)
-				instance = new OpenCLLockingData();
-			return instance;
-		}
-		OpenCLHandle* handle;
-		OpenCLProgram* currentProgram;
-		OpenCLKernel* currentKernel;
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		class OpenCLLockingData {
+		public:
+			static OpenCLLockingData* getInstance() {
+				if (instance == nullptr)
+					instance = new OpenCLLockingData();
+				return instance;
+			}
+			OpenCLHandle* handle;
+			OpenCLProgram* currentProgram;
+			OpenCLKernel* currentKernel;
 
-		OpenCLBuffer<unsigned long>* currentABuffer;
-		OpenCLBuffer<int>* currentBBuffer;
+			OpenCLBuffer<unsigned long>* currentABuffer;
+			OpenCLBuffer<int>* currentBBuffer;
 
-		OpenCLCommandQueue* currentCommandQueue;
-		
-		OpenCLLockingData(OpenCLLockingData const&) = delete;
-		void operator=(OpenCLLockingData const&) = delete;
-	private:
-		OpenCLLockingData();
-		static OpenCLLockingData* instance;
-	};
+			OpenCLCommandQueue* currentCommandQueue;
 
-	class OpenCLMiningData {
-	public:
-		static OpenCLMiningData* getInstance() {
-			if(instance == nullptr)
-				instance = new OpenCLMiningData();
-			return instance;
-		}
-		OpenCLHandle* handle;
-		OpenCLProgram* currentProgram;
-		OpenCLKernel* currentKernel;
+			OpenCLLockingData(OpenCLLockingData const&) = delete;
+			void operator=(OpenCLLockingData const&) = delete;
+		private:
+			OpenCLLockingData();
+			static OpenCLLockingData* instance;
+		};
 
-		OpenCLBuffer<void*>* currentABuffer;
-		OpenCLBuffer<unsigned long>* currentBBuffer;
-		OpenCLBuffer<long>* currentCBuffer;
+		class OpenCLMiningData {
+		public:
+			static OpenCLMiningData* getInstance() {
+				if (instance == nullptr)
+					instance = new OpenCLMiningData();
+				return instance;
+			}
+			OpenCLHandle* handle;
+			OpenCLProgram* currentProgram;
+			OpenCLKernel* currentKernel;
 
-		OpenCLCommandQueue* currentCommandQueue;
-		
-		OpenCLMiningData(OpenCLMiningData const&) = delete;
-		void operator=(OpenCLMiningData const&) = delete;
-	private:
-		OpenCLMiningData();
-		static OpenCLMiningData* instance;
-	};
+			OpenCLBuffer<void*>* currentABuffer;
+			OpenCLBuffer<unsigned long>* currentBBuffer;
+			OpenCLBuffer<long>* currentCBuffer;
+
+			OpenCLCommandQueue* currentCommandQueue;
+
+			OpenCLMiningData(OpenCLMiningData const&) = delete;
+			void operator=(OpenCLMiningData const&) = delete;
+		private:
+			OpenCLMiningData();
+			static OpenCLMiningData* instance;
+		};
+	}
 }

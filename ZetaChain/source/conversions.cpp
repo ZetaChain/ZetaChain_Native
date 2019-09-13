@@ -29,100 +29,102 @@ SOFTWARE.
 #include <memory>
 #include "conversions.hpp"
 
-namespace ZetaChain_Native::Conversions {
-	std::vector<unsigned char> toBytes(double* d){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(double));
-		for(int itr = 0; itr < sizeof(double); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(d + itr)));
+namespace ZetaChain_Native {
+	namespace Conversions {
+		std::vector<unsigned char> toBytes(double* d) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(double));
+			for (int itr = 0; itr < sizeof(double); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(d + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(float* f){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(float));
-		for(int itr = 0; itr < sizeof(float); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(f + itr)));
+		std::vector<unsigned char> toBytes(float* f) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(float));
+			for (int itr = 0; itr < sizeof(float); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(f + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(long long* ll){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(long long));
-		for(int itr = 0; itr < sizeof(long long); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(ll + itr)));
+		std::vector<unsigned char> toBytes(long long* ll) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(long long));
+			for (int itr = 0; itr < sizeof(long long); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(ll + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(long* l){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(long));
-		for(int itr = 0; itr < sizeof(long); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(l + itr)));
+		std::vector<unsigned char> toBytes(long* l) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(long));
+			for (int itr = 0; itr < sizeof(long); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(l + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(int* i){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(int));
-		for(int itr = 0; itr < sizeof(int); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(i + itr)));
+		std::vector<unsigned char> toBytes(int* i) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(int));
+			for (int itr = 0; itr < sizeof(int); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(i + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(short* s){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(short));
-		for(int itr = 0; itr < sizeof(short); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(s + itr)));
+		std::vector<unsigned char> toBytes(short* s) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(short));
+			for (int itr = 0; itr < sizeof(short); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(s + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(unsigned long long* ull){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned long long));
-		for(int itr = 0; itr < sizeof(unsigned long long); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(ull + itr)));
+		std::vector<unsigned char> toBytes(unsigned long long* ull) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned long long));
+			for (int itr = 0; itr < sizeof(unsigned long long); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(ull + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(unsigned long* ul){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned long));
-		for(int itr = 0 ;itr < sizeof(unsigned long); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(ul + itr)));
+		std::vector<unsigned char> toBytes(unsigned long* ul) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned long));
+			for (int itr = 0; itr < sizeof(unsigned long); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(ul + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(unsigned int* ui){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned int));
-		for(int itr = 0; itr < sizeof(unsigned int); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(ui + itr)));
+		std::vector<unsigned char> toBytes(unsigned int* ui) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned int));
+			for (int itr = 0; itr < sizeof(unsigned int); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(ui + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(unsigned short* us){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned short));
-		for(int itr = 0; itr < sizeof(unsigned short); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(us + itr)));
+		std::vector<unsigned char> toBytes(unsigned short* us) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(unsigned short));
+			for (int itr = 0; itr < sizeof(unsigned short); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(us + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(bool* b){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(bool));
-		for(int itr = 0; itr < sizeof(bool); itr++){
-			bytes.push_back(static_cast<unsigned char>(*(b + itr)));
+		std::vector<unsigned char> toBytes(bool* b) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(bool));
+			for (int itr = 0; itr < sizeof(bool); itr++) {
+				bytes.push_back(static_cast<unsigned char>(*(b + itr)));
+			}
+			return bytes;
 		}
-		return bytes;
-	}
 
-	std::vector<unsigned char> toBytes(std::string str){
-		std::vector<unsigned char> bytes = std::vector<unsigned char>(str.size());
-		for(int itr = 0; itr < str.size(); itr++){
-			bytes.push_back(static_cast<unsigned char>(str[itr]));
+		std::vector<unsigned char> toBytes(std::string str) {
+			std::vector<unsigned char> bytes = std::vector<unsigned char>(str.size());
+			for (int itr = 0; itr < str.size(); itr++) {
+				bytes.push_back(static_cast<unsigned char>(str[itr]));
+			}
+			return bytes;
 		}
-		return bytes;
 	}
 }

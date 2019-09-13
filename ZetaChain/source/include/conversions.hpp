@@ -29,57 +29,57 @@ SOFTWARE.
 #include <vector>
 #include <map>
 
-namespace ZetaChain_Native::Conversions {
+namespace ZetaChain_Native {
+	namespace Conversions {
+		std::vector<unsigned char> toBytes(double* d);
 
-	std::vector<unsigned char> toBytes(double* d);
+		std::vector<unsigned char> toBytes(float* f);
 
-	std::vector<unsigned char> toBytes(float* f);
+		std::vector<unsigned char> toBytes(long long* ll);
 
-	std::vector<unsigned char> toBytes(long long* ll);
+		std::vector<unsigned char> toBytes(long* l);
 
-	std::vector<unsigned char> toBytes(long* l);
+		std::vector<unsigned char> toBytes(int* i);
 
-	std::vector<unsigned char> toBytes(int* i);
+		std::vector<unsigned char> toBytes(short* s);
 
-	std::vector<unsigned char> toBytes(short* s);
+		std::vector<unsigned char> toBytes(unsigned long long* ll);
 
-	std::vector<unsigned char> toBytes(unsigned long long* ll);
+		std::vector<unsigned char> toBytes(unsigned long* l);
 
-	std::vector<unsigned char> toBytes(unsigned long* l);
+		std::vector<unsigned char> toBytes(unsigned int* i);
 
-	std::vector<unsigned char> toBytes(unsigned int* i);
+		std::vector<unsigned char> toBytes(unsigned short* s);
 
-	std::vector<unsigned char> toBytes(unsigned short* s);
+		std::vector<unsigned char> toBytes(bool* b);
 
-	std::vector<unsigned char> toBytes(bool* b);
+		std::vector<unsigned char> toBytes(std::string str);
 
-	std::vector<unsigned char> toBytes(std::string str);
-
-	template <class T>
-	std::vector<T> mapToValues(std::map<std::string, T> values) {
-		std::vector<T> data = std::vector<T>();
-		for(std::map<std::string, T>::iterator it = values.begin(); it != values.end(); it++){
-			data.push_back(it->second);
+		template <class T>
+		std::vector<T> mapToValues(std::map<std::string, T> values) {
+			std::vector<T> data = std::vector<T>();
+			for (auto it = values.begin(); it != values.end(); it++) {
+				data.push_back(it->second);
+			}
+			return data;
 		}
-		return data;
-	}
-	
-	template <class T>
-	std::vector<std::string> mapToValuesString(std::map<std::string, T> values, int size) {
-		std::vector<std::string> valueList = std::vector<std::string>(size);
-		for(std::map<std::string, T>::iterator it = values.begin(); it != values.end(); it++){
-			valueList.push_back(it->second->toString());
-		}
-		return valueList;
-	}
-	
-	template <class T>
-	std::vector<std::string> mapToKeys(std::map<std::string, T> values, int size) {
-		std::vector<std::string> keys = std::vector<std::string>(size);
-		for(std::map<std::string, T>::iterator it = values.begin(); it != values.end(); it++){
-			keys.push_back(it->first);
-		}
-		return keys;
-	}
 
+		template <class T>
+		std::vector<std::string> mapToValuesString(std::map<std::string, T> values, int size) {
+			std::vector<std::string> valueList = std::vector<std::string>(size);
+			for (auto it = values.begin(); it != values.end(); it++) {
+				valueList.push_back(it->second->toString());
+			}
+			return valueList;
+		}
+
+		template <class T>
+		std::vector<std::string> mapToKeys(std::map<std::string, T> values, int size) {
+			std::vector<std::string> keys = std::vector<std::string>(size);
+			for (auto it = values.begin(); it != values.end(); it++) {
+				keys.push_back(it->first);
+			}
+			return keys;
+		}
+	}
 }

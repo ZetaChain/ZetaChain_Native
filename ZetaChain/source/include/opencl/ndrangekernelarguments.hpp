@@ -25,16 +25,18 @@ SOFTWARE.
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 
-namespace ZetaChain_Native::OpenCL {
-	struct NDRangeKernelArguments {
-		cl_command_queue queue;
-		cl_kernel kernel;
-		cl_uint work;
-		const size_t* global_work_offset;
-		const size_t* global_work_size;
-		const size_t* local_work_size;
-		cl_uint events_in_wait_list;
-		const cl_event* wait_list;
-		cl_event* event;
-	};
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		struct NDRangeKernelArguments {
+			cl_command_queue queue;
+			cl_kernel kernel;
+			cl_uint work;
+			const size_t* global_work_offset;
+			const size_t* global_work_size;
+			const size_t* local_work_size;
+			cl_uint events_in_wait_list;
+			const cl_event* wait_list;
+			cl_event* event;
+		};
+	}
 }

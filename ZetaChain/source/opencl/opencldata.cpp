@@ -25,16 +25,18 @@ SOFTWARE.
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include "opencl/opencldata.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	OpenCLLockingData::OpenCLLockingData() {
-		instance = this;
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		OpenCLLockingData::OpenCLLockingData() {
+			instance = this;
+		}
+
+		OpenCLLockingData* OpenCLLockingData::instance = nullptr;
+
+		OpenCLMiningData::OpenCLMiningData() {
+			instance = this;
+		}
+
+		OpenCLMiningData* OpenCLMiningData::instance = nullptr;
 	}
-
-	OpenCLLockingData* OpenCLLockingData::instance = nullptr;
-
-	OpenCLMiningData::OpenCLMiningData() {
-		instance = this;
-	}
-
-	OpenCLMiningData* OpenCLMiningData::instance = nullptr;
 }

@@ -23,6 +23,9 @@
 
 .data
 	timeout dq 0
+	message dq 0
+	dataSize dq 0
+	hash dq 5381
 
 .code 
 

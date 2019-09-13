@@ -55,6 +55,8 @@ SOFTWARE.
 #include "io/filesystem.hpp" // createDirectory, createFile
 #include "constants.hpp" // chars, BLOCK_HEADER
 
+using namespace ZetaChain_Native;
+
 int main(int argc, char** argv) {
 
 	//Uncomment when debugging in Visual Studio
@@ -76,7 +78,7 @@ int main(int argc, char** argv) {
 	std::cout << "Using OpenCL " << static_cast<int>(!__noOpenCL) << std::endl;
 
 	if(!__noOpenCL) {
-		OpenCL::OpenCLHandle* handle = OpenCL::init();
+		ZetaChain_Native::OpenCL::OpenCLHandle* handle = ZetaChain_Native::OpenCL::init();
 		std::cout << std::endl;
 		delete handle;
 	}
@@ -146,11 +148,11 @@ void createIntBlockchain() {
 		path = "data/intblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<IntBlockData>>* writer = new IO::BlockchainWriter<Block<IntBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<IntBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<IntBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -205,11 +207,11 @@ void createStringBlockchain() {
 		path = "data/stringblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<StringBlockData>>* writer = new IO::BlockchainWriter<Block<StringBlockData>>(path, &blockchain_s, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<StringBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<StringBlockData>>(path, &blockchain_s, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -262,11 +264,11 @@ void createFloatBlockchain() {
 		path = "data/floatblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<FloatBlockData>>* writer = new IO::BlockchainWriter<Block<FloatBlockData>>(path, &blockchain_f, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<FloatBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<FloatBlockData>>(path, &blockchain_f, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -318,11 +320,11 @@ void createDoubleBlockchain() {
 		path = "data/doubleblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<DoubleBlockData>>* writer = new IO::BlockchainWriter<Block<DoubleBlockData>>(path, &blockchain_d, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<DoubleBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<DoubleBlockData>>(path, &blockchain_d, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -372,11 +374,11 @@ void createCharBlockchain() {
 		path = "data/charblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<CharBlockData>>* writer = new IO::BlockchainWriter<Block<CharBlockData>>(path, &blockchain_c, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<CharBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<CharBlockData>>(path, &blockchain_c, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -429,11 +431,11 @@ void createShortBlockchain() {
 		path = "data/shortblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<ShortBlockData>>* writer = new IO::BlockchainWriter<Block<ShortBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<ShortBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<ShortBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -486,11 +488,11 @@ void createLongBlockchain() {
 		path = "data/longblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<LongBlockData>>* writer = new IO::BlockchainWriter<Block<LongBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<LongBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<LongBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -544,11 +546,11 @@ void createLongLongBlockchain() {
 		path = "data/longlongblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<LongLongBlockData>>* writer = new IO::BlockchainWriter<Block<LongLongBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<LongLongBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<LongLongBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -601,11 +603,11 @@ void createBoolBlockchain() {
 		path = "data/boolblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<BoolBlockData>>* writer = new IO::BlockchainWriter<Block<BoolBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<BoolBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<BoolBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -657,11 +659,11 @@ void createUnsignedCharBlockchain() {
 		path = "data/unsignedcharblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<UnsignedCharBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedCharBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedCharBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedCharBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -713,11 +715,11 @@ void createUnsignedShortBlockchain() {
 		path = "data/unsignedshortblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<UnsignedShortBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedShortBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedShortBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedShortBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -769,11 +771,11 @@ void createUnsignedIntBlockchain() {
 		path = "data/unsignedintblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<UnsignedIntBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedIntBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedIntBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedIntBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -826,11 +828,11 @@ void createUnsignedLongBlockchain() {
 		path = "data/unsignedlongblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<UnsignedLongBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedLongBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedLongBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedLongBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -883,11 +885,11 @@ void createUnsignedLongLongBlockchain() {
 		path = "data/unsignedlonglongblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<UnsignedLongLongBlockData>>* writer = new IO::BlockchainWriter<Block<UnsignedLongLongBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedLongLongBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<UnsignedLongLongBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
@@ -951,11 +953,11 @@ void createCustomDataBlockchain() {
 		path = "data/customblockchain.dat";
 
 	std::cout << "Writing Blockchain to: " << path << std::endl;
-	if(!IO::Filesystem::directoryExists("data")) {
-		if(!IO::Filesystem::createDirectory("data", NULL))
+	if(!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if(!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<Block<CustomBlockData>>* writer = new IO::BlockchainWriter<Block<CustomBlockData>>(path, &blockchain, !__useJSONFormat);
+	ZetaChain_Native::IO::BlockchainWriter<Block<CustomBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<CustomBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else

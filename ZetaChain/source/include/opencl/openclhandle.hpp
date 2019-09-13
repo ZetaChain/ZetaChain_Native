@@ -34,50 +34,52 @@ SOFTWARE.
 #include "opencl/ndrangekernelarguments.hpp"
 #include "opencl/readbufferarguments.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	class OpenCLHandle {
-	public:
-		OpenCLHandle(cl_platform_id defaultPlatform, cl_context context, std::vector<cl_platform_id> platforms, std::vector<cl_device_id> devices);
-		~OpenCLHandle();
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		class OpenCLHandle {
+		public:
+			OpenCLHandle(cl_platform_id defaultPlatform, cl_context context, std::vector<cl_platform_id> platforms, std::vector<cl_device_id> devices);
+			~OpenCLHandle();
 
-		cl_mem createBuffer(cl_mem_flags flags, size_t size, void* host_ptr, cl_int* errorcode);
-		cl_mem createBuffer(BufferArguments args);
-		cl_command_queue createCommandQueue(cl_device_id device, cl_command_queue_properties properties, cl_int* error);
-		cl_command_queue createCommandQueue(CommandQueueArguments args);
-		cl_kernel createKernel(cl_program program, const char* kernel_name, cl_int* error);
-		cl_kernel OpenCLHandle::createKernel(KernelArguments args);
-		cl_program createProgram(const std::string& source);
-		cl_int buildProgram(cl_program program, cl_uint num_devices, const cl_device_id *device_list, const char *options, 
-			void (*pfn_notify)(cl_program, void *user_data), void *user_data);
-		cl_int buildProgram(ProgramArguments args);
-		void checkError(cl_int error);
-		std::string getPlatformName(cl_platform_id platform);
-		std::string getDeviceName(cl_device_id device);
-		std::string loadKernel(const char* name);
-		cl_int setKernelArgument(cl_kernel kernel, cl_uint index, size_t size, const void* value);
-		cl_int setKernelArgument(KernelArgArguments args);
-		cl_int enqueueNDRangeKernel(cl_command_queue queue, cl_kernel kernel, cl_uint work,
-			const size_t* global_work_offset, const size_t* global_work_size, const size_t* local_work_size,
-			cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event);
-		cl_int OpenCLHandle::enqueueNDRangeKernel(NDRangeKernelArguments args);
-		cl_int enqueueReadBuffer(cl_command_queue queue, cl_mem buffer, cl_bool blocking_read, size_t offset, 
-			size_t size, void* host_mem, cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event);
-		cl_int enqueueReadBuffer(ReadBufferArguments args);
-		cl_int releaseCommandQueue(cl_command_queue cl_command_queue);
-		cl_int releaseMemObject(cl_mem memobj);
-		cl_int releaseKernel(cl_kernel kernel);
-		cl_int releaseProgram(cl_program program);
-		cl_int releaseContext(cl_context context);
+			cl_mem createBuffer(cl_mem_flags flags, size_t size, void* host_ptr, cl_int* errorcode);
+			cl_mem createBuffer(BufferArguments args);
+			cl_command_queue createCommandQueue(cl_device_id device, cl_command_queue_properties properties, cl_int* error);
+			cl_command_queue createCommandQueue(CommandQueueArguments args);
+			cl_kernel createKernel(cl_program program, const char* kernel_name, cl_int* error);
+			cl_kernel createKernel(KernelArguments args);
+			cl_program createProgram(const std::string& source);
+			cl_int buildProgram(cl_program program, cl_uint num_devices, const cl_device_id* device_list, const char* options,
+				void (*pfn_notify)(cl_program, void* user_data), void* user_data);
+			cl_int buildProgram(ProgramArguments args);
+			void checkError(cl_int error);
+			std::string getPlatformName(cl_platform_id platform);
+			std::string getDeviceName(cl_device_id device);
+			std::string loadKernel(const char* name);
+			cl_int setKernelArgument(cl_kernel kernel, cl_uint index, size_t size, const void* value);
+			cl_int setKernelArgument(KernelArgArguments args);
+			cl_int enqueueNDRangeKernel(cl_command_queue queue, cl_kernel kernel, cl_uint work,
+				const size_t* global_work_offset, const size_t* global_work_size, const size_t* local_work_size,
+				cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event);
+			cl_int enqueueNDRangeKernel(NDRangeKernelArguments args);
+			cl_int enqueueReadBuffer(cl_command_queue queue, cl_mem buffer, cl_bool blocking_read, size_t offset,
+				size_t size, void* host_mem, cl_uint events_in_wait_list, const cl_event* wait_list, cl_event* event);
+			cl_int enqueueReadBuffer(ReadBufferArguments args);
+			cl_int releaseCommandQueue(cl_command_queue cl_command_queue);
+			cl_int releaseMemObject(cl_mem memobj);
+			cl_int releaseKernel(cl_kernel kernel);
+			cl_int releaseProgram(cl_program program);
+			cl_int releaseContext(cl_context context);
 
-		cl_platform_id getDefaultPlatform();
-		cl_context getContext();
-		std::vector<cl_platform_id> getPlatforms();
-		std::vector<cl_device_id> getDevices();
+			cl_platform_id getDefaultPlatform();
+			cl_context getContext();
+			std::vector<cl_platform_id> getPlatforms();
+			std::vector<cl_device_id> getDevices();
 
-	private:
-		cl_platform_id defaultPlatform;
-		cl_context context;
-		std::vector<cl_platform_id> platforms;
-		std::vector<cl_device_id> devices;
-	};
+		private:
+			cl_platform_id defaultPlatform;
+			cl_context context;
+			std::vector<cl_platform_id> platforms;
+			std::vector<cl_device_id> devices;
+		};
+	}
 }

@@ -59,12 +59,6 @@ namespace ZetaChain_Native {
 
 		}
 
-		Blockchain(std::map<std::string, BlockType>, std::vector<Blockchain<BlockType>> orphanedChains) : public Blockchain() {
-			
-			this->blocks = hashedBlocks;
-			this->orphanedChains = orphanedChains;
-		}
-
 		virtual ~Blockchain() {
 			// for(int i = 0; i < this->blocks->size() - 1; i++) {
 			// 	delete this->blocks[i];
@@ -75,6 +69,10 @@ namespace ZetaChain_Native {
 			// 	delete this->orphanedChains[i];
 			// ]
 			// delete this->orphanedChains;
+		}
+
+		std::string computeHash() {
+			return Hashing::hashVector(this->toBytes());
 		}
 
 		template <class BlockType>
@@ -149,7 +147,7 @@ namespace ZetaChain_Native {
 				// }
 				bytes += this->lastBlock->toBytes();
 			}
-			for(std::map<std::string, BlockType>::iterator it = this->blocks.begin(); it != this->blocks.end(); it++) {
+			for(auto it = this->blocks.begin(); it != this->blocks.end(); it++) {
 				bytes += it->second->toBytes();
 			}
 			if (this->orphanedChains.size() > 0) {
@@ -161,7 +159,7 @@ namespace ZetaChain_Native {
 		}
 
 		bool verify() {
-			for(std::map<std::string, BlockType>::iterator itr = blocks.begin(); itr != blocks.end(); itr++) {
+			for(auto itr = blocks.begin(); itr != blocks.end(); itr++) {
 				if(!itr->second.verify())
 				return false;
 			}
@@ -304,7 +302,7 @@ namespace ZetaChain_Native {
 
 			std::vector<std::string> blockValues = std::vector<std::string>(this->blocks.size());
 
-			for(std::map<std::string, BlockType>::iterator itr = this->blocks.begin(); itr != this->blocks.end(); itr++) {
+			for(auto itr = this->blocks.begin(); itr != this->blocks.end(); itr++) {
 				blockValues.push_back(itr->second.toString());
 			}
 

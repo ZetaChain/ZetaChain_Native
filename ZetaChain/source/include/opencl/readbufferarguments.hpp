@@ -25,16 +25,18 @@ SOFTWARE.
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 
-namespace ZetaChain_Native::OpenCL {
-	struct ReadBufferArguments {
-		cl_command_queue queue;
-		cl_mem buffer;
-		cl_bool blocking_read;
-		size_t offset;
-		size_t size;
-		void* host_mem;
-		cl_uint events_in_wait_list;
-		const cl_event* wait_list;
-		cl_event* event;
-	};
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		struct ReadBufferArguments {
+			cl_command_queue queue;
+			cl_mem buffer;
+			cl_bool blocking_read;
+			size_t offset;
+			size_t size;
+			void* host_mem;
+			cl_uint events_in_wait_list;
+			const cl_event* wait_list;
+			cl_event* event;
+		};
+	}
 }

@@ -27,103 +27,96 @@ SOFTWARE.
 #include "hashing.hpp"
 #include "sha256.hpp"
 
-extern "C" unsigned char* HashASM(unsigned char* data, long size);
 extern bool __noSHA256;
 
-namespace ZetaChain_Native::Hashing {
-	std::string hashString(std::string str){
-		if(__noSHA256) {
-			char* cstr = const_cast<char*>(str.c_str());
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(cstr), str.size());
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(str);
-	}
-	std::string hashChar(char ch){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&ch), sizeof(char));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, ch));
-	}
-	std::string hashUnsignedChar(unsigned char uch){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(&uch, sizeof(unsigned char));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, uch));
-	}
-	std::string hashShort(short s){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&s), sizeof(short));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, s));
-	}
-	std::string hashUnsignedShort(unsigned short us){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&us), sizeof(unsigned short));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, us));
-	}
-	std::string hashInt(int i){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&i), sizeof(int));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, i));
-	}
-	std::string hashUnsignedInt(unsigned int ui){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&ui), sizeof(unsigned int));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, ui));
-	}
-	std::string hashLong(long l){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&l), sizeof(long));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, l));
-	}
-	std::string hashUnsignedLong(unsigned long ul){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&ul), sizeof(unsigned long));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, ul));
-	}
-	std::string hashLongLong(long long ll){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&ll), sizeof(long long));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, ll));
-	}
-	std::string hashUnsignedLongLong(unsigned long long ull){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&ull), sizeof(unsigned long long));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, ull));
-	}
-	std::string hashBoolean(bool b){
-		if(__noSHA256) {
-			unsigned char* ptr = HashASM(reinterpret_cast<unsigned char*>(&b), sizeof(bool));
-			return std::string(ptr, ptr + 32);
-		}
-		return sha256(std::string(1, b));
-	}
+extern "C" unsigned char* HashDataASM(unsigned char* data, size_t size);
 
-	std::string hashVector(std::vector<unsigned char> vec){
-		std::string str = "";
-		if(vec.size() == 0)
-			return "";
-		for(int i = 0; i < vec.size() - 1; i++){
-			str += vec[i];
+namespace ZetaChain_Native {
+	namespace Hashing {
+		std::string hashString(std::string str) {
+			if (__noSHA256) {
+				char* cstr = const_cast<char*>(str.c_str());
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(cstr), str.size());
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(str);
 		}
-		return hashString(str);
+		std::string hashChar(char ch) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&ch), sizeof(char));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, ch));
+		}
+		std::string hashUnsignedChar(unsigned char uch) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(&uch, sizeof(unsigned char));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, uch));
+		}
+		std::string hashShort(short s) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&s), sizeof(short));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, s));
+		}
+		std::string hashUnsignedShort(unsigned short us) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&us), sizeof(unsigned short));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, us));
+		}
+		std::string hashInt(int i) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&i), sizeof(int));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, i));
+		}
+		std::string hashUnsignedInt(unsigned int ui) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&ui), sizeof(unsigned int));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, ui));
+		}
+		std::string hashLong(long l) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&l), sizeof(long));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, l));
+		}
+		std::string hashUnsignedLong(unsigned long ul) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&ul), sizeof(unsigned long));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, ul));
+		}
+		std::string hashLongLong(long long ll) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&ll), sizeof(long long));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, ll));
+		}
+		std::string hashUnsignedLongLong(unsigned long long ull) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&ull), sizeof(unsigned long long));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, ull));
+		}
+		std::string hashBoolean(bool b) {
+			if (__noSHA256) {
+				unsigned char* ptr = HashDataASM(reinterpret_cast<unsigned char*>(&b), sizeof(bool));
+				return std::string(ptr, ptr + 32);
+			}
+			return sha256(std::string(1, b));
+		}
 	}
 }

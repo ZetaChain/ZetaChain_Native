@@ -49,6 +49,10 @@ SOFTWARE.
 extern "C" void lockBlockASM(unsigned long timeout);
 extern "C" long mineASM(void* dataAddr, long dataSize);
 
+extern bool __noSHA256;
+extern bool __useJSONFormat;
+extern bool __noOpenCL;
+
 namespace ZetaChain_Native {
 	
 	template <class DataType> 
@@ -542,6 +546,7 @@ namespace ZetaChain_Native {
 	std::string computeHash() {
 		return Hashing::hashVector(this->toBytes());
 	}
+
 	};
 
 	template <class DataType> 

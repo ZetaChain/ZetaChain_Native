@@ -28,23 +28,24 @@ SOFTWARE.
 #include <string>
 #include "opencl/openclhandle.hpp"
 
-namespace ZetaChain_Native::OpenCL {
-	class OpenCLCommandQueue {
-	public:
-		OpenCLCommandQueue(cl_command_queue queue, cl_device_id device, cl_command_queue_properties properties, OpenCLHandle** handle);
-		~OpenCLCommandQueue();
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		class OpenCLCommandQueue {
+		public:
+			OpenCLCommandQueue(cl_command_queue queue, cl_device_id device, cl_command_queue_properties properties, OpenCLHandle** handle);
+			~OpenCLCommandQueue();
 
-		bool isHandleValid();
+			bool isHandleValid();
 
-		cl_command_queue getQueue();
-		cl_device_id getDevice();
-		cl_command_queue_properties getProperties();
-		OpenCLHandle* getHandle();
-	private:
-		cl_command_queue queue;
-		cl_device_id device;
-		cl_command_queue_properties properties;
-		OpenCLHandle** handle;
-	};
-
+			cl_command_queue getQueue();
+			cl_device_id getDevice();
+			cl_command_queue_properties getProperties();
+			OpenCLHandle* getHandle();
+		private:
+			cl_command_queue queue;
+			cl_device_id device;
+			cl_command_queue_properties properties;
+			OpenCLHandle** handle;
+		};
+	}
 }

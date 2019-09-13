@@ -25,10 +25,12 @@ SOFTWARE.
 
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 
-namespace ZetaChain_Native::OpenCL {
-	struct CommandQueueArguments {
-		cl_device_id device;
-		cl_command_queue_properties properties;
-		cl_int* errcode_ret;
-	};
+namespace ZetaChain_Native {
+	namespace OpenCL {
+		struct CommandQueueArguments {
+			cl_device_id device;
+			cl_command_queue_properties properties;
+			cl_int* errcode_ret;
+		};
+	}
 }

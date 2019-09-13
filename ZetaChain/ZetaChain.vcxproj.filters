@@ -149,11 +149,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="source\hashing.asm">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="source\include\blockchains\blockchain.hpp">
       <Filter>Header Files\blockchains</Filter>
     </ClInclude>
@@ -297,6 +292,24 @@
     </ClInclude>
     <ClInclude Include="source\include\transactions\transactionoutput.hpp">
       <Filter>Header Files\transactions</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\constants.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\conversions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\hashing.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\operators.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\platform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\sha256.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

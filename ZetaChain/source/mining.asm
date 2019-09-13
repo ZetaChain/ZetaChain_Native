@@ -26,6 +26,9 @@
 	exponent dq 1048575
 	value dq -1
 	mmx dq -1
+	message dq 0
+	dataSize dq 0
+	hash dq 5381
 .code
 
 calculateValueASM proc
@@ -65,5 +68,35 @@ mineASM proc
 		mov rax, 0
 		ret
 mineASM endp
+
+HashDataASM proc
+	mov message, rcx
+	sub rdx, 1
+	mov dataSize, rdx
+	mov rbx, 0
+	jmp hashLoop
+	hashLoop:
+		cmp rbx, dataSize
+		je done
+		call HashMessageASM
+		inc rbx
+		jmp hashLoop
+	done:
+		ret
+HashDataASM endp
+
+HashMessageASM proc
+	mov hash, 5381
+	mov rax, qword ptr [message]
+	add rax, rbx
+	mov rcx, hash
+	shl rcx, 5
+	add rcx, hash
+	add rcx, rax
+	add rcx, rbx
+	mov hash, rcx
+	mov rax, rcx
+	ret
+HashMessageASM endp
 
 end
