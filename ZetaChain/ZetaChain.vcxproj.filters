@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\blockdata">
+      <UniqueIdentifier>{5e2ba403-9972-4636-a723-4fdf1181240e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\io">
+      <UniqueIdentifier>{b45bae5a-2e52-435b-94bd-c8d8b0d6e984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\opencl">
+      <UniqueIdentifier>{a1f54e69-c1db-40a4-b97d-0ba580280db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\transactions">
+      <UniqueIdentifier>{96c6d958-6989-4a86-9b21-e8b877790541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\blockchains">
+      <UniqueIdentifier>{88d6ad16-c79c-4ed7-8b90-7cc757de5781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\blockdata">
+      <UniqueIdentifier>{555c9b97-d229-43e1-a01d-1771f3f24b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\blocks">
+      <UniqueIdentifier>{282148b8-1c33-469b-8581-96213f0260e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\io">
+      <UniqueIdentifier>{9befb27b-9fc2-48ce-9418-ed9acd3ebb03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\opencl">
+      <UniqueIdentifier>{bf3cb5f3-0274-4028-a0e1-0b8b4a41044d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\thirdparty">
+      <UniqueIdentifier>{01bfc02b-578a-42e4-9a71-7df32ef16797}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\transactions">
+      <UniqueIdentifier>{aea9568e-ddb1-4970-af52-df7a8e534924}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\cmdargs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\conversions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\hashing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\sha256.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\boolblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\charblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\doubleblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\floatblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\intblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\longblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\longlongblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\shortblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\stringblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\unsignedcharblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\unsignedintblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\unsignedlongblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\unsignedlonglongblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\blockdata\unsignedshortblockdata.cpp">
+      <Filter>Source Files\blockdata</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io\filesystem.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io\serialisation.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io\transactioninputreader.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io\transactioninputwriter.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io\transactionoutputreader.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io\transactionoutputwriter.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="source\opencl\init.cpp">
+      <Filter>Source Files\opencl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\opencl\openclcommandqueue.cpp">
+      <Filter>Source Files\opencl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\opencl\opencldata.cpp">
+      <Filter>Source Files\opencl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\opencl\openclhandle.cpp">
+      <Filter>Source Files\opencl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\opencl\openclkernel.cpp">
+      <Filter>Source Files\opencl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\opencl\openclprogram.cpp">
+      <Filter>Source Files\opencl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\transactions\transactiondata.cpp">
+      <Filter>Source Files\transactions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\transactions\transactioninput.cpp">
+      <Filter>Source Files\transactions</Filter>
+    </ClCompile>
+    <ClCompile Include="source\transactions\transactionoutput.cpp">
+      <Filter>Source Files\transactions</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\hashing.asm">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\include\blockchains\blockchain.hpp">
+      <Filter>Header Files\blockchains</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\blockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\boolblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\charblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\doubleblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\floatblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\intblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\longblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\longlongblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\shortblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\stringblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\unsignedcharblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\unsignedintblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\unsignedlongblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\unsignedlonglongblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blockdata\unsignedshortblockdata.hpp">
+      <Filter>Header Files\blockdata</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\blocks\block.hpp">
+      <Filter>Header Files\blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\blockchainreader.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\blockchainwriter.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\blockreader.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\blockwriter.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\filesystem.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\serialisation.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\transactioninputreader.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\transactioninputwriter.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\transactionoutputreader.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\transactionoutputwriter.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\transactionreader.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\io\transactionwriter.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\bufferarguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\commandqueuearguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\init.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\kernelargarguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\kernelarguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\ndrangekernelarguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\openclbuffer.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\openclcommandqueue.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\opencldata.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\openclhandle.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\openclkernel.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\openclprogram.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\programarguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\opencl\readbufferarguments.hpp">
+      <Filter>Header Files\opencl</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\thirdparty\json.hpp">
+      <Filter>Header Files\thirdparty</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\transactions\transaction.hpp">
+      <Filter>Header Files\transactions</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\transactions\transactiondata.hpp">
+      <Filter>Header Files\transactions</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\transactions\transactioninput.hpp">
+      <Filter>Header Files\transactions</Filter>
+    </ClInclude>
+    <ClInclude Include="source\include\transactions\transactionoutput.hpp">
+      <Filter>Header Files\transactions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="source\lock.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="source\mining.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+    <MASM Include="source\runtime.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>

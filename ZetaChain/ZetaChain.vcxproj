@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{4FC2F69F-0222-470C-AA79-07A559E3A6B6}</ProjectGuid>
+    <RootNamespace>ZetaChain</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.dll</TargetExt>
+    <IncludePath>D:\GitHub\ZetaChain_Native\ZetaChain\source\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="source\blockdata\boolblockdata.cpp" />
+    <ClCompile Include="source\blockdata\charblockdata.cpp" />
+    <ClCompile Include="source\blockdata\doubleblockdata.cpp" />
+    <ClCompile Include="source\blockdata\floatblockdata.cpp" />
+    <ClCompile Include="source\blockdata\intblockdata.cpp" />
+    <ClCompile Include="source\blockdata\longblockdata.cpp" />
+    <ClCompile Include="source\blockdata\longlongblockdata.cpp" />
+    <ClCompile Include="source\blockdata\shortblockdata.cpp" />
+    <ClCompile Include="source\blockdata\stringblockdata.cpp" />
+    <ClCompile Include="source\blockdata\unsignedcharblockdata.cpp" />
+    <ClCompile Include="source\blockdata\unsignedintblockdata.cpp" />
+    <ClCompile Include="source\blockdata\unsignedlongblockdata.cpp" />
+    <ClCompile Include="source\blockdata\unsignedlonglongblockdata.cpp" />
+    <ClCompile Include="source\blockdata\unsignedshortblockdata.cpp" />
+    <ClCompile Include="source\cmdargs.cpp" />
+    <ClCompile Include="source\conversions.cpp" />
+    <ClCompile Include="source\hashing.cpp" />
+    <ClCompile Include="source\io\filesystem.cpp" />
+    <ClCompile Include="source\io\serialisation.cpp" />
+    <ClCompile Include="source\io\transactioninputreader.cpp" />
+    <ClCompile Include="source\io\transactioninputwriter.cpp" />
+    <ClCompile Include="source\io\transactionoutputreader.cpp" />
+    <ClCompile Include="source\io\transactionoutputwriter.cpp" />
+    <ClCompile Include="source\opencl\init.cpp" />
+    <ClCompile Include="source\opencl\openclcommandqueue.cpp" />
+    <ClCompile Include="source\opencl\opencldata.cpp" />
+    <ClCompile Include="source\opencl\openclhandle.cpp" />
+    <ClCompile Include="source\opencl\openclkernel.cpp" />
+    <ClCompile Include="source\opencl\openclprogram.cpp" />
+    <ClCompile Include="source\sha256.cpp" />
+    <ClCompile Include="source\transactions\transactiondata.cpp" />
+    <ClCompile Include="source\transactions\transactioninput.cpp" />
+    <ClCompile Include="source\transactions\transactionoutput.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\hashing.asm" />
+    <MASM Include="source\lock.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="source\mining.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="source\runtime.asm">
+      <FileType>Document</FileType>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\include\blockchains\blockchain.hpp" />
+    <ClInclude Include="source\include\blockdata\blockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\boolblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\charblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\doubleblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\floatblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\intblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\longblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\longlongblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\shortblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\stringblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\unsignedcharblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\unsignedintblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\unsignedlongblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\unsignedlonglongblockdata.hpp" />
+    <ClInclude Include="source\include\blockdata\unsignedshortblockdata.hpp" />
+    <ClInclude Include="source\include\blocks\block.hpp" />
+    <ClInclude Include="source\include\io\blockchainreader.hpp" />
+    <ClInclude Include="source\include\io\blockchainwriter.hpp" />
+    <ClInclude Include="source\include\io\blockreader.hpp" />
+    <ClInclude Include="source\include\io\blockwriter.hpp" />
+    <ClInclude Include="source\include\io\filesystem.hpp" />
+    <ClInclude Include="source\include\io\serialisation.hpp" />
+    <ClInclude Include="source\include\io\transactioninputreader.hpp" />
+    <ClInclude Include="source\include\io\transactioninputwriter.hpp" />
+    <ClInclude Include="source\include\io\transactionoutputreader.hpp" />
+    <ClInclude Include="source\include\io\transactionoutputwriter.hpp" />
+    <ClInclude Include="source\include\io\transactionreader.hpp" />
+    <ClInclude Include="source\include\io\transactionwriter.hpp" />
+    <ClInclude Include="source\include\opencl\bufferarguments.hpp" />
+    <ClInclude Include="source\include\opencl\commandqueuearguments.hpp" />
+    <ClInclude Include="source\include\opencl\init.hpp" />
+    <ClInclude Include="source\include\opencl\kernelargarguments.hpp" />
+    <ClInclude Include="source\include\opencl\kernelarguments.hpp" />
+    <ClInclude Include="source\include\opencl\ndrangekernelarguments.hpp" />
+    <ClInclude Include="source\include\opencl\openclbuffer.hpp" />
+    <ClInclude Include="source\include\opencl\openclcommandqueue.hpp" />
+    <ClInclude Include="source\include\opencl\opencldata.hpp" />
+    <ClInclude Include="source\include\opencl\openclhandle.hpp" />
+    <ClInclude Include="source\include\opencl\openclkernel.hpp" />
+    <ClInclude Include="source\include\opencl\openclprogram.hpp" />
+    <ClInclude Include="source\include\opencl\programarguments.hpp" />
+    <ClInclude Include="source\include\opencl\readbufferarguments.hpp" />
+    <ClInclude Include="source\include\thirdparty\json.hpp" />
+    <ClInclude Include="source\include\transactions\transaction.hpp" />
+    <ClInclude Include="source\include\transactions\transactiondata.hpp" />
+    <ClInclude Include="source\include\transactions\transactioninput.hpp" />
+    <ClInclude Include="source\include\transactions\transactionoutput.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
+  </ImportGroup>
+</Project>
