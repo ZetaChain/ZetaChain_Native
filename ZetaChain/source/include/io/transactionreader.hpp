@@ -27,7 +27,7 @@ SOFTWARE.
 #include <string>
 #include <fstream>
 #include "transactions/transaction.hpp"
-#include "io/serialisation.hpp"
+#include "serialisation.hpp"
 #include "constants.hpp"
 
 namespace ZetaChain_Native::IO {

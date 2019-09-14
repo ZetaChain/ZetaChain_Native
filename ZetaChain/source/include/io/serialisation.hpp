@@ -85,7 +85,7 @@ namespace ZetaChain_Native::IO::Serialisation {
 	}
 
 	template <class T>
-	T* deserialise(std::ifstream* stream, void** data, size_t size) {
+	T* deserialise(std::ifstream* stream, T** data, size_t size) {
 		for (int i = 0; i < size - 1; i++) {
 			*(data + i) = readUnsignedChar(stream);
 		}
@@ -150,27 +150,27 @@ namespace ZetaChain_Native::IO::Serialisation {
 		return true;
 	}
 
-	template <class T>
-	bool writeOrphanedChain(std::ofstream* stream, T data) {
-		decltype(data->getLastBlock()) blkPtr = data->getLastBlock();
-		auto blk = *blkPtr;
-		writeBlock(stream, blk);
+	template <class B>
+	bool writeOrphanedChain(std::ofstream* stream, Blockchain<Block<B>>* data) {
+		Block<B>* blkPtr = data->getLastBlock();
+		Block<B> blk = *blkPtr;
+		writeBlock<Block<B>>(stream, blk);
 		writeUnsignedLong(stream, data->getCount());
-		std::vector<decltype(blk)> blocks = Conversions::mapToValues(data->getBlocks());
+		std::vector<Block<B>> blocks = Conversions::mapToValues(data->getBlocks());
 		for (int i = 0; i < blocks.size() - 1; i++) {
 			writeBlock(stream, blocks[i]);
 		}
 		return true;
 	}
 
-	template <class T>
-	bool writeBlockchain(std::ofstream* stream, T data) {
-		decltype(data->getLastBlock()) blkPtr = data->getLastBlock();
-		auto blk = *blkPtr;
-		writeBlock(stream, blk);
+	template <class B>
+	bool writeBlockchain(std::ofstream* stream, Blockchain<Block<B>>* data) {
+		Block<B>* blkPtr = data->getLastBlock();
+		Block<B> blk = *blkPtr;
+		writeBlock<Block<B>>(stream, blk);
 		writeUnsignedLong(stream, data->getCount());
 		writeUnsignedLong(stream, data->getOrphanCount());
-		std::vector<decltype(blk)> blocks = Conversions::mapToValues(data->getBlocks());
+		std::vector<Block<B>> blocks = Conversions::mapToValues(data->getBlocks());
 		for (int i = 0; i < blocks.size() - 1; i++) {
 			writeBlock(stream, blocks[i]);
 		}
@@ -181,9 +181,9 @@ namespace ZetaChain_Native::IO::Serialisation {
 	}
 
 
-	template <class T, class D>
-	T readTransaction(std::ifstream* stream) {
-		T result = T();
+	template <class D>
+	Transaction<D> readTransaction(std::ifstream* stream) {
+		Transaction<D> result = Transaction<D>();
 		std::string hash = *readString(stream);
 		int inputCount = *readInt(stream);
 		int outputCount = *readInt(stream);
@@ -215,44 +215,44 @@ namespace ZetaChain_Native::IO::Serialisation {
 		return result;
 	}
 
-	template <class T, class B>
+	template <class T, class R>
 	T readBlockData(std::ifstream* stream) {
-		T result = T();
+		T result = { 0 };
 		std::string hash = *readString(stream);
 		unsigned long transactionCount = *readUnsignedLong(stream);
-		std::map<std::string, Transaction<TransactionData*>*> transactions = std::map<std::string, Transaction<TransactionData*>*>();
+		std::map<std::string, Transaction<TransactionData>> transactions = std::map<std::string, Transaction<TransactionData>>();
 		for (int i = 0; i < transactionCount - 1; i++) {
-			Transaction<TransactionData*>* tx = &readTransaction<Transaction<TransactionData*>, B>(stream);
-			if (!tx->verify())
-				return nullptr;
-			transactions.insert(std::make_pair(tx->getHash(), tx));
+			Transaction<TransactionData> tx = readTransaction<TransactionData>(stream);
+			if (!tx.verify())
+				return result;
+			transactions.insert(std::make_pair(tx.getHash(), tx));
 		}
 		unsigned long size = *readUnsignedLong(stream);
 		unsigned long bits = *readUnsignedLong(stream);
 		time_t timeCreated = *readUnsignedLong(stream);
 		time_t timeRecieved = *readUnsignedLong(stream);
 		time_t timeLocked = *readUnsignedLong(stream);
-		void* out = malloc(sizeof(B));
-		B data = *deserialise<B>(stream, &out, sizeof(B));
-		result->setHash(hash);
-		result->setTransactionCount(transactionCount);
-		result->setTransactions(transactions);
-		result->setSize(size);
-		result->setBits(bits);
-		result->setTimeCreated(timeCreated);
-		result->setTimeRecieved(timeRecieved);
-		result->setTimeLocked(timeLocked);
-		result->setRawData(data);
+		R* out = reinterpret_cast<R*>(malloc(sizeof(R)));
+		R data = *deserialise<R>(stream, &out, sizeof(R));
+		result.setHash(hash);
+		result.setTransactionCount(transactionCount);
+		result.setTransactions(transactions);
+		result.setSize(size);
+		result.setBits(bits);
+		result.setTimeCreated(timeCreated);
+		result.setTimeRecieved(timeRecieved);
+		result.setTimeLocked(timeLocked);
+		result.setRawData(data);
 		free(out);
-		if (!result->verify())
-			return nullptr;
+		if (!result.verify())
+			return result;
 		return result;
 	}
 
-	template <class T>
-	T readBlock(std::ifstream* stream) {
-		T result = T(nullptr);
-		decltype(result.getData()) data = readBlockData<typeof(data)>(stream);
+	template <class B>
+	Block<B> readBlock(std::ifstream* stream) {
+		Block<B> result = Block<B>(nullptr);
+		B data = readBlockData<B, decltype(result.getData())>(stream);
 		std::string hash = *readString(stream);
 		long height = *readLong(stream);
 		time_t timeCreated = *readUnsignedLong(stream);
@@ -264,7 +264,7 @@ namespace ZetaChain_Native::IO::Serialisation {
 		long value = *readLong(stream);
 		long nonce = *readLong(stream);
 		std::string previousHash = *readString(stream);
-		result.setData(data);
+		result.setData(&data);
 		result.setHash(hash);
 		result.setHeight(height);
 		result.setTimeCreated(timeCreated);
@@ -280,58 +280,54 @@ namespace ZetaChain_Native::IO::Serialisation {
 		return result;
 	}
 
-	template <class T>
-	T readOrphanedChain(std::ifstream* stream) {
-		T result = T();
-		decltype(result.getLastBlock()) blkPtr = result.getLastBlock();
-		auto blk = *blkPtr;
+	template <class B>
+	Blockchain<Block<B>> readOrphanedChain(std::ifstream* stream) {
+		Blockchain<Block<B>> result = Blockchain<Block<B>>();
 
-		decltype(result.getLastBlock()) lastBlock = &readBlock<decltype(blk)>(stream);
-		if (!lastBlock->verify())
+		Block<B> lastBlock = readBlock<B>(stream);
+		if (!lastBlock.verify())
 			throw std::runtime_error("Last Block could not be verified");
 		unsigned long count = *readUnsignedLong(stream);
 		unsigned long orphanCount = 0UL;
-		std::map<std::string, decltype(blk)> blocks = std::map<std::string, decltype(blk)>();
+		std::map<std::string, Block<B>> blocks = std::map<std::string, Block<B>>();
 		for (int i = 0; i < count - 1; i++) {
-			decltype(blk) block = readBlock<decltype(blk)>(stream);
+			Block<B> block = readBlock<B>(stream);
 			if (!block.verify())
 				throw std::runtime_error("Block could not be verified");
 			blocks.insert(std::make_pair(block.getHash(), block));
 		}
-		result.setLastBlock(lastBlock);
+		result.setLastBlock(&lastBlock);
 		result.setCount(count);
 		result.setOrphanCount(orphanCount);
 		result.setBlocks(blocks);
 		return result;
 	}
 
-	template <class T>
-	T readBlockchain(std::ifstream* stream) {
-		T result = T();
-		decltype(result->getLastBlock()) blkPtr = result->getLastBlock();
-		auto blk = *blkPtr;
-		decltype(result->getLastBlock()) lastBlock = &readBlock<decltype(blk)>(stream);
+	template <class B>
+	Blockchain<Block<B>> readBlockchain(std::ifstream* stream) {
+		Blockchain<Block<B>> result = Blockchain<Block<B>>();
+		Block<B>* lastBlock = &readBlock<B>(stream);
 		if (!lastBlock->verify())
-			return nullptr;
+			return result;
 		unsigned long count = *readUnsignedLong(stream);
 		unsigned long orphanCount = *readUnsignedLong(stream);
-		std::map<std::string, decltype(blk)> blocks = std::map<std::string, decltype(blk)>();
+		std::map<std::string, Block<B>> blocks = std::map<std::string, Block<B>>();
 		for (int i = 0; i < count - 1; i++) {
-			decltype(blk) block = readBlock<decltype(blk)>(stream);
+			Block<B> block = readBlock<B>(stream);
 			if (!block.verify())
-				return nullptr;
+				return result;
 			blocks.insert(std::make_pair(block.getHash(), block));
 		}
-		std::vector<Blockchain<decltype(blk)>*> orphanedChains = std::vector<Blockchain<decltype(blk)>*>();
+		std::vector<Blockchain<Block<B>>*> orphanedChains = std::vector<Blockchain<Block<B>>*>();
 		for (int i = 0; i < orphanCount - 1; i++) {
-			Blockchain<decltype(blk)>* orphan = &readOrphanedChain<Blockchain<decltype(blk)>>(stream);
+			Blockchain<Block<B>>* orphan = &readOrphanedChain<B>(stream);
 			orphanedChains.push_back(orphan);
 		}
-		result->setLastBlock(lastBlock);
-		result->setCount(count);
-		result->setOrphanCount(orphanCount);
-		result->setBlocks(blocks);
-		result->setOrphanedChains(orphanedChains);
+		result.setLastBlock(lastBlock);
+		result.setCount(count);
+		result.setOrphanCount(orphanCount);
+		result.setBlocks(blocks);
+		result.setOrphanedChains(orphanedChains);
 		return result;
 	}
 }

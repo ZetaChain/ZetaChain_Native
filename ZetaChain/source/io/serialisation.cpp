@@ -34,7 +34,7 @@ SOFTWARE.
 #include "blocks/block.hpp"
 #include "blockdata/blockdata.hpp"
 #include "blockchains/blockchain.hpp"
-#include "io/serialisation.hpp"
+
 
 namespace ZetaChain_Native::IO::Serialisation {
 	bool writeChar(std::ofstream* stream, char data) {

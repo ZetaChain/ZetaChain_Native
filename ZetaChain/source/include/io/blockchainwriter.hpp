@@ -28,7 +28,7 @@ SOFTWARE.
 #include <fstream>
 #include <vector>
 #include "constants.hpp"
-#include "io/serialisation.hpp"
+
 #include "blockchains/blockchain.hpp"
 #include "blocks/block.hpp"
 
@@ -53,10 +53,11 @@ namespace ZetaChain_Native::IO {
 				delete this->blockchain;
 			}
 
+			template <class BlockType>
 			bool write() {
 				if(this->binary) {
 					file << BLOCKCHAIN_HEADER;
-					Serialisation::writeBlockchain(&file, blockchain);
+					Serialisation::writeBlockchain<BlockType>(&file, blockchain);
 					file << 0;
 				}
 				else {

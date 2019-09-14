@@ -78,26 +78,26 @@ void createUnsignedLongLongBlockchain();
 void createCustomDataBlockchain();
 
 template<class T>
-T readBlockchain(std::string filePath, bool binary) {
+Blockchain<Block<T>> readBlockchain(std::string filePath, bool binary) {
 	if(binary && filePath.find('.') != std::string::npos)
 		filePath += ".dat";
 	else if(!binary && filePath.find('.') != std::string::npos)
 		filePath += ".json";
-	T chain = nullptr;
-	IO::BlockchainReader<decltype(chain)>* reader = new IO::BlockchainReader<decltype(chain)>(filePath, binary);
+	Blockchain<Block<T>> chain = Blockchain<Block<T>>();
+	IO::BlockchainReader<T>* reader = new IO::BlockchainReader<T>(filePath, binary);
 	chain = reader->read();
 	reader->close();
 	return chain;
 }
 
 template<class T>
-void writeBlockchain(std::string filePath, bool binary, T blockchain) {
+void writeBlockchain(std::string filePath, bool binary, Blockchain<Block<T>> blockchain) {
 	std::cout << "Writing Blockchain to: " << filePath << std::endl;
 	if(!IO::Filesystem::directoryExists("data")) {
 		if(!IO::Filesystem::createDirectory("data", NULL))
 			throw std::runtime_error("Could Not Create data directory");
 	}
-	IO::BlockchainWriter<decltype(blockchain.getBlocks()[0])>* writer = new IO::BlockchainWriter<decltype(blockchain.getBlocks()[0])>(filePath, &blockchain, binary);
+	IO::BlockchainWriter<T>* writer = new IO::BlockchainWriter<T>(filePath, &blockchain, binary);
 	if(writer->write())
 		std::cout << "Blockchain was successfully written to: " << filePath << std::endl;
 	else
@@ -108,8 +108,8 @@ void writeBlockchain(std::string filePath, bool binary, T blockchain) {
 
 template<class T>
 void loadBlockchain(std::string filePath, bool binary) {
-	T* blockchain = nullptr;
-	blockchain = readBlockchain<decltype(blockchain)>(filePath, binary);
+	Blockchain<Block<T>>* blockchain = nullptr;
+	blockchain = &readBlockchain<T>(filePath, binary);
 
 	std::cout << "Verifying Loaded Blockchain" << std::endl;
 

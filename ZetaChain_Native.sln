@@ -5,6 +5,11 @@ VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZetaChain", "ZetaChain\ZetaChain.vcxproj", "{4FC2F69F-0222-470C-AA79-07A559E3A6B6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZetaChain.Test", "ZetaChain.Test\ZetaChain.Test.vcxproj", "{8DBFBD1C-1F9A-401A-B95B-1B2041AD2456}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4FC2F69F-0222-470C-AA79-07A559E3A6B6} = {4FC2F69F-0222-470C-AA79-07A559E3A6B6}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +20,10 @@ Global
 		{4FC2F69F-0222-470C-AA79-07A559E3A6B6}.Debug|x64.Build.0 = Debug|x64
 		{4FC2F69F-0222-470C-AA79-07A559E3A6B6}.Release|x64.ActiveCfg = Release|x64
 		{4FC2F69F-0222-470C-AA79-07A559E3A6B6}.Release|x64.Build.0 = Release|x64
+		{8DBFBD1C-1F9A-401A-B95B-1B2041AD2456}.Debug|x64.ActiveCfg = Debug|x64
+		{8DBFBD1C-1F9A-401A-B95B-1B2041AD2456}.Debug|x64.Build.0 = Debug|x64
+		{8DBFBD1C-1F9A-401A-B95B-1B2041AD2456}.Release|x64.ActiveCfg = Release|x64
+		{8DBFBD1C-1F9A-401A-B95B-1B2041AD2456}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

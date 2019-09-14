@@ -28,7 +28,7 @@ SOFTWARE.
 #include <fstream>
 #include <vector>
 #include "constants.hpp"
-#include "io/serialisation.hpp"
+
 #include "blockchains/blockchain.hpp"
 #include "blocks/block.hpp"
 
@@ -50,7 +50,7 @@ namespace ZetaChain_Native::IO {
 				free(header);
 			}
 
-			T read() {
+			Blockchain<Block<T>> read() {
 				if(this->binary) {
 					if(static_cast<int>(file.tellg()) == 0) {
 						header[0] = *Serialisation::readUnsignedChar(&file);
@@ -58,12 +58,13 @@ namespace ZetaChain_Native::IO {
 						header[2] = *Serialisation::readUnsignedChar(&file);
 						header[3] = '\0';
 						if(!this->verify())
-							return nullptr;
+							return Blockchain<Block<T>>();
 					}
 				}
-				blockchain = Serialisation::readBlockchain<decltype(blockchain)>(&file);
-				if(!blockchain->verify())
-					return nullptr;
+				blockchain = Serialisation::readBlockchain<T>(&file);
+				if(!blockchain.verify())
+					return Blockchain<Block<T>>();
+				
 				return blockchain;
 			}
 			bool verify() {
@@ -80,7 +81,7 @@ namespace ZetaChain_Native::IO {
 		private:
 			std::string filePath;
 			bool binary;
-			T blockchain;
+			Blockchain<Block<T>> blockchain;
 			unsigned char header[4];
 			std::ifstream file;
 		};

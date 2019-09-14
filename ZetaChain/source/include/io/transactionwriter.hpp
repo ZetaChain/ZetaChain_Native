@@ -26,7 +26,7 @@ SOFTWARE.
 #include "platform.hpp" // Platform Specific Stuff NOTE: Must Always be the first include in a file
 #include <string>
 #include <fstream>
-#include "io/serialisation.hpp"
+
 #include "transactions/transaction.hpp"
 #include "constants.hpp"
 

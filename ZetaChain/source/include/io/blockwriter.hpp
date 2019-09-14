@@ -28,7 +28,7 @@ SOFTWARE.
 #include <vector>
 #include <fstream>
 #include "constants.hpp"
-#include "io/serialisation.hpp"
+
 #include "blocks/block.hpp"
 #include "blockdata/blockdata.hpp"
 
