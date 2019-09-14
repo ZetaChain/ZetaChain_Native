@@ -74,7 +74,7 @@ namespace ZetaChain_Native {
 				bytes += Conversions::toBytes(&this->timeCreated);
 				bytes += Conversions::toBytes(&this->timeLocked);
 				bytes += Conversions::toBytes(&this->timeConfirmed);
-				bytes += data->toBytes();
+				bytes += data.toBytes();
 				return bytes;
 			}
 
@@ -83,8 +83,8 @@ namespace ZetaChain_Native {
 				nlohmann::json inputArr = nlohmann::json::array();
 				nlohmann::json outputArr = nlohmann::json::array();
 
-				std::vector<std::string> inputValues = Conversions::mapToValuesString(this->inputs, this->inputs.size());
-				std::vector<std::string> outputValues = Conversions::mapToValuesString(this->outputs, this->outputs.size());
+				std::vector<std::string> inputValues = Conversions::mapToValuesStringPointer(this->inputs, this->inputs.size());
+				std::vector<std::string> outputValues = Conversions::mapToValuesStringPointer(this->outputs, this->outputs.size());
 				
 				for(int i = 0; i < inputValues.size() - 1; i++) {
 					nlohmann::json obj = inputValues[i];
@@ -96,7 +96,7 @@ namespace ZetaChain_Native {
 					outputArr.push_back(obj);
 				}
 
-				nlohmann::json rawData = this->data->toString();
+				nlohmann::json rawData = this->data.toString();
 				
 				j["hash", this->hash];
 				j["inputCount", this->inputCount];
@@ -338,7 +338,7 @@ namespace ZetaChain_Native {
 		private:
 
 			std::string computeHash() {
-				return Hashing::hashString(this->toBytes());
+				return Hashing::hashVector(this->toBytes());
 			}
 
 			std::string hash;

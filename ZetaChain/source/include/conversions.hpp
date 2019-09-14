@@ -68,6 +68,15 @@ namespace ZetaChain_Native {
 		std::vector<std::string> mapToValuesString(std::map<std::string, T> values, int size) {
 			std::vector<std::string> valueList = std::vector<std::string>(size);
 			for (auto it = values.begin(); it != values.end(); it++) {
+				valueList.push_back(it->second.toString());
+			}
+			return valueList;
+		}
+
+		template <class T>
+		std::vector<std::string> mapToValuesStringPointer(std::map<std::string, T> values, int size) {
+			std::vector<std::string> valueList = std::vector<std::string>(size);
+			for (auto it = values.begin(); it != values.end(); it++) {
 				valueList.push_back(it->second->toString());
 			}
 			return valueList;

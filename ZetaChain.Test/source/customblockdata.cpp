@@ -107,8 +107,8 @@ std::string CustomBlockData::getHash(){
 	return this->hash;
 }
 
-std::map<std::string, Transaction<TransactionData*>*> CustomBlockData::getTransactions(){
-	return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
+std::map<std::string, Transaction<TransactionData>> CustomBlockData::getTransactions(){
+	return static_cast<std::map<std::string, Transaction<TransactionData>>>(this->transactions);
 }
 
 unsigned long CustomBlockData::getSize(){
@@ -151,7 +151,7 @@ void CustomBlockData::setHash(std::string hash) {
 	this->hash = hash;
 }
 
-void CustomBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+void CustomBlockData::setTransactions(std::map<std::string, Transaction<TransactionData>> transactions){
 	if(this->transactions.size() != 0)
 		throw std::runtime_error("Transactions have already been set");
 	this->transactions = transactions;

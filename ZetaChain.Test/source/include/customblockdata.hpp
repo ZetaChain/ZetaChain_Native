@@ -47,7 +47,7 @@ class CustomBlockData : public BlockData {
 		bool lock(unsigned long timeout) override;
 
 		std::string getHash();
-		std::map<std::string, Transaction<TransactionData*>*> getTransactions();
+		std::map<std::string, Transaction<TransactionData>> getTransactions();
 		unsigned long getSize();
 		unsigned long getTransactionCount();
 		unsigned long getBits();
@@ -58,7 +58,7 @@ class CustomBlockData : public BlockData {
 
 		void setHash();
 		void setHash(std::string);
-		void setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions);
+		void setTransactions(std::map<std::string, Transaction<TransactionData>> transactions);
 		void setSize(unsigned long size);
 		void setTransactionCount(unsigned long count);
 		void setBits(unsigned long bits);

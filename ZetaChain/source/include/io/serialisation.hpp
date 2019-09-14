@@ -87,28 +87,28 @@ namespace ZetaChain_Native::IO::Serialisation {
 	template <class T>
 	T* deserialise(std::ifstream* stream, T** data, size_t size) {
 		for (int i = 0; i < size - 1; i++) {
-			*(data + i) = readUnsignedChar(stream);
+			*(data + i) = reinterpret_cast<T*>(readUnsignedChar(stream));
 		}
 		return reinterpret_cast<T*>(*data);
 	}
 
 	template <class T>
 	bool writeTransaction(std::ofstream* stream, T data) {
-		writeString(stream, data->getHash());
-		writeInt(stream, data->getInputCount());
-		writeInt(stream, data->getOutputCount());
-		for (std::map<std::string, TransactionInput*>::iterator it = data->getInputs().begin(); it != data->getInputs().end(); it++) {
+		writeString(stream, data.getHash());
+		writeInt(stream, data.getInputCount());
+		writeInt(stream, data.getOutputCount());
+		for (std::map<std::string, TransactionInput*>::iterator it = data.getInputs().begin(); it != data.getInputs().end(); it++) {
 			writeTransactionInput(stream, it->second);
 		}
-		for (std::map<std::string, TransactionOutput*>::iterator it = data->getOutputs().begin(); it != data->getOutputs().end(); it++) {
+		for (std::map<std::string, TransactionOutput*>::iterator it = data.getOutputs().begin(); it != data.getOutputs().end(); it++) {
 			writeTransactionOutput(stream, it->second);
 		}
-		writeDouble(stream, data->getValue());
-		writeLongLong(stream, data->getTimeCreated());
-		writeLongLong(stream, data->getTimeCreated());
-		writeLongLong(stream, data->getTimeLocked());
-		writeLongLong(stream, data->getTimeConfirmed());
-		writeTransactionData(stream, data->getData());
+		writeDouble(stream, data.getValue());
+		writeLongLong(stream, data.getTimeCreated());
+		writeLongLong(stream, data.getTimeCreated());
+		writeLongLong(stream, data.getTimeLocked());
+		writeLongLong(stream, data.getTimeConfirmed());
+		writeTransactionData(stream, reinterpret_cast<TransactionData*>(&data.getData()));
 		return true;
 	}
 
@@ -117,7 +117,7 @@ namespace ZetaChain_Native::IO::Serialisation {
 		writeString(stream, data->getHash());
 		writeUnsignedLong(stream, data->getTransactionCount());
 		if (data->getTransactions().size() > 0) {
-			for (std::map<std::string, Transaction<TransactionData*>*>::iterator it = data->getTransactions().begin(); it != data->getTransactions().end(); it++) {
+			for (std::map<std::string, Transaction<TransactionData>>::iterator it = data->getTransactions().begin(); it != data->getTransactions().end(); it++) {
 				writeTransaction(stream, it->second);
 			}
 		}
@@ -201,7 +201,7 @@ namespace ZetaChain_Native::IO::Serialisation {
 		time_t timeCreated = *readUnsignedLong(stream);
 		time_t timeLocked = *readUnsignedLong(stream);
 		time_t timeConfirmed = *readUnsignedLong(stream);
-		D* out = malloc(sizeof(D));
+		D* out = reinterpret_cast<D*>(malloc(sizeof(D)));
 		D data = *deserialise<D>(stream, &out, 4);
 		result.setHash(hash);
 		result.setInputs(inputs);

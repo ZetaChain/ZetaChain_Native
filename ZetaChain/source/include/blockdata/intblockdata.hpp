@@ -45,7 +45,7 @@ namespace ZetaChain_Native {
 			bool lock(unsigned long timeout) override;
 
 			std::string getHash();
-			std::map<std::string, Transaction<TransactionData*>*> getTransactions();
+			std::map<std::string, Transaction<TransactionData>> getTransactions();
 			unsigned long getSize();
 			unsigned long getTransactionCount();
 			unsigned long getBits();
@@ -56,14 +56,14 @@ namespace ZetaChain_Native {
 
 			void setHash();
 			void setHash(std::string hash);
-			void setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions);
+			void setTransactions(std::map<std::string, Transaction<TransactionData>> transactions);
 			void setSize(unsigned long size);
 			void setTransactionCount(unsigned long count);
 			void setBits(unsigned long bits);
 			void setTimeCreated(time_t timeCreated);
 			void setTimeRecieved(time_t timeRecieved);
 			void setTimeLocked(time_t timeLocked);
-			void setRawData(int rawData);
+			void setRawData(void* rawData);
 		protected:
 			int rawData;
 		private:

@@ -241,8 +241,8 @@ namespace ZetaChain_Native {
 		return this->hash;
 	}
 
-	std::map<std::string, Transaction<TransactionData*>*> UnsignedLongBlockData::getTransactions(){
-		return static_cast<std::map<std::string, Transaction<TransactionData*>*>>(this->transactions);
+	std::map<std::string, Transaction<TransactionData>> UnsignedLongBlockData::getTransactions(){
+		return static_cast<std::map<std::string, Transaction<TransactionData>>>(this->transactions);
 	}
 
 	unsigned long UnsignedLongBlockData::getSize(){
@@ -285,7 +285,7 @@ namespace ZetaChain_Native {
 		this->hash = hash;
 	}
 
-	void UnsignedLongBlockData::setTransactions(std::map<std::string, Transaction<TransactionData*>*> transactions){
+	void UnsignedLongBlockData::setTransactions(std::map<std::string, Transaction<TransactionData>> transactions){
 		if(this->transactions.size() != 0)
 			throw std::runtime_error("Transactions have already been set");
 		this->transactions = transactions;
