@@ -79,11 +79,12 @@
   <ItemGroup>
     <ClCompile Include="source\customblockdata.cpp" />
     <ClCompile Include="source\customdata.cpp" />
+    <ClCompile Include="source\framedata.cpp" />
     <ClCompile Include="source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\include\customblockdata.hpp" />
-    <ClInclude Include="source\include\customdata.hpp" />
+    <ClInclude Include="source\include\framedata.hpp" />
     <ClInclude Include="source\include\main.hpp" />
     <ClInclude Include="source\include\platform.hpp" />
   </ItemGroup>
