@@ -34,14 +34,16 @@ using namespace ZetaChain_Native;
 class FrameData {
 
 public:
-	FrameData(std::vector<unsigned char> bytes);
+	FrameData(std::vector<unsigned char> rawdata);
 	virtual ~FrameData();
 
 	bool verify();
+	std::string getHash();
+	std::vector<unsigned char> getRawData();
 	std::vector<unsigned char> toBytes();
 
 private:
 	std::string hash = "";
-
+	std::vector<unsigned char> rawData;
 	std::string computeHash();
 };

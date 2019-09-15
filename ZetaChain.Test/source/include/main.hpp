@@ -76,6 +76,7 @@ void createUnsignedIntBlockchain();
 void createUnsignedLongBlockchain();
 void createUnsignedLongLongBlockchain();
 void createCustomDataBlockchain();
+void createFrameDataBlockchain();
 
 template<class T>
 Blockchain<Block<T>> readBlockchain(std::string filePath, bool binary) {

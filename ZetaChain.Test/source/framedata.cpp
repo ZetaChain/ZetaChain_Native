@@ -32,3 +32,32 @@ SOFTWARE.
 #include "hashing.hpp"
 #include "framedata.hpp"
 
+FrameData::FrameData(std::vector<unsigned char> rawdata) {
+	this->rawData = rawdata;
+}
+
+FrameData::~FrameData() {
+
+}
+
+std::string FrameData::getHash() {
+	return this->hash;
+}
+
+std::vector<unsigned char> FrameData::getRawData() {
+	return this->rawData;
+}
+
+std::string FrameData::computeHash() {
+	if (this->hash != "")
+		throw std::runtime_error("Hash has already been set");
+	std::vector<unsigned char> bytes = this->toBytes();
+	return Hashing::hashVector(bytes);
+}
+
+std::vector<unsigned char> FrameData::toBytes() {
+	std::vector<unsigned char> bytes = std::vector<unsigned char>(sizeof(FrameData));
+	bytes += this->rawData;
+
+	return bytes;
+}

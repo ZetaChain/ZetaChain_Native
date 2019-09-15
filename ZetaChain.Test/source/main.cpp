@@ -30,6 +30,7 @@ SOFTWARE.
 #include <vector> // std::vector
 #include <map> // std::map
 #include <stdexcept> // std::runtime_error
+#include <fstream> // ifstream, ofstream
 #include "main.hpp"
 #include "opencl/init.hpp"
 #include "opencl/openclhandle.hpp"
@@ -50,7 +51,9 @@ SOFTWARE.
 #include "blockdata/unsignedlongblockdata.hpp" // UnsignedLongBlockData
 #include "blockdata/unsignedlonglongblockdata.hpp" // UnsignedLongLongBlockData
 #include "customblockdata.hpp" // CustomBlockData
+#include "frameblockdata.hpp" // FrameBlockData
 #include "customdata.hpp" // CustomData
+#include "framedata.hpp" // FrameData
 #include "io/blockchainwriter.hpp" // BlockchainWriter
 #include "io/filesystem.hpp" // createDirectory, createFile
 #include "constants.hpp" // chars, BLOCK_HEADER
@@ -83,22 +86,23 @@ int main(int argc, char** argv) {
 		delete handle;
 	}
 
-	createIntBlockchain();
-	createStringBlockchain();
-	createFloatBlockchain();
-	createDoubleBlockchain();
-	createCharBlockchain();
-	createShortBlockchain();
-	createLongBlockchain();
-	createLongLongBlockchain();
-	createBoolBlockchain();
-	createUnsignedCharBlockchain();
-	createUnsignedShortBlockchain();
-	createUnsignedIntBlockchain();
-	createUnsignedLongBlockchain();
-	createUnsignedLongLongBlockchain();
-	createCustomDataBlockchain();
-	
+	//createIntBlockchain();
+	//createStringBlockchain();
+	//createFloatBlockchain();
+	//createDoubleBlockchain();
+	//createCharBlockchain();
+	//createShortBlockchain();
+	//createLongBlockchain();
+	//createLongLongBlockchain();
+	//createBoolBlockchain();
+	//createUnsignedCharBlockchain();
+	//createUnsignedShortBlockchain();
+	//createUnsignedIntBlockchain();
+	//createUnsignedLongBlockchain();
+	//createUnsignedLongLongBlockchain();
+	//createCustomDataBlockchain();
+	createFrameDataBlockchain();
+
 	//loadBlockchain<IntBlockData>("data/intblockchain", !__useJSONFormat);
 
 	return 0;
@@ -959,6 +963,74 @@ void createCustomDataBlockchain() {
 	}
 	ZetaChain_Native::IO::BlockchainWriter<Block<CustomBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<CustomBlockData>>(path, &blockchain, !__useJSONFormat);
 	if(writer->write<CustomBlockData>())
+		std::cout << "Blockchain was successfully written to: " << path << std::endl;
+	else
+		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
+	writer->close();
+	std::cout << std::endl;
+}
+
+void createFrameDataBlockchain() {
+	auto t = std::chrono::high_resolution_clock::now();
+	auto generator = std::chrono::time_point_cast<std::chrono::nanoseconds>(t).time_since_epoch().count();
+
+	std::cout << "Creating FrameData Blockchain" << std::endl;
+
+	Blockchain<Block<FrameBlockData>> blockchain = Blockchain<Block<FrameBlockData>>();
+	int i = 1;
+	while (i < 1001) {
+		std::ifstream frameFile;
+		char* fileName = reinterpret_cast<char*>(malloc(255));
+		std::streampos fileSize = -1;
+		char* rawdata = nullptr;
+		sprintf(fileName, "frame_%i.raw", i);
+		frameFile.open(fileName, std::ios::in | std::ios::binary | std::ios::ate);
+		
+		if (frameFile.is_open()) {
+			fileSize = frameFile.tellg();
+			rawdata = new char[fileSize];
+			frameFile.read(rawdata, fileSize);
+			frameFile.close();
+		}
+		
+		std::vector<unsigned char> frameData(rawdata, rawdata + fileSize);
+		Block<FrameBlockData>* b = new Block<FrameBlockData>(new FrameBlockData(new FrameData(frameData)));
+
+		if (blockchain.add(b)) {
+			std::cout << "Hash: " << b->getHash() << " Height: " << b->getHeight() << " Data: " << b->getData()->getRawData() << std::endl;
+			std::cout << "Block " << b->getHeight() << " Was Successfully Added to the Blockchain" << std::endl;
+			std::cout << "Blockchain Contains " << blockchain.getBlocks().size() << " Blocks" << std::endl;
+		}
+		i++;
+	}
+
+	unsigned long height = 999UL;
+	std::cout << std::endl << std::endl;
+	std::cout << "Finding Block " << height << "..." << std::endl;
+	Block<FrameBlockData>* blk = &blockchain.getBlockByHeight(height);
+	if (blk != nullptr) {
+		std::cout << "Found Block " << height << std::endl;
+		std::cout << "Hash: " << blk->getHash() << " Height: " << blk->getHeight() << " Data: " << blk->getData()->getRawData() << std::endl;
+	}
+	else {
+		std::cout << "Block " << height << " Not Found" << std::endl;
+	}
+
+	std::cout << std::endl << std::endl;
+
+	std::string path;
+	if (__useJSONFormat)
+		path = "data/frameblockchain.json";
+	else
+		path = "data/frameblockchain.dat";
+
+	std::cout << "Writing Blockchain to: " << path << std::endl;
+	if (!ZetaChain_Native::IO::Filesystem::directoryExists("data")) {
+		if (!ZetaChain_Native::IO::Filesystem::createDirectory("data", NULL))
+			throw std::runtime_error("Could Not Create data directory");
+	}
+	ZetaChain_Native::IO::BlockchainWriter<Block<FrameBlockData>>* writer = new ZetaChain_Native::IO::BlockchainWriter<Block<FrameBlockData>>(path, &blockchain, !__useJSONFormat);
+	if (writer->write<FrameBlockData>())
 		std::cout << "Blockchain was successfully written to: " << path << std::endl;
 	else
 		std::cout << "ERROR! Could not write blockchain to: " << path << std::endl;
