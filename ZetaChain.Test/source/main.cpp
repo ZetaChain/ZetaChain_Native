@@ -86,24 +86,24 @@ int main(int argc, char** argv) {
 		delete handle;
 	}
 
-	//createIntBlockchain();
-	//createStringBlockchain();
-	//createFloatBlockchain();
-	//createDoubleBlockchain();
-	//createCharBlockchain();
-	//createShortBlockchain();
-	//createLongBlockchain();
-	//createLongLongBlockchain();
-	//createBoolBlockchain();
-	//createUnsignedCharBlockchain();
-	//createUnsignedShortBlockchain();
-	//createUnsignedIntBlockchain();
-	//createUnsignedLongBlockchain();
-	//createUnsignedLongLongBlockchain();
-	//createCustomDataBlockchain();
+	createIntBlockchain();
+	createStringBlockchain();
+	createFloatBlockchain();
+	createDoubleBlockchain();
+	createCharBlockchain();
+	createShortBlockchain();
+	createLongBlockchain();
+	createLongLongBlockchain();
+	createBoolBlockchain();
+	createUnsignedCharBlockchain();
+	createUnsignedShortBlockchain();
+	createUnsignedIntBlockchain();
+	createUnsignedLongBlockchain();
+	createUnsignedLongLongBlockchain();
+	createCustomDataBlockchain();
 	createFrameDataBlockchain();
 
-	//loadBlockchain<IntBlockData>("data/intblockchain", !__useJSONFormat);
+	loadBlockchain<IntBlockData>("data/intblockchain", !__useJSONFormat);
 
 	return 0;
 }

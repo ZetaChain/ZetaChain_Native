@@ -63,7 +63,7 @@ namespace ZetaChain_Native {
 			void setTimeCreated(time_t timeCreated);
 			void setTimeRecieved(time_t timeRecieved);
 			void setTimeLocked(time_t timeLocked);
-			void setRawData(float rawData);
+			void setRawData(void* rawData);
 		protected:
 			float rawData;
 		private:

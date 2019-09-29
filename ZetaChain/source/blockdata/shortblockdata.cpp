@@ -339,8 +339,8 @@ namespace ZetaChain_Native {
 		this->timeLocked = timeLocked;
 	}
 	
-	void ShortBlockData::setRawData(short rawData) {
-		this->rawData = rawData;
+	void ShortBlockData::setRawData(void* rawData) {
+		this->rawData = *(reinterpret_cast<short*>(rawData));
 	}
 
 }

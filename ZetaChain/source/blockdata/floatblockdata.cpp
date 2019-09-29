@@ -339,8 +339,8 @@ namespace ZetaChain_Native {
 		this->timeLocked = timeLocked;
 	}
 
-	void FloatBlockData::setRawData(float rawData) {
-		this->rawData = rawData;
+	void FloatBlockData::setRawData(void* rawData) {
+		this->rawData = *(reinterpret_cast<float*>(rawData));
 	}
 
 }

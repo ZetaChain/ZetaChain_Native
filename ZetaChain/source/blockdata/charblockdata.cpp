@@ -339,7 +339,7 @@ namespace ZetaChain_Native {
 		this->timeLocked = timeLocked;
 	}
 
-	void CharBlockData::setRawData(char rawData) {
-		this->rawData = rawData;
+	void CharBlockData::setRawData(void* rawData) {
+		this->rawData = *(reinterpret_cast<char*>(rawData));
 	}
 }

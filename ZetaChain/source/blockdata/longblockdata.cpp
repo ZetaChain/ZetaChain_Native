@@ -339,7 +339,7 @@ namespace ZetaChain_Native {
 		this->timeLocked = timeLocked;
 	}
 
-	void LongBlockData::setRawData(long rawData) {
-		this->rawData = rawData;
+	void LongBlockData::setRawData(void* rawData) {
+		this->rawData = *(reinterpret_cast<long*>(rawData));
 	}
 }
